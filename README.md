@@ -7,10 +7,35 @@ In order to download, install, setup all relevant components, one should do many
 
 ## Requirements
 
-* JAVA
-* ElasticSearch 6.3.1
-* Apache Tomcat Native Library (Debian 10 `libtcnative-1`)
-* LDAP (Configuration is needed if an external one)
+**Note that the current implementation is valid only for the Debian 10**
+
+### JDK 8 or newer
+
+### ElasticSearch 6.3.1
+
+* Debian 10
+```
+$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.deb
+$ sudo dpkg -i elasticsearch-6.3.1.deb
+$ sudo systemd enable elasticsearch
+$ sudo systemd start elasticsearch
+```
+Please make sure the service is running via `systemd status elasticsearch`
+
+
+### Apache Tomcat Native Library and Maven
+
+* Debian 10
+
+```
+apt install maven libtcnative-1
+```
+
+* CentOS 8
+
+
+###  LDAP 
+Configuration is needed if an external one.
 
 ## Makefile Rules
 
@@ -29,6 +54,20 @@ In order to download, install, setup all relevant components, one should do many
 
 ### `make distclean`
 * Remove the downloaded ChannelFinder-SprintBoot source file
+
+## A typical example to configure
+
+```
+$ make es_install
+$ make es_start
+$ make es_status
+$ make es_mapping
+$ make init
+$ make conf
+$ make build
+$ make install (NYI)
+$ make setup (NYI)
+```
 
 
 

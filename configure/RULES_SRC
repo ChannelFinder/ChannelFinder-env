@@ -49,7 +49,7 @@ endif
 .PHONY: build conf
 
 ## Build Source
-build: conf
+build: 
 	$(QUIET)mvn -f $(SRC_PATH)/pom.xml clean install
 
 ## Copy the site specific files into sources

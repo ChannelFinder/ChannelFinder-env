@@ -1,0 +1,59 @@
+#
+.DEFAULT_GOAL := help
+
+.PHONY: help default init distclean deinit
+
+# # help is defined in 
+# # https://gist.github.com/rcmachado/af3db315e31383502660
+help:
+	$(info --------------------------------------- )	
+	$(info Make Targets)
+	$(info --------------------------------------- )
+	$(QUIET) awk '/^[a-zA-Z\-\_0-9]+:/ {            \
+	  nb = sub( /^## /, "", helpMsg );              \
+	  if(nb == 0) {                                 \
+	    helpMsg = $$0;                              \
+	    nb = sub( /^[^:]*:.* ## /, "", helpMsg );   \
+	  }                                             \
+	  if (nb)                                       \
+	    print  $$1 "\t" helpMsg;                    \
+	}                                               \
+	{ helpMsg = $$0 }'                              \
+	$(MAKEFILE_LIST) | column -ts:
+
+
+default: help
+
+
+## Clone Source
+init:
+ifeq "$(INIT_SRC)" "1"
+	git clone $(SRC_GITURL) $(SRC_PATH)
+	cd $(SRC_PATH) && git checkout $(SRC_TAG)
+else
+	$(QUIET)echo "$(SRC_PATH) exists. make distclean first, if one would like to restart it."
+endif
+
+deinit: distclean
+## Clean Source
+distclean:
+ifneq ($(wildcard $(SRC_PATH)/.*),)
+	$(QUIET)echo "We've found $(SRC_PATH)"
+	$(QUIET)echo "Removing ....."
+	$(QUIET)rm -rf $(SRC_PATH)
+else
+	$(QUIET)echo "There is no $(SRC_PATH)."
+endif
+
+
+.PHONY: build conf
+
+## Build Source
+build: conf
+	$(QUIET)mvn -f $(SRC_PATH)/pom.xml clean install
+
+## Copy the site specific files into sources
+conf:
+	$(QUIET)cp $(TOP)/site-template/$(LIDF_FILENAME) $(SITE_SPECIFIC_FILES_PATH)/
+	$(QUIET)cp $(TOP)/site-template/$(KEYP12_FILENAME) $(SITE_SPECIFIC_FILES_PATH)/keystore/
+	$(QUIET)cp $(TOP)/site-template/application.properties $(SITE_SPECIFIC_FILES_PATH)/

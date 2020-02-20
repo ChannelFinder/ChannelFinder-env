@@ -1,0 +1,11 @@
+
+
+SRC_URL:=https://github.com/ChannelFinder
+SRC_NAME:=ChannelFinder-SpringBoot
+
+SRC_TAG:=master
+SRC_VERSION:=master
+
+
+-include $(TOP)/../RELEASE.local
+-include $(TOP)/configure/RELEASE.local

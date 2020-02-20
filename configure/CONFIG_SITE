@@ -1,0 +1,17 @@
+
+# To install files into a location other than $(TOP) define
+#   INSTALL_LOCATION here.
+#INSTALL_LOCATION=</absolute/path/to/install/top>
+
+
+SRC_GITURL:=$(SRC_URL)/$(SRC_NAME)
+SRC_PATH:=$(SRC_NAME)-src
+
+LIDF_FILENAME:=cf4als.ldif
+KEYP12_FILENAME:=newcf.p12
+
+# These allow developers to override the CONFIG_SITE variable
+# settings without having to modify the configure/CONFIG_SITE
+# file itself.
+-include $(TOP)/../CONFIG_SITE.local
+-include $(TOP)/configure/CONFIG_SITE.local

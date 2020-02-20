@@ -1,0 +1,31 @@
+VARS_EXCLUDES+=.SHELLSTATUS
+VARS_EXCLUDES+=INIT_SRC
+VARS_EXCLUDES+=SITE_SPECIFIC_FILES_PATH
+
+SRC_VARIABLES:=$(sort $(filter-out $(VARS_EXCLUDES) VARS_EXCLUDES,$(.VARIABLES)))
+
+.PHONY : env vars header
+
+env: vars
+## Print interesting VARIABLES : also make PRINT.$(EACH_VARIABLE)
+vars: _header
+	$(foreach v, $(SRC_VARIABLES), $(info $(v) = $($(v)))) @#noop
+
+_header:
+	$(QUIET)echo ""
+	$(QUIET)echo "------------------------------------------------------------"
+	$(QUIET)echo ">>>>          Current Envrionment Variables             <<<<"
+	$(QUIET)echo "------------------------------------------------------------"
+	$(QUIET)echo ""
+
+# https://www.cmcrossroads.com/article/printing-value-makefile-variable
+PRINT.%:
+	$(QUIET)echo $* = $($*)
+	$(QUIET)echo $*\'s origin is $(origin $*)
+
+print-%:
+	$(QUIET)echo $* = $($*)
+	$(QUIET)echo $*\'s origin is $(origin $*)
+
+FORCE:
+

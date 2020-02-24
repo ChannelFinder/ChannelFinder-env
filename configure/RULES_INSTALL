@@ -21,3 +21,21 @@ setup:
 	$(QUIET)$(SUDO) systemctl daemon-reload
 	$(QUIET)$(SUDO) systemctl enable channelfinder.service
 	$(QUIET)echo "Note that one should start its service via systemctl start channelfinder"
+
+
+sd_status:
+	$(QUIET) systemctl status -l channelfinder.service | cat
+
+sd_start:
+	$(QUIET)$(SUDO) systemctl start channelfinder.service
+
+sd_stop:
+	$(QUIET)$(SUDO) systemctl stop channelfinder.service
+
+sd_restart:
+	$(QUIET)$(SUDO) systemctl restart channelfinder.service
+
+
+sd_clean:
+	$(QUIET)$(SUDO) systemctl disable channelfinder.service
+	$(QUIET)$(SUDO) rm -f /etc/systemd/system/channelfinder.service

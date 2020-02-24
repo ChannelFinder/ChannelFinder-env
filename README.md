@@ -90,7 +90,20 @@ $ sudo systemctl start channelfinder
 
 Note that we create the alias name of the `channelfinder.service` as cf.servie. So one can start it `sudo systemctl start cf` also. 
 
+## While evaluating its configuration 
 
+```
+$ make uninstall
+```
+Modify `application.properties` or `ldif` file. 
+```
+$ make conf
+$ make build
+$ make install
+$ make setup
+$ make sd_start
+$ make sd_status
+```
 ## Reference
 
 

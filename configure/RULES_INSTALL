@@ -10,17 +10,20 @@ sd_install: sd_config
 
 cf_install: 
 	$(QUIET)$(SUDO) install -d $(INSTALL_LOCATION)
-	$(QUIET)$(SUDO) install -m 644 $(SRC_PATH)/target/$(CF_JAR_NAME)  $(INSTALL_LOCATION)/
+	$(QUIET)$(SUDO) install -m 744 $(SRC_PATH)/target/$(CF_JAR_NAME)  $(INSTALL_LOCATION)/
 
 ## Install Service related files 
 install: cf_install sd_install
 
-
+## Uninstall ChannelFinder
+uninstall: sd_stop sd_clean
+	$(QUIET)$(SUDO) rm -rf $(INSTALL_LOCATION)
+	
 ## Setup the channelfinder systemd service
 setup: 
 	$(QUIET)$(SUDO) systemctl daemon-reload
 	$(QUIET)$(SUDO) systemctl enable channelfinder.service
-	$(QUIET)echo "Note that one should start its service via systemctl start channelfinder"
+	$(QUIET)echo "----- Note that one should start its service via systemctl start channelfinder"
 
 
 sd_status:

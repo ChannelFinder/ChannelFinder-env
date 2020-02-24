@@ -1,14 +1,18 @@
 
-# To install files into a location other than $(TOP) define
-#   INSTALL_LOCATION here.
-#INSTALL_LOCATION=</absolute/path/to/install/top>
 
+INSTALL_LOCATION=/opt/channelfinder
 
 SRC_GITURL:=$(SRC_URL)/$(SRC_NAME)
 SRC_PATH:=$(SRC_NAME)-src
 
 LIDF_FILENAME:=cf4als.ldif
 KEYP12_FILENAME:=newcf.p12
+
+# This variable will be replaced by reading a pom.xml file later
+# Monday, February 24 11:59:30 PST 2020, Jeong Han Lee
+#
+CF_JAR_NAME:=ChannelFinder-4.0.0.jar
+JAVA_PATH:=/usr/bin
 
 # These allow developers to override the CONFIG_SITE variable
 # settings without having to modify the configure/CONFIG_SITE

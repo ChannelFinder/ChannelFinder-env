@@ -54,6 +54,6 @@ build:
 
 ## Copy the site specific files into sources
 conf:
-	$(QUIET)cp $(TOP)/site-template/$(LIDF_FILENAME) $(SITE_SPECIFIC_FILES_PATH)/
-	$(QUIET)cp $(TOP)/site-template/$(KEYP12_FILENAME) $(SITE_SPECIFIC_FILES_PATH)/keystore/
+	$(QUIET)cp $(TOP)/site-template/$(LIDF_FILENAME)       $(SITE_SPECIFIC_FILES_PATH)/
+	$(QUIET)cp $(TOP)/site-template/$(KEYP12_FILENAME)     $(SITE_SPECIFIC_FILES_PATH)/keystore/
 	$(QUIET)cp $(TOP)/site-template/application.properties $(SITE_SPECIFIC_FILES_PATH)/

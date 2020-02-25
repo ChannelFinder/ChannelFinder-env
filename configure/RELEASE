@@ -1,9 +1,14 @@
 
-
+## Where the Source repository SRC_URL/SRC_NAME
+##
 SRC_URL:=https://github.com/ChannelFinder
 SRC_NAME:=ChannelFinder-SpringBoot
 
+
+## Which the source tag / branch / hash id would like to use
 SRC_TAG:=master
+
+## Placeholder for the site-specific version control 
 SRC_VERSION:=master
 
 

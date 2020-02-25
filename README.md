@@ -7,35 +7,34 @@ In order to download, install, setup all relevant components, one should do many
 
 ## Requirements
 
-**Note that the current implementation is valid only for the Debian 10**
+**Note that this implementation is valid only for ChannelFinder-SpringBoot**
 
 ### JDK 8 or newer
 
 ### ElasticSearch 6.3.1
 
+Please use the exact version of Elasticsearch **6.3.1**.
+
 * Debian 10
 ```
 $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.deb
 $ sudo dpkg -i elasticsearch-6.3.1.deb
+```
+* CentOS 8
+```
+$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.rpm
+$ sudo dnf install ./elasticsearch-6.3.1.rpm
+```
+
+* ES Systemd service
+
+```
 $ sudo systemctl daemon-reload
 $ sudo systemctl enable elasticsearch
 $ sudo systemctl start elasticsearch
 ```
 Please make sure the service is running via `systemd status elasticsearch`. One can do the same things with embedded make rules such as 
-```
-$ make es_install
-$ make es_start
-$ make es_status
-```
 
-* CentOs 8
-```
-$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.rpm
-$ sudo dnf install ./elasticsearch-6.3.1.rpm
-$ sudo systemctl daemon-reload
-$ sudo systemctl enable elasticsearch
-$ sudo systemctl start elasticsearch
-```
 
 ### Apache Tomcat Native Library and Maven
 
@@ -54,7 +53,8 @@ dnf install maven tomcat-native
 ###  LDAP 
 Configuration is needed if an external one.
 
-## Makefile Rules
+
+## Few Makefile Rules
 
 ### `make init`
 * Download the ChannelFinder-SpringBoot
@@ -65,7 +65,6 @@ Configuration is needed if an external one.
 
 ### `make es_mapping_clean`
 * Remove all existent CF related mapping from ElasticSearch
-
 
 ### `make conf`
 * Apply several site-specific files into the downloaded sources. Please see `site-template`
@@ -84,6 +83,10 @@ Configuration is needed if an external one.
 
 ### `make distclean`
 * Remove the downloaded ChannelFinder-SprintBoot source file
+
+### `make vars`
+* Print out interesting variables
+* One can use `make PRINT.VARIABLE_NAME` to print out them. For example,  `make PRINT.INSTALL_LOCATION`.
 
 ## A typical example to configure the ChannelFinder service
 
@@ -116,8 +119,13 @@ $ make setup
 $ make sd_start
 $ make sd_status
 ```
+
+## Customize site-specific configuration
+Please consult two files in `configure` path, such as `RELEASE` and `CONFIG_SITE`. There are few comments on there. If you are failimir with the standard EPICS building system [1], it should be easy to understand them, because we mimic that concept into this repository. 
+
+
 ## Reference
 
-
+[1] https://epics-controls.org/
 
 

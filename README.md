@@ -17,8 +17,9 @@ In order to download, install, setup all relevant components, one should do many
 ```
 $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.deb
 $ sudo dpkg -i elasticsearch-6.3.1.deb
-$ sudo systemd enable elasticsearch
-$ sudo systemd start elasticsearch
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable elasticsearch
+$ sudo systemctl start elasticsearch
 ```
 Please make sure the service is running via `systemd status elasticsearch`. One can do the same things with embedded make rules such as 
 ```
@@ -26,7 +27,15 @@ $ make es_install
 $ make es_start
 $ make es_status
 ```
-$ make es_mapping
+
+* CentOs 8
+```
+$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.rpm
+$ sudo dnf install ./elasticsearch-6.3.1.rpm
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable elasticsearch
+$ sudo systemctl start elasticsearch
+```
 
 ### Apache Tomcat Native Library and Maven
 
@@ -37,7 +46,10 @@ apt install maven libtcnative-1
 ```
 
 * CentOS 8
-
+One can use `yum` instead of `dnf`. `epel-release` is needed. 
+```
+dnf install maven tomcat-native 
+```
 
 ###  LDAP 
 Configuration is needed if an external one.
@@ -88,7 +100,7 @@ $ make setup
 $ sudo systemctl start channelfinder
 ```
 
-Note that we create the alias name of the `channelfinder.service` as cf.servie. So one can start it `sudo systemctl start cf` also. 
+Note that we create the alias name of the `channelfinder.service` as cf.servie. So one can start it `sudo systemctl start cf` also. Note that I saw unknown `systemd` error with the current channelfinder.service file in `CentOS8`. That issue was resolved after disabling `SELINUX` and rebooting it. 
 
 ## While evaluating its configuration 
 

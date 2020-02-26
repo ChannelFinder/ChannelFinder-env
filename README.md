@@ -9,6 +9,32 @@ In order to download, install, setup all relevant components, one should do many
 
 **Note that this implementation is valid only for ChannelFinder-SpringBoot**
 
+
+### Apache Tomcat Native Library and Maven
+
+* Debian 10
+
+```
+apt install maven libtcnative-1
+```
+
+
+* CentOS 7
+
+```
+yum install maven tomcat-native 
+```
+
+
+* CentOS 8
+One can use `yum` instead of `dnf`. `epel-release` is needed. 
+```
+dnf install maven tomcat-native 
+```
+
+
+
+
 ### JDK 8 or newer
 
 ### ElasticSearch 6.3.1
@@ -20,6 +46,13 @@ Please use the exact version of Elasticsearch **6.3.1**.
 $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.deb
 $ sudo dpkg -i elasticsearch-6.3.1.deb
 ```
+
+* CentOS 7
+```
+$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.rpm
+$ sudo yum install ./elasticsearch-6.3.1.rpm
+```
+
 * CentOS 8
 ```
 $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.rpm
@@ -36,20 +69,6 @@ $ sudo systemctl start elasticsearch
 Please make sure the service is running via `systemd status elasticsearch`. One can do the same things with embedded make rules such as 
 
 
-### Apache Tomcat Native Library and Maven
-
-* Debian 10
-
-```
-apt install maven libtcnative-1
-```
-
-* CentOS 8
-One can use `yum` instead of `dnf`. `epel-release` is needed. 
-```
-dnf install maven tomcat-native 
-```
-
 ###  LDAP 
 Configuration is needed if an external one.
 
@@ -61,7 +80,9 @@ Configuration is needed if an external one.
 * Switch to a specific version defined in `$(SRC_TAG)` in `configure/RELEASE`
 
 ### `make es_mapping`
+
 * Do maping CF index into ElasticSearch
+* For CentOS7, one should disable SELINUX before doing this. Please check `/etc/selinux/config`.
 
 ### `make es_mapping_clean`
 * Remove all existent CF related mapping from ElasticSearch

@@ -1,33 +1,34 @@
 
-## channelfinder installation location
+### channelfinder installation location
 INSTALL_LOCATION=/opt/channelfinder
 
 
-# Placeholder
-# This variable will be replaced by reading a pom.xml file or others
-# It may be linked with SRC_VERSION in RELEASE file
-# 
-CF_JAR_NAME:=ChannelFinder-4.0.0.jar
+### Placeholder
+### This variable will be replaced by reading a pom.xml file or others
+### It may be linked with SRC_VERSION in RELEASE file
+### 
+CFJAR_FILENAME:=ChannelFinder-4.0.0.jar
 
 
-## 
-## These two parameter should be worked with application.properties later
-## application.properties.in has the following two variables
-## _KEYSTORE_ and _CFLDIF_
-## we have to introduce to replace them with the following variables within
-## `make conf` rule later. 
-LIDF_FILENAME:=cf4als.ldif
-KEYP12_FILENAME:=newcf.p12
+### 
+### These two parameters are used to generate application.properties from application.properties.in
+###
+CFLDIF_FILENAME:=cf4als.ldif
+KEYSTORE_FILENAME:=newcf.p12
 
 
-## Default java path
-JAVA_PATH:=/usr/bin
-
-## One may not need to change the following variables
-## SRC_GITURL used for git clone
+### One may not need to change the following variables
+### SRC_GITURL used for git clone
 SRC_GITURL:=$(SRC_URL)/$(SRC_NAME)
-## SRC_PATH used for a local directory which is a clone git repository
+### SRC_PATH used for a local directory which is a clone git repository
 SRC_PATH:=$(SRC_NAME)-src
+
+
+### Default JAVA path and its options
+JAVA_PATH:=/usr/bin
+JAVA_OPTS:=-Xms2G -Xmx2G
+Two more potential interesting options are
+# JAVA_OPTS=-XX:MaxMetaspaceSize=256M -XX:+UseG1GC -Xms2G -Xmx2G
 
 
 # These allow developers to override the CONFIG_SITE variable

@@ -5,12 +5,10 @@ After=network.target elasticsearch.service
 Requires=elasticsearch.service
 
 [Service]
-EnvironmentFile=_CFPATH_/cf.conf
-
 # User=elasticsearch
 # Group=elasticsearch
 
-ExecStart=_JAVAPATH_/java $JAVA_OPTS -jar _CFPATH_/_CHANNELFINDER_JAR_NAME_
+ExecStart=_JAVAPATH_/java _JAVAOPTS_ -jar _CFPATH_/_CHANNELFINDER_JAR_NAME_
 SuccessExitStatus=143 
 
 ExecReload=kill -SIGINT $MAINPID

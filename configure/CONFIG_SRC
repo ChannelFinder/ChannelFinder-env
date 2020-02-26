@@ -10,6 +10,8 @@ INIT_SRC = 1
 endif
 
 SITE_SPECIFIC_FILES_PATH:=$(SRC_PATH)/src/main/resources
+SITE_TEMPLATE_PATH:=$(TOP)/site-template
+SYSTEMD_PATH:=/etc/systemd/system
 
 VARS_EXCLUDES+=SRC_PATH_INFO
 

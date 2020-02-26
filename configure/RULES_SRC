@@ -54,6 +54,7 @@ build:
 
 ## Copy the site specific files into sources
 conf:
-	$(QUIET)cp $(TOP)/site-template/$(LIDF_FILENAME)       $(SITE_SPECIFIC_FILES_PATH)/
-	$(QUIET)cp $(TOP)/site-template/$(KEYP12_FILENAME)     $(SITE_SPECIFIC_FILES_PATH)/keystore/
-	$(QUIET)cp $(TOP)/site-template/application.properties $(SITE_SPECIFIC_FILES_PATH)/
+	$(QUIET)sed -e "s:_KEYSTORE_:$(KEYSTORE_FILENAME):g" -e "s:_CFLDIF_:$(CFLDIF_FILENAME):g" < $(SITE_TEMPLATE_PATH)/application.properties.in > $(SITE_TEMPLATE_PATH)/application.properties
+	$(QUIET)cp $(SITE_TEMPLATE_PATH)/$(CFLDIF_FILENAME)     $(SITE_SPECIFIC_FILES_PATH)/
+	$(QUIET)cp $(SITE_TEMPLATE_PATH)/$(KEYSTORE_FILENAME)   $(SITE_SPECIFIC_FILES_PATH)/keystore/
+	$(QUIET)cp $(SITE_TEMPLATE_PATH)/application.properties $(SITE_SPECIFIC_FILES_PATH)/

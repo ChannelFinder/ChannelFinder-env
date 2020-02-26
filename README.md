@@ -98,9 +98,8 @@ Configuration is needed if an external one.
 * Install `ChannelFinder-*.jar` in `target` path into `INSTALL_LOCATION` defined in `configure/CONFIG_SITE`
 * Install `cf.conf` into `INSTALL_LOCATION`. This file contains java options, defined in `site-template/cf.conf`
 * Install `channelfinder.service` into a default systemd path `/etc/systemd/system`. Note that `channelfinder.service` is generated from `site-template/cf.service.in` file with `INSTAL_LOCATION`, `JAVA_PATH`, and `CF_JAR_NAME` which are defined in `configure/CONFIG_SITE`.
-
-### `make setup`
-* Prepare the channelfinder systemd service
+* Run `systemctl daemon-reload` for the updated `channelfinder.serive` systemd file. 
+* Enable the channelfinder systemd service.
 
 ### `make distclean`
 * Remove the downloaded ChannelFinder-SprintBoot source file
@@ -120,11 +119,10 @@ $ make es_mapping
 $ make conf
 $ make build
 $ make install
-$ make setup
 $ sudo systemctl start channelfinder
 ```
 
-Note that we create the alias name of the `channelfinder.service` as cf.servie. So one can start it `sudo systemctl start cf` also. Note that I saw unknown `systemd` error with the current channelfinder.service file in `CentOS8`. That issue was resolved after disabling `SELINUX` and rebooting it. 
+Note that we create the alias name of the `channelfinder.service` as cf.servie. So one can start it `sudo systemctl start cf` also. Sometimes with CentOS8, the service doesn't start properly. In this case, please try with `SELINUX=disabled` in `/etc/selinux/config`.
 
 ## While evaluating its configuration 
 
@@ -136,7 +134,6 @@ Modify `application.properties` or `ldif` file.
 $ make conf
 $ make build
 $ make install
-$ make setup
 $ make sd_start
 $ make sd_status
 ```

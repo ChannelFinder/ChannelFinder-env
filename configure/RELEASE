@@ -6,10 +6,10 @@ SRC_NAME:=ChannelFinder-SpringBoot
 
 
 ## Which the source tag / branch / hash id would like to use
-SRC_TAG:=master
+SRC_TAG:=537bf2c
 
 ## Placeholder for the site-specific version control 
-SRC_VERSION:=master
+SRC_VERSION:=4.0.0
 
 
 -include $(TOP)/../RELEASE.local

@@ -27,5 +27,7 @@ hs_err_pid*
 *.deb
 *.deb.*
 site-template/channelfinder.service
+site-template/application.properties
+
 
 

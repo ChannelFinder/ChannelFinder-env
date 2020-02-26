@@ -44,7 +44,7 @@ Please use the exact version of Elasticsearch **6.3.1**.
 * Debian 10
 ```
 $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.deb
-$ sudo dpkg -i elasticsearch-6.3.1.deb
+$ sudo apt install ./elasticsearch-6.3.1.deb
 ```
 
 * CentOS 7

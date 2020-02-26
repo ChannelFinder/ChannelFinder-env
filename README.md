@@ -131,11 +131,7 @@ $ make uninstall
 ```
 Modify `application.properties` or `ldif` file. 
 ```
-$ make conf
-$ make build
-$ make install
-$ make sd_start
-$ make sd_status
+$ make restart
 ```
 
 ## Customize site-specific configuration

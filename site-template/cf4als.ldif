@@ -1,96 +1,38 @@
+## local/cf
 dn: dc=cf,dc=local
 objectClass: dcObject
 objectClass: organization
 dc: cf
-o: ChannelFinder Test
+o: LBNL ALS
+description: ALS ChannelFinder Example
 
+## local/cf/channelfinder
 dn: cn=channelfinder,dc=cf,dc=local
 objectClass: simpleSecurityObject
 objectClass: organizationalRole
 userPassword:: e1NIQX1jUkR0cE5DZUJpcWw1S09Rc0tWeXJBMHNBaUE9
 cn: channelfinder
 
+## local/cf/Group
 dn: ou=Group,dc=cf,dc=local
 objectClass: organizationalunit
 ou: Group
-description: groups branch
+description: ALS CF Group Branch
 
+## local/cf/People
 dn: ou=People,dc=cf,dc=local
 objectClass: organizationalunit
 ou: People
-description: people branch
+description: ALS CF Peopole Branch
 
-dn: uid=tag,ou=People,dc=cf,dc=local
-uid: tag
-objectClass: account
-objectClass: posixAccount
-description: User with tag role
-cn: tag
-userPassword: 1234
-uidNumber: 23001
-gidNumber: 23001
-homeDirectory: /dev/null
 
-dn: uid=property,ou=People,dc=cf,dc=local
-uid: property
-objectClass: account
-objectClass: posixAccount
-description: User with property role
-cn: property
-userPassword: 1234
-uidNumber: 23002
-gidNumber: 23002
-homeDirectory: /dev/null
-
-dn: uid=channel,ou=People,dc=cf,dc=local
-uid: channel
-objectClass: account
-objectClass: posixAccount
-description: User with channel role
-cn: channel
-userPassword: 1234
-uidNumber: 23003
-gidNumber: 23003
-homeDirectory: /dev/null
-
-dn: uid=admin,ou=People,dc=cf,dc=local
-uid: admin
-objectClass: account
-objectClass: posixAccount
-description: User with admin role
-cn: admin
-userPassword: 1234
-uidNumber: 23004
-gidNumber: 23004
-homeDirectory: /dev/null
-
-dn: uid=property2,ou=People,dc=cf,dc=local
-uid: property2
-objectClass: account
-objectClass: posixAccount
-description: User with property role
-cn: property2
-userPassword: {CRYPT}8t9ME8JP.TKdk
-uidNumber: 23005
-gidNumber: 23005
-homeDirectory: /dev/null
-
-dn: uid=channel2,ou=People,dc=cf,dc=local
-uid: channel2
-objectClass: account
-objectClass: posixAccount
-description: User with channel role
-cn: channel2
-userPassword: {CRYPT}a6fXnuV.FAiR2
-uidNumber: 23006
-gidNumber: 23006
-homeDirectory: /dev/null
-
+## Group
+## cf_ttags/Group/cf/local
 dn: cn=cf-ttags,ou=Group,dc=cf,dc=local
 cn: cf-ttags
 objectClass: posixGroup
 description: cf-ttags group
-gidNumber: 24001
+gidNumber: 23001
 memberUid: tag
 memberUid: property
 memberUid: property2
@@ -100,7 +42,7 @@ dn: cn=cf-tproperties,ou=Group,dc=cf,dc=local
 cn: cf-tproperties
 objectClass: posixGroup
 description: cf-tproperties group
-gidNumber: 24002
+gidNumber: 23002
 memberUid: property
 memberUid: channel
 memberUid: channel2
@@ -109,7 +51,7 @@ dn: cn=cf-tchannels,ou=Group,dc=cf,dc=local
 cn: cf-tchannels
 objectClass: posixGroup
 description: cf-tchannels group
-gidNumber: 24003
+gidNumber: 23003
 memberUid: channel
 memberUid: channel2
 
@@ -117,7 +59,7 @@ dn: cn=cf-xxxx,ou=Group,dc=cf,dc=local
 cn: cf-xxxx
 objectClass: posixGroup
 description: cf-xxxx group
-gidNumber: 24004
+gidNumber: 23004
 memberUid: tag
 memberUid: property
 memberUid: channel
@@ -126,7 +68,7 @@ dn: cn=cfx,ou=Group,dc=cf,dc=local
 cn: cfx
 objectClass: posixGroup
 description: cfx group
-gidNumber: 24005
+gidNumber: 23005
 memberUid: tag
 memberUid: property
 memberUid: channel
@@ -135,14 +77,14 @@ dn: cn=cf-tags,ou=Group,dc=cf,dc=local
 cn: cf-tags
 objectClass: posixGroup
 description: cf-tags group
-gidNumber: 24006
+gidNumber: 23006
 memberUid: tag
 
 dn: cn=cf-properties,ou=Group,dc=cf,dc=local
 cn: cf-properties
 objectClass: posixGroup
 description: cf-properties group
-gidNumber: 24007
+gidNumber: 23007
 memberUid: property
 memberUid: property2
 
@@ -150,7 +92,7 @@ dn: cn=cf-channels,ou=Group,dc=cf,dc=local
 cn: cf-channels
 objectClass: posixGroup
 description: cf-channels group
-gidNumber: 24008
+gidNumber: 23008
 memberUid: channel
 memberUid: channel2
 
@@ -158,5 +100,87 @@ dn: cn=cf-admins,ou=Group,dc=cf,dc=local
 cn: cf-admins
 objectClass: posixGroup
 description: cf-admins group
-gidNumber: 24009
+gidNumber: 23009
 memberUid: admin
+
+
+
+##
+dn: uid=tag,ou=People,dc=cf,dc=local
+uid: tag
+objectClass: account
+objectClass: posixAccount
+description: User with tag role
+cn: tag
+userPassword: 1234
+uidNumber: 24001
+gidNumber: 24001
+homeDirectory: /dev/null
+
+dn: uid=property,ou=People,dc=cf,dc=local
+uid: property
+objectClass: account
+objectClass: posixAccount
+description: User with property role
+cn: property
+userPassword: 1234
+uidNumber: 24002
+gidNumber: 24002
+homeDirectory: /dev/null
+
+dn: uid=channel,ou=People,dc=cf,dc=local
+uid: channel
+objectClass: account
+objectClass: posixAccount
+description: User with channel role
+cn: channel
+userPassword: 1234
+uidNumber: 24003
+gidNumber: 24003
+homeDirectory: /dev/null
+
+dn: uid=admin,ou=People,dc=cf,dc=local
+uid: admin
+objectClass: account
+objectClass: posixAccount
+description: User with admin role
+cn: admin
+userPassword: 1234
+uidNumber: 24004
+gidNumber: 24004
+homeDirectory: /dev/null
+
+dn: uid=property2,ou=People,dc=cf,dc=local
+uid: property2
+objectClass: account
+objectClass: posixAccount
+description: User with property role
+cn: property2
+userPassword: {CRYPT}8t9ME8JP.TKdk
+uidNumber: 24005
+gidNumber: 24005
+homeDirectory: /dev/null
+
+dn: uid=channel2,ou=People,dc=cf,dc=local
+uid: channel2
+objectClass: account
+objectClass: posixAccount
+description: User with channel role
+cn: channel2
+userPassword: {CRYPT}a6fXnuV.FAiR2
+uidNumber: 24006
+gidNumber: 24006
+homeDirectory: /dev/null
+
+## This is an example user, named as cfuser
+dn: uid=cfuser,ou=People,dc=cf,dc=local
+uid: cfuser
+objectClass: account
+objectClass: posixAccount
+description: Example CF User with admin role
+cn: cfuser
+userPassword: 1234
+uidNumber: 24007
+gidNumber: 24007
+homeDirectory: /dev/null
+

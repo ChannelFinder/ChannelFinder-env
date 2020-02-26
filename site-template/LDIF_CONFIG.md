@@ -53,6 +53,6 @@ $ make restart
 
 
 ## References
-[1] LDAP Data Interchange Format https://tools.ietf.org/html/rfc2849
-[2] http://www.jxplorer.org/
-[3] http://www.openldap.org/doc/admin24/
+[1] LDAP Data Interchange Format https://tools.ietf.org/html/rfc2849 
+[2] http://www.jxplorer.org/ 
+[3] http://www.openldap.org/doc/admin24/ 

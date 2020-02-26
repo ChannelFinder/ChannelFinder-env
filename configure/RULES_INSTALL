@@ -57,3 +57,7 @@ install: cf_install sd_install sd_enable
 uninstall: sd_stop sd_clean
 	$(QUIET)$(SUDO) rm -rf $(INSTALL_LOCATION)
 
+
+reinstall: conf build install
+
+restart: uninstall reinstall cf_start cf_status

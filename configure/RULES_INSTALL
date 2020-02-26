@@ -29,7 +29,17 @@ sd_clean:
 sd_enable:
 	$(QUIET)$(SUDO) systemctl enable channelfinder.service
 
-.PHONY: cf_install install uninstall
+
+.PHONY: cf_status cf_start cf_stop cf_restart cf_install install uninstall
+
+cf_status: sd_status
+
+cf_start: sd_start
+
+cf_stop: sd_stop
+
+cf_restart: sd_restart
+
 
 cf_install: 
 	$(QUIET)$(SUDO) install -d $(INSTALL_LOCATION)

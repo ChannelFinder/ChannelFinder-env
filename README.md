@@ -126,16 +126,13 @@ Note that we create the alias name of the `channelfinder.service` as cf.servie. 
 
 ## While evaluating its configuration 
 
-```
-$ make uninstall
-```
-Modify `application.properties` or `ldif` file. 
+Modify `application.properties` or `ldif` file, and then run the following command:
 ```
 $ make restart
 ```
 
 ## Customize site-specific configuration
-Please consult two files in `configure` path, such as `RELEASE` and `CONFIG_SITE`. There are few comments on there. If you are failimir with the standard EPICS building system [1], it should be easy to understand them, because we mimic that concept into this repository. 
+Please consult two files in `configure` path, such as `RELEASE` and `CONFIG_SITE`. There are few comments on there. If you are familiar with the standard EPICS building system [1], it should be easy to understand them, because we mimic that concept into this repository. 
 
 
 ## Reference

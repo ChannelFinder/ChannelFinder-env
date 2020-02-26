@@ -24,7 +24,7 @@ wget https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-6.3.2-am
 sudo apt install ./metricbeat-6.3.2-amd64.deb 
 sudo metricbeat modules enable system
 sudo metricbeat setup -e
-sudo service metricbeat start
+sudo systemctl start metricbeat
 ```
 * one can check its status at the following page:
 http://localhost:5601/app/kibana#/dashboard/Metricbeat-system-overview

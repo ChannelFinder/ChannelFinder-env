@@ -70,7 +70,8 @@ Please make sure the service is running via `systemd status elasticsearch`. One 
 
 
 ###  LDAP 
-Configuration is needed if an external one.
+* Configuration is needed if an external one.
+* Embedded LDAP configuration [Local LDIF configuration](site-template/LDIF_CONFIG.md)
 
 
 ## Few Makefile Rules

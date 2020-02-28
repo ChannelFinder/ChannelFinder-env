@@ -102,6 +102,7 @@ objectClass: posixGroup
 description: cf-admins group
 gidNumber: 23009
 memberUid: admin
+memberUid: cfuser
 
 
 
@@ -173,13 +174,14 @@ gidNumber: 24006
 homeDirectory: /dev/null
 
 ## This is an example user, named as cfuser
+## This uid should be defined under cf-admins
 dn: uid=cfuser,ou=People,dc=cf,dc=local
 uid: cfuser
 objectClass: account
 objectClass: posixAccount
 description: Example CF User with admin role
 cn: cfuser
-userPassword: 1234
+userPassword: 4321
 uidNumber: 24007
 gidNumber: 24007
 homeDirectory: /dev/null

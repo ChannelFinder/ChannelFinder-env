@@ -26,7 +26,7 @@ yum install maven tomcat-native
 ```
 
 
-* CentOS 8
+* CentOS 8 & Fedora 31
 One can use `yum` instead of `dnf`. `epel-release` is needed. 
 ```
 dnf install maven tomcat-native 
@@ -36,6 +36,19 @@ dnf install maven tomcat-native
 
 
 ### JDK 8 or newer
+* Debian 10
+```
+openjdk version "11.0.6" 2020-01-14
+OpenJDK Runtime Environment (build 11.0.6+10-post-Debian-1deb10u1)
+OpenJDK 64-Bit Server VM (build 11.0.6+10-post-Debian-1deb10u1, mixed mode, sharing)
+```
+
+* Fedora 31
+```
+openjdk version "1.8.0_242"
+OpenJDK Runtime Environment (build 1.8.0_242-b08)
+OpenJDK 654-Bit Server VM (build 25.242-b08, mixed mode)
+```
 
 ### ElasticSearch 6.3.1
 
@@ -53,10 +66,14 @@ $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.
 $ sudo yum install ./elasticsearch-6.3.1.rpm
 ```
 
-* CentOS 8
+* CentOS 8 & Fedora 31
 ```
 $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.rpm
 $ sudo dnf install ./elasticsearch-6.3.1.rpm
+```
+
+* Fedora 31
+```
 ```
 
 * ES Systemd service
@@ -66,7 +83,7 @@ $ sudo systemctl daemon-reload
 $ sudo systemctl enable elasticsearch
 $ sudo systemctl start elasticsearch
 ```
-Please make sure the service is running via `systemd status elasticsearch`. One can do the same things with embedded make rules such as 
+Please make sure the service is running via `systemctl status elasticsearch`. One can do the same things with embedded make rules such as 
 
 
 ###  LDAP 

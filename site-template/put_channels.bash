@@ -8,11 +8,6 @@ declare -gr SC_TOP="${SC_SCRIPT%/*}"
 . ${SC_TOP}/es_host.cfg
 
 
-declare -gr SC_SCRIPT="$(realpath "$0")"
-declare -gr SC_SCRIPTNAME=${0##*/}
-declare -gr SC_TOP="${SC_SCRIPT%/*}"
-
-
 URL_CHANNELS=http://localhost:8080/ChannelFinder/resources/channels
 
 

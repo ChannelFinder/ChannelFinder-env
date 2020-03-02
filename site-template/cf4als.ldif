@@ -37,6 +37,7 @@ memberUid: tag
 memberUid: property
 memberUid: property2
 memberUid: channel
+memberUid: operator
 
 dn: cn=cf-tproperties,ou=Group,dc=cf,dc=local
 cn: cf-tproperties
@@ -79,6 +80,7 @@ objectClass: posixGroup
 description: cf-tags group
 gidNumber: 23006
 memberUid: tag
+memberUid: operator
 
 dn: cn=cf-properties,ou=Group,dc=cf,dc=local
 cn: cf-properties
@@ -186,3 +188,16 @@ uidNumber: 24007
 gidNumber: 24007
 homeDirectory: /dev/null
 
+
+## cf-tags/cf-ttags group
+## This uid should be defined under cf-tags/cf-ttags group
+dn: uid=operator,ou=People,dc=cf,dc=local
+uid: operator
+objectClass: account
+objectClass: posixAccount
+description: operator
+cn: operator
+userPassword: 1234
+uidNumber: 24008
+gidNumber: 24008
+homeDirectory: /dev/null

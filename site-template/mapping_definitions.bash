@@ -27,14 +27,6 @@ declare -gr SC_TOP="${SC_SCRIPT%/*}"
 . ${SC_TOP}/es_host.cfg
 
 
-function print_help
-{
-    local a=$1; shift;
-    local b=$1; shift;
-    printf "\n>>> %s : %s ....\n" "$a" "$b";
-}
-
-
 #Create the Index
 print_help "index/mapping" "cf_tags"
 

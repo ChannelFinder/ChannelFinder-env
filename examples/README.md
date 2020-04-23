@@ -9,9 +9,9 @@ This example may help users to understand the relations among channels, properti
 Fake channel name, property name, and tag name are defined in `CHANNELS`, `PROPERTIES`, and `TAGS`. We use them to show this example.
 
 ```
-bash put_tags.bash
-bash put_properties.bash
 bash put_channels.bash
+bash put_properties.bash
+bash put_tags.bash
 ```
 One should check the following urls by using a REST client. I recommend insomnia [1] 
 
@@ -21,12 +21,6 @@ http://localhost:8080/ChannelFinder/resources/properties
 http://localhost:8080/ChannelFinder/resources/tags
 ```
 
-One should go further into each property and tag
-
-```
-http://localhost:8080/ChannelFinder/resources/properties/domain
-http://localhost:8080/ChannelFinder/resources/tags/alpha.sys.SR
-```
 
 ## Update channels according to the properties, and tags which we defined. 
 

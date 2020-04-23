@@ -14,8 +14,9 @@ URL=${cf_url}/channels
 # admin, cfuser, channel
 # username, and its password should be matched with the running ldif file.
 #
-cf_userid=channel
+cf_userid=admin
 cf_passwd=1234
+
 cf_user=${cf_userid}:${cf_passwd}
 
 filterA="AR"
@@ -32,7 +33,7 @@ for a_chan in  ${list[@]}; do
     if [[ $a_chan =~ $filterB ]]; then
 	tag="alpha.sys.$domain";
     else
-	tag="beta.sys.domain";
+	tag="beta.sys.$domain";
     fi
 
     C=$(tr -cd 0-9 </dev/urandom | head -c 8)

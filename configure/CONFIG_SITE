@@ -26,7 +26,7 @@ SRC_PATH:=$(SRC_NAME)-src
 
 ### Default JAVA path and its options
 JAVA_PATH:=/usr/bin
-JAVA_OPTS:=-Xms2G -Xmx2G
+JAVA_OPTS:=-Xms512M -Xmx512M
 # Two more potential interesting options are
 # JAVA_OPTS=-XX:MaxMetaspaceSize=256M -XX:+UseG1GC -Xms2G -Xmx2G
 

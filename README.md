@@ -27,7 +27,7 @@ yum install maven tomcat-native
 
 
 * CentOS 8 & Fedora 31
-One can use `yum` instead of `dnf`. `epel-release` is needed. 
+One can use `yum` instead of `dnf` for CentOS 8. However, `epel-release` is needed. 
 ```
 dnf install maven tomcat-native 
 ```
@@ -66,15 +66,13 @@ $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.
 $ sudo yum install ./elasticsearch-6.3.1.rpm
 ```
 
-* CentOS 8 & Fedora 31
+* CentOS 8 & Fedora 32
+
 ```
 $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.rpm
 $ sudo dnf install ./elasticsearch-6.3.1.rpm
 ```
 
-* Fedora 31
-```
-```
 
 * ES Systemd service
 
@@ -140,7 +138,10 @@ $ make install
 $ sudo systemctl start channelfinder
 ```
 
-Note that we create the alias name of the `channelfinder.service` as cf.servie. So one can start it `sudo systemctl start cf` also. Sometimes with CentOS8, the service doesn't start properly. In this case, please try with `SELINUX=disabled` in `/etc/selinux/config`.
+
+Note that we create the alias name of the `channelfinder.service` as cf.servie. So one can start it `sudo systemctl start cf` also. Sometimes with CentOS8, the service doesn't start properly. In this case, please try with `SELINUX=disabled` in `/etc/selinux/config`. 
+
+For Fedora 32, one should disable `SELINUX` before `make es_mapping`. 
 
 ## While evaluating its configuration 
 

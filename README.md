@@ -43,11 +43,20 @@ OpenJDK Runtime Environment (build 11.0.6+10-post-Debian-1deb10u1)
 OpenJDK 64-Bit Server VM (build 11.0.6+10-post-Debian-1deb10u1, mixed mode, sharing)
 ```
 
-* Fedora 31
+* Fedora 32
 ```
+$ update-alternatives --config java
+There is 1 program that provides 'java'.
+
+  Selection    Command
+-----------------------------------------------
+*+ 1           java-1.8.0-openjdk.x86_64 (/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.242.b08-1.fc32.x86_64/jre/bin/java)
+
+$ java -version
+
 openjdk version "1.8.0_242"
 OpenJDK Runtime Environment (build 1.8.0_242-b08)
-OpenJDK 654-Bit Server VM (build 25.242-b08, mixed mode)
+OpenJDK 64-Bit Server VM (build 25.242-b08, mixed mode)
 ```
 
 ### ElasticSearch 6.3.1

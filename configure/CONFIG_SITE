@@ -13,8 +13,9 @@ CFJAR_FILENAME:=ChannelFinder-4.0.0.jar
 ### 
 ### These two parameters are used to generate application.properties from application.properties.in
 ###
-CFLDIF_FILENAME:=cf4als.ldif
-KEYSTORE_FILENAME:=newcf.p12
+CFLDIF:=cf4als.ldif
+SSHKEYALIAS:=cf
+SSHKEY:=$(SSHKEYALIAS).p12
 
 
 ### One may not need to change the following variables
@@ -22,6 +23,13 @@ KEYSTORE_FILENAME:=newcf.p12
 SRC_GITURL:=$(SRC_URL)/$(SRC_NAME)
 ### SRC_PATH used for a local directory which is a clone git repository
 SRC_PATH:=$(SRC_NAME)-src
+
+##
+CF_HOST:=http://localhost
+CF_PORT:=8080
+#
+#
+CF_URL:=$(CF_HOST):$(CF_PORT)/ChannelFinder
 
 
 ### Default JAVA path and its options

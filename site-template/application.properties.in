@@ -4,12 +4,12 @@ server.port=8443
 
 # Options support for unsecure http
 server.http.enable=true
-server.http.port=8080
+server.http.port=@CF_PORT@
 
 server.ssl.key-store-type=PKCS12
-server.ssl.key-store=classpath:keystore/_KEYSTORE_
+server.ssl.key-store=classpath:keystore/@SSHKEY@
 server.ssl.key-store-password=password
-server.ssl.key-alias=cf
+server.ssl.key-alias=@SSHKEYALIAS@
 
 security.require-ssl=true
 
@@ -36,7 +36,7 @@ embedded_ldap.base.dn = dc=cf,dc=local
 embedded_ldap.user.dn.pattern = uid={0},ou=People
 embedded_ldap.groups.search.base = ou=Group
 embedded_ldap.groups.search.pattern = (memberUid= {1})
-spring.ldap.embedded.ldif=classpath:_CFLDIF_
+spring.ldap.embedded.ldif=classpath:@CFLDIF@
 spring.ldap.embedded.base-dn=dc=cf,dc=local
 spring.ldap.embedded.port=8389 
 spring.ldap.embedded.validation.enabled=false

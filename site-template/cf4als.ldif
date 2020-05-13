@@ -23,7 +23,7 @@ description: ALS CF Group Branch
 dn: ou=People,dc=cf,dc=local
 objectClass: organizationalunit
 ou: People
-description: ALS CF Peopole Branch
+description: ALS CF People Branch
 
 
 ## Group

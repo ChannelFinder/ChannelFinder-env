@@ -34,7 +34,8 @@ CF_URL:=$(CF_HOST):$(CF_PORT)/ChannelFinder
 
 ### Default JAVA path and its options
 JAVA_PATH:=/usr/bin
-JAVA_OPTS:=-Xms512M -Xmx512M
+JAVA_OPTS:=-Xms512m -Xmx512m
+
 # Two more potential interesting options are
 # JAVA_OPTS=-XX:MaxMetaspaceSize=256M -XX:+UseG1GC -Xms2G -Xmx2G
 

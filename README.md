@@ -27,7 +27,7 @@ yum install maven tomcat-native
 
 
 * CentOS 8 & Fedora 31
-One can use `yum` instead of `dnf`. `epel-release` is needed. 
+One can use `yum` instead of `dnf` for CentOS 8. However, `epel-release` is needed. 
 ```
 dnf install maven tomcat-native 
 ```
@@ -43,11 +43,20 @@ OpenJDK Runtime Environment (build 11.0.6+10-post-Debian-1deb10u1)
 OpenJDK 64-Bit Server VM (build 11.0.6+10-post-Debian-1deb10u1, mixed mode, sharing)
 ```
 
-* Fedora 31
+* Fedora 32
 ```
+$ update-alternatives --config java
+There is 1 program that provides 'java'.
+
+  Selection    Command
+-----------------------------------------------
+*+ 1           java-1.8.0-openjdk.x86_64 (/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.242.b08-1.fc32.x86_64/jre/bin/java)
+
+$ java -version
+
 openjdk version "1.8.0_242"
 OpenJDK Runtime Environment (build 1.8.0_242-b08)
-OpenJDK 654-Bit Server VM (build 25.242-b08, mixed mode)
+OpenJDK 64-Bit Server VM (build 25.242-b08, mixed mode)
 ```
 
 ### ElasticSearch 6.3.1
@@ -66,15 +75,13 @@ $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.
 $ sudo yum install ./elasticsearch-6.3.1.rpm
 ```
 
-* CentOS 8 & Fedora 31
+* CentOS 8 & Fedora 32
+
 ```
 $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.rpm
 $ sudo dnf install ./elasticsearch-6.3.1.rpm
 ```
 
-* Fedora 31
-```
-```
 
 * ES Systemd service
 
@@ -140,7 +147,10 @@ $ make install
 $ sudo systemctl start channelfinder
 ```
 
-Note that we create the alias name of the `channelfinder.service` as cf.servie. So one can start it `sudo systemctl start cf` also. Sometimes with CentOS8, the service doesn't start properly. In this case, please try with `SELINUX=disabled` in `/etc/selinux/config`.
+
+Note that we create the alias name of the `channelfinder.service` as cf.servie. So one can start it `sudo systemctl start cf` also. Sometimes with CentOS8, the service doesn't start properly. In this case, please try with `SELINUX=disabled` in `/etc/selinux/config`. 
+
+For Fedora 32, one should disable `SELINUX` before `make es_mapping`. 
 
 ## While evaluating its configuration 
 

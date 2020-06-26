@@ -24,14 +24,6 @@ SRC_GITURL:=$(SRC_URL)/$(SRC_NAME)
 ### SRC_PATH used for a local directory which is a clone git repository
 SRC_PATH:=$(SRC_NAME)-src
 
-##
-CF_HOST:=http://localhost
-CF_PORT:=8080
-#
-#
-CF_URL:=$(CF_HOST):$(CF_PORT)/ChannelFinder
-
-
 ### Default JAVA path and its options
 JAVA_PATH:=/usr/bin
 JAVA_OPTS:=-Xms512m -Xmx512m

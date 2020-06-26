@@ -28,7 +28,14 @@ hs_err_pid*
 *.deb.*
 site-template/channelfinder.service
 site-template/application.properties
-*.local
+
+# local files
+/configure/*.local
+/configure/RELEASE.*
+/configure/CONFIG_SITE.*
+/modules/RELEASE.*.local
+/modules/Makefile.local
+/*Top/configure/*.local
 
 
 

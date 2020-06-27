@@ -22,9 +22,9 @@ spring.http.log-request-details=true
 
 ############## LDAP - External ##############
 ldap.enabled = false
-#ldap.urls = ldaps://ldap.cs.nsls2.local/dc=nsls2,dc=bnl,dc=gov
-ldap.urls = ldaps://controlns02.nsls2.bnl.gov/dc=nsls2,dc=bnl,dc=gov
-ldap.base.dn = dc=nsls2,dc=bnl,dc=gov
+ldap.urls = ldaps://localhost/dc=als,dc=lbnl,dc=gov
+#ldap.urls = ldaps://controlns02.nsls2.bnl.gov/dc=als,dc=lbnl,dc=gov
+ldap.base.dn = dc=als,dc=lbnl,dc=gov
 ldap.user.dn.pattern = uid={0},ou=People
 ldap.groups.search.base = ou=Group
 ldap.groups.search.pattern = (memberUid= {1})
@@ -55,11 +55,11 @@ tag-groups=cf-tags,USER
 ############################## Elastic Network And HTTP ###############################
 
 # Elasticsearch host
-#elasticsearch.network.host: 169.254.42.56
+elasticsearch.network.host: @ES_HOST@
 # Set a custom port for the node to node communication (9300 by default):
 elasticsearch.transport.tcp.port: 9300
 # Set a custom port to listen for HTTP traffic:
-elasticsearch.http.port: 9200
+elasticsearch.http.port: @ES_PORT@
 
 # Elasticsearch index names and types used by channelfinder, ensure that any changes here should be replicated in the mapping_definitions.sh
 elasticsearch.tag.index = cf_tags

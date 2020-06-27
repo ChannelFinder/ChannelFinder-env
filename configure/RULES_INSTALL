@@ -1,5 +1,5 @@
 
-.PHONY: sd_config sd_install sd_status sd_stop sd_clean sd_enable
+.PHONY: sd_config sd_install sd_status sd_stop sd_clean sd_enable  sd_disable
 
 sd_config:
 	$(QUIET)sed -e "s:_JAVAPATH_:$(JAVA_PATH):g" -e "s:_JAVAOPTS_:$(JAVA_OPTS):g" -e "s:_CFPATH_:$(INSTALL_LOCATION):g" -e "s:_CHANNELFINDER_JAR_NAME_:$(CFJAR_FILENAME):g" < $(SITE_TEMPLATE_PATH)/cf.service.in > $(SITE_TEMPLATE_PATH)/channelfinder.service
@@ -10,7 +10,7 @@ sd_install: sd_config
 	$(QUIET)$(SUDO) systemctl daemon-reload
 	
 sd_status:
-	$(QUIET) systemctl status -l channelfinder.service | cat
+	$(QUIET) systemctl status -l channelfinder.service | cat -b
 
 sd_start:
 	$(QUIET)$(SUDO) systemctl start channelfinder.service
@@ -27,8 +27,10 @@ sd_clean:
 	$(QUIET)$(SUDO) rm -f $(SYSTEMD_PATH)/channelfinder.service
 
 sd_enable:
-	$(QUIET)$(SUDO) systemctl enable channelfinder.service
+	$(if $(wildcard $(SYSTEMD_PATH)/channelfinder.service), $(SUDO) systemctl enable channelfinder.service )
 
+sd_disable:
+	$(if $(wildcard $(SYSTEMD_PATH)/channelfinder.service), $(SUDO) systemctl disable channelfinder.service )
 
 .PHONY: cf_status cf_start cf_stop cf_restart cf_install install uninstall
 
@@ -52,9 +54,14 @@ install: cf_install sd_install sd_enable
 	$(QUIET)echo "----- systemctl start  channelfinder"
 	$(QUIET)echo "----- systemctl status channelfinder"
 
+docker_install:
+	$(QUIET)$(INSTALL) -d $(INSTALL_LOCATION)
+	$(QUIET)$(INSTALL) -m 744 $(SRC_PATH)/target/$(CFJAR_FILENAME)  $(INSTALL_LOCATION)/
+
+
 
 ## Uninstall ChannelFinder
-uninstall: sd_stop sd_clean
+uninstall: sd_stop sd_disable sd_clean
 	$(QUIET)$(SUDO) rm -rf $(INSTALL_LOCATION)
 
 

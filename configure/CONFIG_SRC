@@ -1,4 +1,7 @@
-
+#
+INSTALL:= install
+INSTALL_PROGRAM:=$(INSTALL)
+INSTALL_DATA:=$(INSTALL) -m 644
 SUDO := sudo
 
 # SRC_PATH_INFO 1 : the directory is not there

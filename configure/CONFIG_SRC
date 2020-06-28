@@ -6,15 +6,14 @@ SUDO := sudo
 
 # SRC_PATH_INFO 1 : the directory is not there
 # SRC_PATH_INFO 0 : the directory is there
-SRC_PATH_INFO := $(shell test -d $(SRC_PATH) 1>&2 2> /dev/null; echo $$?)
+SRC_PATH_INFO := $(shell test -d $(CF_SRC_PATH) 1>&2 2> /dev/null; echo $$?)
 
 ifeq "$(SRC_PATH_INFO)" "1"
 INIT_SRC = 1
 endif
 
-SITE_SPECIFIC_FILES_PATH:=$(SRC_PATH)/src/main/resources
-SITE_TEMPLATE_PATH:=$(TOP)/site-template
-SYSTEMD_PATH:=/etc/systemd/system
+CF_SITE_SPECIFIC_FILES_PATH:=$(CF_SRC_PATH)/src/main/resources
+CF_SITE_TEMPLATE_PATH:=$(TOP)/site-template
 
 VARS_EXCLUDES+=SRC_PATH_INFO
 

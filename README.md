@@ -163,6 +163,17 @@ $ make restart
 Please consult two files in `configure` path, such as `RELEASE` and `CONFIG_SITE`. There are few comments on there. If you are familiar with the standard EPICS building system [1], it should be easy to understand them, because we mimic that concept into this repository. 
 
 
+## Docker Image
+
+```
+docker pull jeonghanlee/channelfinder:4-v0.1.0
+```
+
+See [docs/Docker.md](docs/Docker.md) :whale:
+
+
+
+
 ## Reference
 
 [1] https://epics-controls.org/

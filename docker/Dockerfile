@@ -1,8 +1,4 @@
-# docker build -t jeonghanlee/cf-spring:alpha .
-# docker run -d -p 8080:8080 jeonghanlee/cf-spring:alpha
-# docker run -d --network host --name channelfinder jeonghanlee/cf-spring:alpha
-# docker logs 
-# bluster-slim doesn't have libtcnativ-1
+# bluster-slim doesn't have libtcnativ-1, so we cannot use the multi-stage builder pattern. 
 FROM debian:buster
 RUN apt update
 RUN apt install -y apt-utils

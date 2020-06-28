@@ -2,11 +2,11 @@
 .PHONY: sd_config sd_install sd_status sd_stop sd_clean sd_enable  sd_disable
 
 sd_config:
-	$(QUIET)sed -e "s:_JAVAPATH_:$(JAVA_PATH):g" -e "s:_JAVAOPTS_:$(JAVA_OPTS):g" -e "s:_CFPATH_:$(INSTALL_LOCATION):g" -e "s:_CHANNELFINDER_JAR_NAME_:$(CFJAR_FILENAME):g" < $(SITE_TEMPLATE_PATH)/cf.service.in > $(SITE_TEMPLATE_PATH)/channelfinder.service
+	$(QUIET)sed -e "s:_JAVAPATH_:$(CF_JAVA_PATH):g" -e "s:_JAVAOPTS_:$(CF_JAVA_OPTS):g" -e "s:_CFPATH_:$(CF_INSTALL_LOCATION):g" -e "s:_CHANNELFINDER_JAR_NAME_:$(CF_JAR_FILENAME):g" < $(CF_SITE_TEMPLATE_PATH)/cf.service.in > $(CF_SITE_TEMPLATE_PATH)/channelfinder.service
 
 	
 sd_install: sd_config
-	$(QUIET)$(SUDO) install -b -m 644 $(SITE_TEMPLATE_PATH)/channelfinder.service $(SYSTEMD_PATH)/
+	$(QUIET)$(SUDO) install -b -m 644 $(CF_SITE_TEMPLATE_PATH)/channelfinder.service $(SYSTEMD_PATH)/
 	$(QUIET)$(SUDO) systemctl daemon-reload
 	
 sd_status:
@@ -44,8 +44,8 @@ cf_restart: sd_restart
 
 
 cf_install: 
-	$(QUIET)$(SUDO) install -d $(INSTALL_LOCATION)
-	$(QUIET)$(SUDO) install -m 744 $(SRC_PATH)/target/$(CFJAR_FILENAME)  $(INSTALL_LOCATION)/
+	$(QUIET)$(SUDO) install -d $(CF_INSTALL_LOCATION)
+	$(QUIET)$(SUDO) install -m 744 $(CF_SRC_PATH)/target/$(CF_JAR_FILENAME)  $(CF_INSTALL_LOCATION)/
 
 
 ## Install Service related files 
@@ -61,8 +61,8 @@ docker_install:
 
 
 ## Uninstall ChannelFinder
-uninstall: sd_stop sd_disable sd_clean
-	$(QUIET)$(SUDO) rm -rf $(INSTALL_LOCATION)
+uninstall: sd_stop sd_clean
+	$(QUIET)$(SUDO) rm -rf $(CF_INSTALL_LOCATION)
 
 
 reinstall: conf build install

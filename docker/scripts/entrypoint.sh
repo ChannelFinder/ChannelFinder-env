@@ -2,8 +2,23 @@
 #
 #  author  : Jeong Han Lee
 #  email   : jeonghan.lee@gmail.com
-#  date    : Saturday, June 27 18:03:37 PDT 2020
-#  version : 0.0.1
+#  date    : Sunday, June 28 00:20:35 PDT 2020
+#  version : 0.0.2
+
+
+function usage
+{
+    {
+	echo "";
+	echo "Usage    : $0 [-o JAVA\_OPTIONS] "
+	echo "";
+	echo "               -o : additional JVM Options"
+	echo "";
+	echo " bash $0 -o \"-Xms512m -Xmx512m\""
+	echo ""
+    } 1>&2;
+    exit 1;
+}
 
 
 

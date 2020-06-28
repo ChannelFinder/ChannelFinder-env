@@ -31,6 +31,7 @@ JAVA_OPTS:=-Xms512m -Xmx512m
 # Two more potential interesting options are
 # JAVA_OPTS=-XX:MaxMetaspaceSize=256M -XX:+UseG1GC -Xms2G -Xmx2G
 
+MVN_OPTS:=
 
 # These allow developers to override the CONFIG_SITE variable
 # settings without having to modify the configure/CONFIG_SITE

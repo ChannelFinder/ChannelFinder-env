@@ -7,9 +7,9 @@ server.http.enable=true
 server.http.port=@CF_PORT@
 
 server.ssl.key-store-type=PKCS12
-server.ssl.key-store=classpath:keystore/@SSHKEY@
+server.ssl.key-store=classpath:keystore/@CF_SSHKEY@
 server.ssl.key-store-password=password
-server.ssl.key-alias=@SSHKEYALIAS@
+server.ssl.key-alias=@CF_SSHKEYALIAS@
 
 security.require-ssl=true
 
@@ -36,7 +36,7 @@ embedded_ldap.base.dn = dc=cf,dc=local
 embedded_ldap.user.dn.pattern = uid={0},ou=People
 embedded_ldap.groups.search.base = ou=Group
 embedded_ldap.groups.search.pattern = (memberUid= {1})
-spring.ldap.embedded.ldif=classpath:@CFLDIF@
+spring.ldap.embedded.ldif=classpath:@CF_LDIF@
 spring.ldap.embedded.base-dn=dc=cf,dc=local
 spring.ldap.embedded.port=8389 
 spring.ldap.embedded.validation.enabled=false

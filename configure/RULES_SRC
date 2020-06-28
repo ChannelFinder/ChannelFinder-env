@@ -28,8 +28,8 @@ default: help
 ## Clone Source
 init:
 ifeq "$(INIT_SRC)" "1"
-	git clone $(SRC_GITURL) $(SRC_PATH)
-	cd $(SRC_PATH) && git checkout $(SRC_TAG)
+	git clone $(CF_SRC_GITURL) $(CF_SRC_PATH)
+	cd $(CF_SRC_PATH) && git checkout $(CF_SRC_TAG)
 else
 	$(QUIET)echo "$(SRC_PATH) exists. make distclean first, if one would like to restart it."
 endif
@@ -37,10 +37,10 @@ endif
 deinit: distclean
 ## Clean Source
 distclean:
-ifneq ($(wildcard $(SRC_PATH)/.*),)
+ifneq ($(wildcard $(CF_SRC_PATH)/.*),)
 	$(QUIET)echo "We've found $(SRC_PATH)"
 	$(QUIET)echo "Removing ....."
-	$(QUIET)rm -rf $(SRC_PATH)
+	$(QUIET)rm -rf $(CF_SRC_PATH)
 else
 	$(QUIET)echo "There is no $(SRC_PATH)."
 endif
@@ -50,11 +50,11 @@ endif
 
 ## Build Source
 build: 
-	$(QUIET)mvn -f $(SRC_PATH)/pom.xml clean install
+	$(QUIET)mvn -f $(CF_SRC_PATH)/pom.xml clean install
 
 ## Copy the site specific files into sources
 conf:
-	$(QUIET)sed -e "s:@SSHKEY@:$(SSHKEY):g" -e "s:@SSHKEYALIAS@:$(SSHKEYALIAS):g" -e "s:@CFLDIF@:$(CFLDIF):g" -e "s:@CF_PORT@:$(CF_PORT):g" < $(SITE_TEMPLATE_PATH)/application.properties.in > $(SITE_TEMPLATE_PATH)/application.properties
-	$(QUIET)cp $(SITE_TEMPLATE_PATH)/$(CFLDIF)     $(SITE_SPECIFIC_FILES_PATH)/
-	$(QUIET)cp $(SITE_TEMPLATE_PATH)/$(SSHKEY)     $(SITE_SPECIFIC_FILES_PATH)/keystore/
-	$(QUIET)cp $(SITE_TEMPLATE_PATH)/application.properties $(SITE_SPECIFIC_FILES_PATH)/
+	$(QUIET)sed -e "s:@CF_SSHKEY@:$(CF_SSHKEY):g" -e "s:@CF_SSHKEYALIAS@:$(CF_SSHKEYALIAS):g" -e "s:@CF_LDIF@:$(CF_LDIF):g" -e "s:@CF_PORT@:$(CF_PORT):g" < $(CF_SITE_TEMPLATE_PATH)/application.properties.in > $(CF_SITE_TEMPLATE_PATH)/application.properties
+	$(QUIET)cp $(CF_SITE_TEMPLATE_PATH)/$(CF_LDIF)     $(CF_SITE_SPECIFIC_FILES_PATH)/
+	$(QUIET)cp $(CF_SITE_TEMPLATE_PATH)/$(CF_SSHKEY)     $(CF_SITE_SPECIFIC_FILES_PATH)/keystore/
+	$(QUIET)cp $(CF_SITE_TEMPLATE_PATH)/application.properties $(CF_SITE_SPECIFIC_FILES_PATH)/

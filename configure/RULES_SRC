@@ -54,7 +54,7 @@ build:
 
 ## Copy the site specific files into sources
 conf:
-	$(QUIET)sed -e "s:@SSHKEY@:$(CF_SSHKEY):g" -e "s:@SSHKEYALIAS@:$(CF_SSHKEYALIAS):g" -e "s:@CFLDIF@:$(CF_LDIF):g" \
+	$(QUIET)sed -e "s:@CF_SSHKEY@:$(CF_SSHKEY):g" -e "s:@CF_SSHKEYALIAS@:$(CF_SSHKEYALIAS):g" -e "s:@CF_LDIF@:$(CF_LDIF):g" \
 		    -e "s:@CF_PORT@:$(CF_PORT):g" -e "s:@ES_HOST@:$(ES_HOST):g" -e "s:@ES_PORT@:$(ES_PORT):g" < $(CF_SITE_TEMPLATE_PATH)/application.properties.in > $(CF_SITE_TEMPLATE_PATH)/application.properties
 	$(QUIET)cp $(CF_SITE_TEMPLATE_PATH)/$(CF_LDIF)     $(CF_SITE_SPECIFIC_FILES_PATH)/
 	$(QUIET)cp $(CF_SITE_TEMPLATE_PATH)/$(CF_SSHKEY)     $(CF_SITE_SPECIFIC_FILES_PATH)/keystore/

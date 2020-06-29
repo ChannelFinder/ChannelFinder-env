@@ -27,6 +27,20 @@ RUN make distclean && \
 ## Multi-Stages build
 ## Running docker image size ~ 0.7 GB
 FROM debian:buster
+LABEL maintainer="Jeong Han Lee <jeonghan.lee@gmail.com>"
+
+ARG BUILD_DATE
+ARG BUILD_VERSION
+
+# Labels.
+LABEL org.label-schema.schema-version="1.0"
+LABEL org.label-schema.build-date=$BUILD_DATE
+LABEL org.label-schema.name="jeonghanlee/channelfinder"
+LABEL org.label-schema.description="EPICS ChannelFinder Docker Image"
+LABEL org.label-schema.url="https://github.com/ChannelFinder/ChannelFinder-env/"
+LABEL org.label-schema.version=$BUILD_VERSION
+LABEL org.label-schema.docker.cmd="docker run --network=host --detach --rm --name=channelfinder jeonghanlee/channelfinder:latest"
+
 
 ### RecCeiver PORT configuration.
 ### DO NOT CHANGE them
@@ -47,11 +61,7 @@ ENV TZ America/Los_Angeles
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN dpkg-reconfigure -f noninteractive tzdata
-
-RUN apt update
-RUN apt install -y \
-        openjdk-11-jre \
-	libtcnative-1
+RUN apt update && apt install -y openjdk-11-jre libtcnative-1
 
 COPY ./docker/scripts/entrypoint.sh /entrypoint.sh
 WORKDIR /opt/channelfinder

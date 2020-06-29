@@ -34,6 +34,14 @@ docker run --network=host --detach --rm --name=channelfinder jeonghanlee/channel
 docker run -i -t --entrypoint /bin/bash jeonghanlee/channelfinder:4-v0.1.0
 ```
 
+
+* Run with the local disk mount
+```
+docker run -i -t -v ${HOME}/docker_data:/data --entrypoint /bin/bash jeonghanlee/channelfinder:4-v0.1.0
+```
+, where `${HOME}/docker_data` is the host path, which will be created if it doesn't exist, and `/data` is a volume in the docker container.
+
+
 ## Status, Stop, and restart
 
 * Check the channelfinder service is running
@@ -62,6 +70,10 @@ docker start channelfinder
 docker rm -f channelfinder
 ```
 
+* Remove all leftover containers
+```
+docker rm $(docker ps -aq)
+```
 
 ## Building the Docker image
 

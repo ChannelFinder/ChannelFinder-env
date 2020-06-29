@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+#
+#  author  : Jeong Han Lee
+#  email   : jeonghan.lee@gmail.com
+#  date    : Saturday, June 27 16:45:01 PDT 2020 
+#  version : 0.0.1
+
+
+function usage
+{
+    {
+	echo "";
+	echo "Usage    : $0 [-s IMAGE ID] [-t Release Version] <-u docker hub username> "
+	echo "";
+	echo "               -s : Docker IMAGE ID";
+	echo "               -t : Desired Release Version";
+	echo "               -u : Docker HUB user name (default:jeonghanlee)";
+	echo "";
+	echo " bash $0 -s \"04ac57cc7c72\" -t \"4-v0.1.0\" "
+	echo ""
+    } 1>&2;
+    exit 1;
+}
+
+
+options=":s:t:u"
+
+while getopts "${options}" opt; do
+    case "${opt}" in
+        s) source_image=${OPTARG}   ;;
+        t) target_version=${OPTARG} ;;
+	u) USER_NAME=${OPTARG}      ;;
+	:)
+	    echo "Option -$OPTARG requires an argument." >&2
+	    usage
+	    ;;
+	h)
+	    usage
+	    ;;
+	\?)
+	    echo "Invalid option: -$OPTARG" >&2
+	    usage
+	    ;;
+    esac
+done
+shift $((OPTIND-1))
+
+if [ -z "${source_image}" ]; then
+    usage;
+fi
+
+if [ -z "${target_version}" ]; then
+    usage;
+fi
+
+
+if [ -z "${USER_NAME}" ]; then
+    USER_NAME="jeonghanlee"
+fi
+
+
+
+TARGET_NAME="channelfinder"
+
+target_image=${USER_NAME}/${TARGET_NAME}:${target_version}
+
+printf "Tag  ${target_image} at ${source_image}\n";
+docker tag ${source_image} ${target_image}
+printf "Push ${target_image} to hub.docker.com\n";
+docker push ${target_image}

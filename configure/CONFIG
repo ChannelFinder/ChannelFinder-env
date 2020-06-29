@@ -3,6 +3,5 @@ VARS_EXCLUDES := $(.VARIABLES)
 include $(TOP)/configure/CONFIG_COMMON
 include $(TOP)/configure/RELEASE
 include $(TOP)/configure/CONFIG_SITE
-#
-
+include $(TOP)/configure/CONFIG_VARS
 include $(TOP)/configure/CONFIG_SRC

@@ -7,10 +7,7 @@ ChannelFinder-Springboot Docker image
 sudo groupadd docker
 sudo usermod -aG docker ${USER}
 ```
-Note that one will have to log out and to log in to take effect!
-
-https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
-
+Note that one will have to log out and to log in to take effect! One should look at two references [1,2] to understand security issues. 
 
 
 ## Pull the release image from a registry (hub.docker.com)
@@ -80,3 +77,9 @@ Few variables one has to change them carefully. `CF_HOST`, `CF_PORT`, `ES_HOST`,
 ```
 make build.docker
 ```
+
+
+## References
+[1] https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+
+[2] https://docs.docker.com/engine/security/rootless/

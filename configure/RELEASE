@@ -1,10 +1,9 @@
 
-JAVA_PATH=/usr/bin
 ## Where the Source repository SRC_URL/SRC_NAME
 ##
 CF_SRC_URL:=https://github.com/ChannelFinder
 CF_SRC_NAME:=ChannelFinder-SpringBoot
-CF_SRC_GITURL:=$(CF_SRC_URL)/$(CF_SRC_NAME)
+
 
 ## Which the source tag / branch / hash id would like to use
 CF_SRC_TAG:=537bf2c

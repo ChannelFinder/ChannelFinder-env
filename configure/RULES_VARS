@@ -10,7 +10,17 @@ VARS_EXCLUDES+=ALARM_%
 VARS_EXCLUDES+=AL_%
 VARS_EXCLUDES+=AA_%
 
+LEVEL?=1
+
+FILTER?=1
+
+ifeq "$(FILTER)" "1"
 SRC_VARIABLES:=$(sort $(filter-out $(VARS_EXCLUDES) VARS_EXCLUDES,$(.VARIABLES)))
+else
+SRC_VARIABLES:=$(filter $(FILTER)%, $(sort $(filter-out $(VARS_EXCLUDES) VARS_EXCLUDES,$(.VARIABLES))))
+endif
+
+
 
 .PHONY : env vars header
 
@@ -35,5 +45,11 @@ print-%:
 	$(QUIET)echo $* = $($*)
 	$(QUIET)echo $*\'s origin is $(origin $*)
 
-FORCE:
+.PHONY : exist
 
+exist:
+	$(if $(wildcard $(CF_INSTALL_LOCATION)), tree -aL $(LEVEL) $(CF_INSTALL_LOCATION), $(QUIET)echo "No $(CF_INSTALL_LOCATION)")
+
+
+
+VARS_EXCLUDES+=FILTER

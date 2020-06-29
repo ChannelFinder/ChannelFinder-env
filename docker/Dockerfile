@@ -7,6 +7,11 @@
 ## BuildEnv docker image size ~ 1.3 GB
 FROM debian:buster AS builder
 ENV WorkPath /home/ChannelFinder-env
+ARG RS_SERVER_PORT=5075
+ARG RS_PORT_BROADCAST=5076
+ARG CF_PORT_HTTP=8080
+ARG CF_PORT_HTTPS=8443
+
 RUN apt update
 RUN apt install -y \
         make \
@@ -16,6 +21,7 @@ RUN apt install -y \
 
 WORKDIR $WorkPath
 COPY . .
+RUN echo "CF_PORT:=${CF_PORT_HTTP}" > configure/CONFIG_COMMON.local
 RUN make distclean && \
     make init && \
     make conf && \
@@ -31,6 +37,11 @@ LABEL maintainer="Jeong Han Lee <jeonghan.lee@gmail.com>"
 
 ARG BUILD_DATE
 ARG BUILD_VERSION
+ARG RS_SERVER_PORT=5075
+ARG RS_PORT_BROADCAST=5076
+ARG CF_PORT_HTTP=8080
+ARG CF_PORT_HTTPS=8443
+ARG TZ=America/Los_Angeles
 
 # Labels.
 LABEL org.label-schema.schema-version="1.0"
@@ -44,20 +55,20 @@ LABEL org.label-schema.docker.cmd="docker run --network=host --detach --rm --nam
 
 ### RecCeiver PORT configuration.
 ### DO NOT CHANGE them
-ENV RS_SERVER_PORT    5075
-ENV RS_PORT_BROADCAST 5076
+ENV RS_SERVER_PORT ${RS_SERVER_PORT}
+ENV RS_PORT_BROADCAST ${RS_PORT_BROADCAST}
 #
 ### ChannelFinder HTTP PORT  through Tomcat <<<<---- Most likely you would like to change this
-ENV CF_PORT_HTTP      8080
+ENV CF_PORT_HTTP ${CF_PORT_HTTP}
 #
 ### DO NOT CHANGE IT
-ENV LDAP_SERVER_PORT  8389
+ENV LDAP_SERVER_PORT 8389
 #
 ### ChannelFinder HTTPS PORT through Tomcat
-ENV CF_PORT_HTTPS     8443
+ENV CF_PORT_HTTPS ${CF_PORT_HTTPS}
 #
-### YOUR TIME ZONE  <<<<---- Most likely you would like to change this
-ENV TZ America/Los_Angeles
+### YOUR TIME ZONE
+ENV TZ ${TZ}
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN dpkg-reconfigure -f noninteractive tzdata
@@ -66,6 +77,7 @@ RUN apt update && apt install -y openjdk-11-jre libtcnative-1
 COPY ./docker/scripts/entrypoint.sh /entrypoint.sh
 WORKDIR /opt/channelfinder
 COPY --from=builder /opt/channelfinder .
+##
 # CF Port : http
 EXPOSE ${CF_PORT_HTTP}/tcp
 EXPOSE ${CF_PORT_HTTP}/udp
@@ -80,6 +92,4 @@ EXPOSE ${RS_SERVER_PORT}/udp
 EXPOSE ${LDAP_SERVER_PORT}/tcp
 EXPOSE ${LDAP_SERVER_PORT}/udp
 #
-
 ENTRYPOINT ["/entrypoint.sh"]
-

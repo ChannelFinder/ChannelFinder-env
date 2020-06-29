@@ -4,8 +4,8 @@ install.docker:
 	$(QUIET)$(INSTALL) -d $(INSTALL_LOCATION)
 	$(QUIET)$(INSTALL) -m 744 $(SRC_PATH)/target/$(CFJAR_FILENAME)  $(INSTALL_LOCATION)/
 
-build.docker:
-	bash docker/scripts/docker_builder
+build.docker: distclean
+	$(QUIET)bash docker/scripts/docker_builder $(CF_PORT)
 
 prune.docker:
 	$(QUIET)docker system prune --force

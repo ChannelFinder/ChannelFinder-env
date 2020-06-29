@@ -8,8 +8,6 @@ CF_HOST:=localhost
 CF_PORT:=8080
 #
 #
-CF_URL:=$(CF_HOST):$(CF_PORT)/ChannelFinder
-CF_FULL_URL:=$(CF_PRTO)://$(CF_URL)
 
 # These allow developers to override the variable
 -include $(TOP)/../CONFIG_COMMON.local

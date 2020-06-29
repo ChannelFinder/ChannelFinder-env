@@ -2,8 +2,8 @@
 #
 #  author  : Jeong Han Lee
 #  email   : jeonghan.lee@gmail.com
-#  date    : Saturday, June 27 16:45:01 PDT 2020 
-#  version : 0.0.1
+#  date    : Monday, June 29 01:35:40 PDT 2020
+#  version : 0.0.2
 
 declare -gr SC_SCRIPT="$(realpath "$0")"
 declare -gr SC_SCRIPTNAME=${0##*/}
@@ -15,11 +15,13 @@ function pushd { builtin pushd "$@" > /dev/null; }
 function popd  { builtin popd  "$@" > /dev/null; }
 
 
+CF_PORT="$1"
+
 SRC_TOP=${SC_TOP}/../../
 
 pushd ${SRC_TOP}
 
-docker build . --network=host --file docker/Dockerfile -t jeonghanlee/channelfinder:${LOGDATE}
+docker build --network=host --file docker/Dockerfile -t jeonghanlee/channelfinder:${LOGDATE} --build-arg CF_PORT_HTTP=${CF_PORT} .
 
 popd
 

@@ -34,7 +34,10 @@ docker run --network=host --detach --rm --name=channelfinder jeonghanlee/channel
 docker run -i -t --entrypoint /bin/bash jeonghanlee/channelfinder:4-v0.1.0
 ```
 
+* Run with [../docker/port_env](port_env)
+```
 
+```
 * Run with the local disk mount
 ```
 docker run -i -t -v ${HOME}/docker_data:/data --entrypoint /bin/bash jeonghanlee/channelfinder:4-v0.1.0
@@ -83,13 +86,14 @@ git clone https://github.com/jeonghanlee/ChannelFinder-env/
 ```
 * Configure desired CF configuration
 
-Few variables one has to change them carefully. `CF_HOST`, `CF_PORT`, `ES_HOST`, `INSTALL_LOCATION`, and so on. So, one change them, one should check the Dockerfile carefully, because it is the hard-coded file.
+I assume that ES service stays in the same Docker host where CF container. One variable `CF_PORT` for http connection can be configured.
+
 
 * Default the build with the docker
 ```
 make build.docker
 ```
-
+To-do : Using `make build.docker BUILD_ARGS=`, we may transfer all `--build-arg` to `docker build`. 
 
 ## References
 [1] https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface

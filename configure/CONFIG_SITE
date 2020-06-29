@@ -17,8 +17,7 @@ CF_LDIF:=cf4als.ldif
 CF_SSHKEYALIAS:=cf
 CF_SSHKEY:=$(CF_SSHKEYALIAS).p12
 
-### Default JAVA path and its options
-CF_JAVA_PATH:=/usr/bin
+CF_JAVA_PATH:=$(JAVA_PATH)
 CF_JAVA_OPTS:=-Xms512m -Xmx512m
 
 # Two more potential interesting options are
@@ -27,7 +26,6 @@ CF_JAVA_OPTS:=-Xms512m -Xmx512m
 CF_MVN_OPTS:=
 
 SYSTEMD_PATH:=/etc/systemd/system
-
 
 # These allow developers to override the CONFIG_SITE variable
 # settings without having to modify the configure/CONFIG_SITE

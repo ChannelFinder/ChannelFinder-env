@@ -19,8 +19,7 @@ The first argument is `IMAGE ID`, the second one is a version. Then one has the 
 `jeonghanlee/channelfinder:4-v0.1.0`
 
 ```
-bash docker/scripts/push_to_hub "04ac57cc7c72" "4-v0.1.0"
-
+bash docker/scripts/push_to_hub -s "24924741269d" -t "4-v0.1.1"
 ```
 
 ### Pull the image from docker hub

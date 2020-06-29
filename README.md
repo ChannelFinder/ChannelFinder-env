@@ -165,10 +165,6 @@ Please consult two files in `configure` path, such as `RELEASE` and `CONFIG_SITE
 
 ## Docker Image
 
-```
-docker pull jeonghanlee/channelfinder:4-v0.1.0
-```
-
 See [docs/Docker.md](docs/Docker.md) :whale:
 
 

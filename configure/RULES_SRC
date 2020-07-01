@@ -50,8 +50,7 @@ endif
 
 ## Build Source
 build: 
-	echo "mvn $(CF_MVN_OPTS) -f $(CF_SRC_PATH) clean install -Dmaven.test.skip=true"
-	$(QUIET) mvn $(CF_MVN_OPTS) -f $(CF_SRC_PATH) clean install -Dmaven.test.skip=true
+	$(QUIET) mvn $(CF_MVN_OPTS) -f $(CF_SRC_PATH)/pom.xml clean install -Dmaven.test.skip=true
 
 ## Copy the site specific files into sources
 conf:

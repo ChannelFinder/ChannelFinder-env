@@ -4,7 +4,7 @@
 
 ## Setup kibana
 
-```bash 
+```bash
 wget https://artifacts.elastic.co/downloads/kibana/kibana-6.3.2-linux-x86_64.tar.gz
 tar xzvf kibana-6.3.2-linux-x86_64.tar.gz
 cd kibana-6.3.2-linux-x86_64/

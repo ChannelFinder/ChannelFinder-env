@@ -198,4 +198,4 @@ GET http://localhost:8080/ChannelFinder/resources/tags/alpha.sys.SR
 
 ## Reference
 
-[1] https://insomnia.rest/
+[1] <https://insomnia.rest>

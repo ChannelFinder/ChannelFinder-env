@@ -24,15 +24,15 @@ apt install maven libtcnative-1
 * CentOS 7
 
 ```bash
-yum install maven tomcat-native 
+yum install maven tomcat-native
 ```
 
 * CentOS 8 \& Fedora 31
 
-One can use `yum` instead of `dnf` for CentOS 8. However, `epel-release` is needed. 
+One can use `yum` instead of `dnf` for CentOS 8. However, `epel-release` is needed.
 
 ```bash
-dnf install maven tomcat-native 
+dnf install maven tomcat-native
 ```
 
 ### JDK 8 or newer
@@ -97,7 +97,7 @@ sudo systemctl start elasticsearch
 
 Please make sure the service is running via `systemctl status elasticsearch`. One can do the same things with embedded make rules such as
 
-###  LDAP 
+### LDAP
 
 * Configuration is needed if an external one.
 * Embedded LDAP configuration [Local LDIF configuration](site-template/LDIF_CONFIG.md)

@@ -21,10 +21,10 @@ ARG CF_INSTALL_LOCATION=/opt/channelfinder
 
 RUN apt update
 RUN apt install -y \
-        make \
-	maven \
-	git \
-	openjdk-11-jdk
+    make \
+    maven \
+    git \
+    openjdk-11-jdk
 
 WORKDIR $WorkPath
 COPY . .

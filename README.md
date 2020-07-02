@@ -2,6 +2,7 @@
 
 ![ChannelFinder-env Build Test](https://github.com/ChannelFinder/ChannelFinder-env/workflows/ChannelFinder-env%20Build%20Test/badge.svg)
 ![Docker Image CI](https://github.com/ChannelFinder/ChannelFinder-env/workflows/Docker%20Image%20CI/badge.svg)
+![Linter Run](https://github.com/ChannelFinder/ChannelFinder-env/workflows/Linter%20Run/badge.svg)
 
 Configuration Environment for ChannelFinder-SpringBoot at <https://github.com/ChannelFinder/ChannelFinder-SpringBoot>
 

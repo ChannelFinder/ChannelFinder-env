@@ -91,18 +91,18 @@ WORKDIR ${CF_INSTALL_LOCATION}
 COPY --from=builder ${CF_INSTALL_LOCATION} .
 ##
 # CF Port : http
-EXPOSE ${CF_PORT_HTTP}/tcp
-EXPOSE ${CF_PORT_HTTP}/udp
+EXPOSE $CF_PORT_HTTP/tcp
+EXPOSE $CF_PORT_HTTP/udp
 # CF PORT : https
-EXPOSE ${CF_PORT_HTTPS}/tcp
-EXPOSE ${CF_PORT_HTTPS}/udp
+EXPOSE $CF_PORT_HTTPS/tcp
+EXPOSE $CF_PORT_HTTPS/udp
 # RecCeiver Broadcast Port
-EXPOSE ${RS_PORT_BROADCAST}/udp
+EXPOSE $RS_PORT_BROADCAST/udp
 # RecCeiver Server Port
-EXPOSE ${RS_SERVER_PORT}/udp
+EXPOSE $RS_SERVER_PORT/udp
 # Embedded LDAP Port
-EXPOSE ${LDAP_SERVER_PORT}/tcp
-EXPOSE ${LDAP_SERVER_PORT}/udp
+EXPOSE $LDAP_SERVER_PORT/tcp
+EXPOSE $LDAP_SERVER_PORT/udp
 #
 COPY ./docker/scripts/entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

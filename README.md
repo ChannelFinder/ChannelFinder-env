@@ -1,9 +1,9 @@
-ChannelFinder-env
-===
+# ChannelFinder-env
+
 ![ChannelFinder-env Build Test](https://github.com/ChannelFinder/ChannelFinder-env/workflows/ChannelFinder-env%20Build%20Test/badge.svg)
 ![Docker Image CI](https://github.com/ChannelFinder/ChannelFinder-env/workflows/Docker%20Image%20CI/badge.svg)
 
-Configuration Environment for ChannelFinder-SpringBoot at https://github.com/ChannelFinder/ChannelFinder-SpringBoot
+Configuration Environment for ChannelFinder-SpringBoot at <https://github.com/ChannelFinder/ChannelFinder-SpringBoot>
 
 ## Role
 In order to download, install, setup all relevant components, one should do many steps manually. This repository was designed for the easy-to-reproducible environment for ChannelFinder-SprintBoot.
@@ -17,37 +17,36 @@ In order to download, install, setup all relevant components, one should do many
 
 * Debian 10
 
-```
+```bash
 apt install maven libtcnative-1
 ```
 
 
 * CentOS 7
 
-```
+```bash
 yum install maven tomcat-native 
 ```
 
 
-* CentOS 8 & Fedora 31
+* CentOS 8 \& Fedora 31
+
 One can use `yum` instead of `dnf` for CentOS 8. However, `epel-release` is needed. 
-```
+```bash
 dnf install maven tomcat-native 
 ```
 
-
-
-
 ### JDK 8 or newer
+
 * Debian 10
-```
+```bash
 openjdk version "11.0.6" 2020-01-14
 OpenJDK Runtime Environment (build 11.0.6+10-post-Debian-1deb10u1)
 OpenJDK 64-Bit Server VM (build 11.0.6+10-post-Debian-1deb10u1, mixed mode, sharing)
 ```
 
 * Fedora 32
-```
+```bash
 $ update-alternatives --config java
 There is 1 program that provides 'java'.
 
@@ -67,31 +66,31 @@ OpenJDK 64-Bit Server VM (build 25.242-b08, mixed mode)
 Please use the exact version of Elasticsearch **6.3.1**.
 
 * Debian 10
-```
-$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.deb
-$ sudo apt install ./elasticsearch-6.3.1.deb
+```bash
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.deb
+sudo apt install ./elasticsearch-6.3.1.deb
 ```
 
 * CentOS 7
-```
-$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.rpm
-$ sudo yum install ./elasticsearch-6.3.1.rpm
+```bash
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.rpm
+sudo yum install ./elasticsearch-6.3.1.rpm
 ```
 
 * CentOS 8 & Fedora 32
 
-```
-$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.rpm
-$ sudo dnf install ./elasticsearch-6.3.1.rpm
+```bash
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.rpm
+sudo dnf install ./elasticsearch-6.3.1.rpm
 ```
 
 
 * ES Systemd service
 
-```
-$ sudo systemctl daemon-reload
-$ sudo systemctl enable elasticsearch
-$ sudo systemctl start elasticsearch
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable elasticsearch
+sudo systemctl start elasticsearch
 ```
 Please make sure the service is running via `systemctl status elasticsearch`. One can do the same things with embedded make rules such as 
 
@@ -141,13 +140,13 @@ Please make sure the service is running via `systemctl status elasticsearch`. On
 Note that this example has the assumption which ES service is running.
 
 
-```
-$ make init
-$ make es_mapping
-$ make conf
-$ make build
-$ make install
-$ sudo systemctl start channelfinder
+```bash
+make init
+make es_mapping
+make conf
+make build
+make install
+sudo systemctl start channelfinder
 ```
 
 
@@ -158,8 +157,8 @@ For Fedora 32, one should disable `SELINUX` before `make es_mapping`.
 ## While evaluating its configuration 
 
 Modify `application.properties` or `ldif` file, and then run the following command:
-```
-$ make restart
+```bash
+make restart
 ```
 
 ## Customize site-specific configuration
@@ -175,6 +174,6 @@ See [docs/Docker.md](docs/Docker.md) :whale:
 
 ## Reference
 
-[1] https://epics-controls.org/
+[1] <https://epics-controls.org/>
 
 

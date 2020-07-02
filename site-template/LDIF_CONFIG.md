@@ -11,16 +11,16 @@ Configuration shown in ldif [1] files is an example which can help end-users to 
 ## Procedures
 
 * Change the `site-template/cf4als.ldif`. One can add a site-specific ldif file into `site-template` path, and use that name in `configure/CONFIG_SITE`. For example, one has `site-template/example.ldif`. 
-```
+```bash
 $ echo "CFLDIF_FILENAME:=example.ldif" > configure/CONFIG_SITE.local
 ```
 * Check the ldif file is correctly defined
-```
+```bash
 $ make vars
 $ make PRINT.CFLDIF_FILENAME
 ```
 * Restart CF 
-```
+```bash
 $ make restart
 ```
 

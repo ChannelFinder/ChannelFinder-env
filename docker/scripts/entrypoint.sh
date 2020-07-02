@@ -23,7 +23,7 @@ function usage
 
 
 
-JAR=$(find ${CF_INSTALL_LOCATION} -name "ChannelFinder*.jar")
+JAR=$(find "${CF_INSTALL_LOCATION}" -name "ChannelFinder*.jar")
 
 options="o:"
 
@@ -48,5 +48,5 @@ shift $((OPTIND-1))
 
 # Debian, openjdk is located in /usr/bin/
 #
-command="/usr/bin/java ${JAVA_OPTS} -jar $JAR "$@""
-exec $command
+command="/usr/bin/java ${JAVA_OPTS} -jar $JAR"
+eval "$command"

@@ -1,38 +1,34 @@
-A simple example
-===
+# A simple example
 
-This example may help users to understand the relations among channels, properties, and tags. All channels, properties, and tags are not designed carefully, so that one should not use this kind of combinations in a real Channel Finder configuration. 
-
+This example may help users to understand the relations among channels, properties, and tags. All channels, properties, and tags are not designed carefully, so that one should not use this kind of combinations in a real Channel Finder configuration.
 
 ## Create tags, properties, and channels
 
 Fake channel name, property name, and tag name are defined in `CHANNELS`, `PROPERTIES`, and `TAGS`. We use them to show this example.
 
-```
+```bash
 bash put_channels.bash
 bash put_properties.bash
 bash put_tags.bash
 ```
-One should check the following urls by using a REST client. I recommend insomnia [1] 
 
-```
+One should check the following urls by using a REST client. I recommend insomnia [1]
+
+```bash
 http://localhost:8080/ChannelFinder/resources/channels
 http://localhost:8080/ChannelFinder/resources/properties
 http://localhost:8080/ChannelFinder/resources/tags
 ```
 
+## Update channels according to the properties, and tags which we defined
 
-## Update channels according to the properties, and tags which we defined. 
-
-```
+```bash
 bash update_channels.bash
 ```
 
 ### Few output results
 
-
-
-```
+```json
 GET http://localhost:8080/ChannelFinder/resources/properties/domain
 
 {
@@ -118,8 +114,7 @@ GET http://localhost:8080/ChannelFinder/resources/tags/alpha.sys.SR
 
 ```
 
-
-```
+```json
 GET http://localhost:8080/ChannelFinder/resources/channels?~name=*BPM1*&domain=SR
 
 [
@@ -147,7 +142,7 @@ GET http://localhost:8080/ChannelFinder/resources/channels?~name=*BPM1*&domain=S
 
 * GET the `alpha.sys.SR` tag
 
-```
+```json
 GET http://localhost:8080/ChannelFinder/resources/tags/alpha.sys.SR
 
 
@@ -173,13 +168,13 @@ GET http://localhost:8080/ChannelFinder/resources/tags/alpha.sys.SR
 
 * DELETE the `alpha.sys.SR` tag
 
-```
+```json
 DELETE http://localhost:8080/ChannelFinder/resources/tags/alpha.sys.SR/SR04C:BPM2:SA:X1
 ```
 
 * GET the `alpha.sys.SR` tag
 
-```
+```json
 GET http://localhost:8080/ChannelFinder/resources/tags/alpha.sys.SR
 
 
@@ -197,12 +192,10 @@ GET http://localhost:8080/ChannelFinder/resources/tags/alpha.sys.SR
 }
 ```
 
-
 ## Permission
 
 `DELETE` needs a proper permission, it relates with `owner` and `group` within the embedded LDAP configuration. Please see `ldif` file for further information.
 
-
 ## Reference
-[1] https://insomnia.rest/
 
+[1] https://insomnia.rest/

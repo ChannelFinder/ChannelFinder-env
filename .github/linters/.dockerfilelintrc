@@ -1,3 +1,4 @@
 rules:
   uppercase_commands: off
   expose_host_port: off
+  invalid_port: off

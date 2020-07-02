@@ -17,7 +17,7 @@ docker pull jeonghanlee/channelfinder:4-v0.1.0
 
 ## Run
 
-### Run with console outputs 
+### Run with console outputs
 
 ```bash
 docker run --network=host  --name=channelfinder jeonghanlee/channelfinder:4-v0.1.0

@@ -1,4 +1,4 @@
-name: Lint Code Base
+name: Linter Run
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
       - name: Lint Code Base
-        uses: docker://github/super-linter:latest
+        uses: docker://github/super-linter:v3.2.0
         env:
           VALIDATE_ALL_CODEBASE: true
 

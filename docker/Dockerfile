@@ -1,3 +1,9 @@
+#
+#  author  : Jeong Han Lee
+#  email   : jeonghan.lee@gmail.com
+#  date    : Wednesday, July  1 14:32:24 PDT 2020
+#  version : 0.0.1
+#
 # bluster-slim doesn't have libtcnativ-1, which we need to run CF
 # So, even if we have the huge image, I would like to reduce the
 # running docker image size. So, introduce the multi-stage builder pattern.
@@ -11,6 +17,7 @@ ARG RS_SERVER_PORT=5075
 ARG RS_PORT_BROADCAST=5076
 ARG CF_PORT_HTTP=8080
 ARG CF_PORT_HTTPS=8443
+ARG CF_INSTALL_LOCATION=/opt/channelfinder
 
 RUN apt update
 RUN apt install -y \
@@ -22,6 +29,7 @@ RUN apt install -y \
 WORKDIR $WorkPath
 COPY . .
 RUN echo "CF_PORT:=${CF_PORT_HTTP}" > configure/CONFIG_COMMON.local
+RUN echo "CF_INSTALL_LOCATION:=${CF_INSTALL_LOCATION}" > configure/CONFIG_SITE.local
 RUN make distclean && \
     make init && \
     make conf && \
@@ -41,6 +49,7 @@ ARG RS_SERVER_PORT=5075
 ARG RS_PORT_BROADCAST=5076
 ARG CF_PORT_HTTP=8080
 ARG CF_PORT_HTTPS=8443
+ARG CF_INSTALL_LOCATION=/opt/channelfinder
 ARG TZ=America/Los_Angeles
 
 # Labels.
@@ -50,33 +59,36 @@ LABEL org.label-schema.name="jeonghanlee/channelfinder"
 LABEL org.label-schema.description="EPICS ChannelFinder Docker Image"
 LABEL org.label-schema.url="https://github.com/ChannelFinder/ChannelFinder-env/"
 LABEL org.label-schema.version=$BUILD_VERSION
-LABEL org.label-schema.docker.cmd="docker run --network=host --detach --rm --name=channelfinder jeonghanlee/channelfinder:latest"
+LABEL org.label-schema.docker.cmd="docker run --network=host --detach --rm --name=channelfinder jeonghanlee/channelfinder:tagname"
 
 
 ### RecCeiver PORT configuration.
-### DO NOT CHANGE them
 ENV RS_SERVER_PORT ${RS_SERVER_PORT}
 ENV RS_PORT_BROADCAST ${RS_PORT_BROADCAST}
 #
-### ChannelFinder HTTP PORT  through Tomcat <<<<---- Most likely you would like to change this
-ENV CF_PORT_HTTP ${CF_PORT_HTTP}
+
 #
 ### DO NOT CHANGE IT
 ENV LDAP_SERVER_PORT 8389
 #
+### ChannelFinder HTTP PORT  through Tomcat
+ENV CF_PORT_HTTP ${CF_PORT_HTTP}
 ### ChannelFinder HTTPS PORT through Tomcat
 ENV CF_PORT_HTTPS ${CF_PORT_HTTPS}
-#
+### ChannelFinder Installation Loation
+ENV CF_INSTALL_LOCATION ${CF_INSTALL_LOCATION}
+
 ### YOUR TIME ZONE
 ENV TZ ${TZ}
-
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+### Reconfigure locale and tzdata
 RUN dpkg-reconfigure -f noninteractive tzdata
-RUN apt update && apt install -y openjdk-11-jre libtcnative-1
+### Install minimal packages for ChannelFinder
+RUN apt update && apt install -y openjdk-11-jre libtcnative-1 nano
 
-COPY ./docker/scripts/entrypoint.sh /entrypoint.sh
-WORKDIR /opt/channelfinder
-COPY --from=builder /opt/channelfinder .
+
+WORKDIR ${CF_INSTALL_LOCATION}
+COPY --from=builder ${CF_INSTALL_LOCATION} .
 ##
 # CF Port : http
 EXPOSE ${CF_PORT_HTTP}/tcp
@@ -92,4 +104,5 @@ EXPOSE ${RS_SERVER_PORT}/udp
 EXPOSE ${LDAP_SERVER_PORT}/tcp
 EXPOSE ${LDAP_SERVER_PORT}/udp
 #
+COPY ./docker/scripts/entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

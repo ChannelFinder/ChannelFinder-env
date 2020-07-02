@@ -22,7 +22,8 @@ function usage
 
 
 
-JAR=$(find /opt/channelfinder/ -name "ChannelFinder*.jar")
+
+JAR=$(find ${CF_INSTALL_LOCATION} -name "ChannelFinder*.jar")
 
 options="o:"
 

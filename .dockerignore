@@ -1,0 +1,7 @@
+# Due to Multi-staging build, we do not gain much
+*/temp*
+*/*/temp*
+temp?
+*.md
+!README.md
+**/*.class

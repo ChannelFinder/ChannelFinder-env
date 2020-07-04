@@ -6,7 +6,7 @@ install.docker:
 	$(QUIET)$(INSTALL) -m 744 $(CF_SRC_PATH)/target/$(CF_JAR_FILENAME)  $(CF_INSTALL_LOCATION)/
 
 build.docker: distclean
-	$(QUIET) bash $(TOP)/docker/scripts/docker_builder.bash -a "CF_INSTALL_LOCATION=$(CF_INSTALL_LOCATION) CF_PORT_HTTP=$(CF_PORT)"
+	$(QUIET) bash $(TOP)/docker/scripts/docker_builder.bash -a "CF_INSTALL_LOCATION=$(CF_INSTALL_LOCATION)" -a "CF_PORT_HTTP=$(CF_PORT)"
 
 
 prune.docker:

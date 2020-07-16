@@ -5,3 +5,10 @@ temp?
 *.md
 !README.md
 **/*.class
+examples
+elastic-stack
+*-src
+*.md
+LICENSE
+docs
+*Dockerfile*

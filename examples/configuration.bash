@@ -1,9 +1,15 @@
 
 
+
 cf_host=localhost
 cf_port=8080
-cf_url=http://${cf_host}:${cf_port}/ChannelFinder/resources
+# shellcheck disable=SC2034
+cf_url=http://"${cf_host}:${cf_port}/ChannelFinder/resources"
 
+
+# admin, cfuser, channel
+# username, and its password should be matched with the running ldif file.
+#
 
 function print_help
 {
@@ -12,10 +18,8 @@ function print_help
     printf "\n>>> %s : %s ....\n" "$a" "$b";
 }
 
-
 function get_list_from_a_file
 {
-    local empty_string="";
     declare -a entry=();
  
     while IFS= read -r line_data; do
@@ -25,8 +29,7 @@ function get_list_from_a_file
 	    entry[i]="${line_data}"
 	    ((++i))
 	fi
-    done < $1
+    done < "$1"
  
-    echo ${entry[@]}
+    echo "${entry[@]}"
 }
-

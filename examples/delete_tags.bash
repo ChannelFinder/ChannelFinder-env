@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
-declare -gr SC_SCRIPT="$(realpath "$0")"
-declare -gr SC_SCRIPTNAME=${0##*/}
-declare -gr SC_TOP="${SC_SCRIPT%/*}"
 
-. ${SC_TOP}/configuration.bash
+declare -g SC_SCRIPT;
+declare -g SC_TOP;
 
-list="$(get_list_from_a_file ${SC_TOP}/TAGS)"
+SC_SCRIPT="$(realpath "$0")";
+SC_TOP="${SC_SCRIPT%/*}"
 
-URL=${cf_url}/tags
+# shellcheck disable=SC1090
+. "${SC_TOP}"/configuration.bash
+
+list=$(get_list_from_a_file "${SC_TOP}"/TAGS)
+
+# shellcheck disable=SC2154
+URL="${cf_url}"/tags
 
 # admin, cfuser, property
 # username, and its password should be matched with the running ldif file.
@@ -16,15 +21,15 @@ URL=${cf_url}/tags
 
 cf_userid=tag
 cf_passwd=1234
-cf_user=${cf_userid}:${cf_passwd}
+cf_user="${cf_userid}:${cf_passwd}"
 
-for a_tag in  ${list[@]}; do
+for a_tag in  "${list[@]}"; do
     print_help "DELETE" "$a_tag"
-    curl -u $cf_user -X DELETE ${URL}/${a_tag}
+    curl -u $cf_user -X DELETE "${URL}/${a_tag}"
     printf "\n"
 done
 
 print_help "GET" "tags"
-curl -X GET ${URL}
+curl -X GET "${URL}"
 printf "\n";
 

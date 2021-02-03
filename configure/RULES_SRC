@@ -60,6 +60,7 @@ conf:
 		    -e "s:@CF_PORT@:$(CF_PORT):g" \
 		    -e "s:@ES_HOST@:$(ES_HOST):g" \
 		    -e "s:@ES_PORT@:$(ES_PORT):g" \
+		    -e "s:@CF_QUERY_SIZE@:$(CF_QUERY_SIZE):g" \
 		    < $(CF_SITE_TEMPLATE_PATH)/application.properties.in > $(CF_SITE_TEMPLATE_PATH)/application.properties
 	$(QUIET)cp $(CF_SITE_TEMPLATE_PATH)/$(CF_LDIF)     $(CF_SITE_SPECIFIC_FILES_PATH)/
 	$(QUIET)cp $(CF_SITE_TEMPLATE_PATH)/$(CF_SSHKEY)   $(CF_SITE_SPECIFIC_FILES_PATH)/keystore/

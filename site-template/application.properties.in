@@ -72,4 +72,4 @@ elasticsearch.channel.index = channelfinder
 elasticsearch.channel.type = cf_channel
 
 # maximum query result size
-elasticsearch.query.size = 10000
+elasticsearch.query.size = @CF_QUERY_SIZE@ 

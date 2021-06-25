@@ -3,6 +3,10 @@ name: Linter Run
 on:
   push:
     branches: [master]
+    paths:
+    - '*.md'
+    - 'docker/scripts/**'
+    - '.github/workflows/linter.yml'
   pull_request:
     branches: [master]
 

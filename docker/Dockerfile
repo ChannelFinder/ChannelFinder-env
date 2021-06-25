@@ -47,11 +47,11 @@ ARG TZ=America/Los_Angeles
 # Labels.
 LABEL org.label-schema.schema-version="1.0"
 LABEL org.label-schema.build-date=$BUILD_DATE
-LABEL org.label-schema.name="jeonghanlee/channelfinder"
+LABEL org.label-schema.name="alscontrols/channelfinder"
 LABEL org.label-schema.description="EPICS ChannelFinder Docker Image"
 LABEL org.label-schema.url="https://github.com/ChannelFinder/ChannelFinder-env/"
 LABEL org.label-schema.version=$BUILD_VERSION
-LABEL org.label-schema.docker.cmd="docker run --network=host --detach --rm --name=channelfinder jeonghanlee/channelfinder:latest"
+LABEL org.label-schema.docker.cmd="docker run --network=host --detach --rm --name=channelfinder alscontrols/channelfinder:latest"
 
 
 ### RecCeiver PORT configuration.

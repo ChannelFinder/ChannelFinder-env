@@ -1,13 +1,13 @@
 # 0. change name
-name: ChannelFinder-Springboot 
+name: ChannelFinderService
 # change path name
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
     paths:
     - 'docker/**'
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 #    
 jobs:
 # change job name

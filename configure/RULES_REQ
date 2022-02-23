@@ -16,9 +16,9 @@ es_status:
 ## Create the ES indexes and set up their mapping
 es_mapping:
 	$(QUIET)bash $(CF_SITE_TEMPLATE_PATH)/mapping_definitions.bash
-	$(QUIET)curl -XPUT "http://localhost:9200/channelfinder/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
-	$(QUIET)curl -XPUT "http://localhost:9200/cf_properties/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
-	$(QUIET)curl -XPUT "http://localhost:9200/cf_tags/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
+	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/channelfinder/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
+	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/cf_properties/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
+	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/cf_tags/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
 
 ## Clean all ES indexes and their mapping
 es_mapping_clean:

@@ -1,30 +1,30 @@
-# This workflow will build a Java project with Maven
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
-
-name: ChannelFinder-env Build Test
+---
+name: Ubuntu Latest
 
 on:
   push:
     branches: [ master ]
+    paths-ignores:
+      - '*.md'
+      - 'examples/*.bash'
+
   pull_request:
     branches: [ master ]
 
 jobs:
-  build:
+  Ubuntu:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
+    - uses: actions/checkout@v3
+    - uses: actions/setup-java@v3
       with:
-        java-version: '11.0.x'
-        java-package: jdk
-        architecture: x64
+        distribution: 'zulu'
+        java-version: '18'
+        cache: 'maven'
     - run: |
         java -version
-        echo $JAVA_HOME
-        echo $PATH
         mvn --version
     - run: sudo apt-get install make tree git 
     - run: |
@@ -36,4 +36,3 @@ jobs:
         make install
     - run: make exist
      
-                

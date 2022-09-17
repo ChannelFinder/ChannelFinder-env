@@ -1,15 +1,19 @@
 
 ### channelfinder installation location
-CF_INSTALL_LOCATION=/opt/channelfinder
+CF_INSTALL_PATH=/opt
+CF_INSTALL_LOCATION=${CF_INSTALL_PATH}/channelfinder
+
 
 
 ### Placeholder
 ### This variable will be replaced by reading a pom.xml file or others
 ### It may be linked with SRC_VERSION in RELEASE file
 ### 
-CF_JAR_FILENAME:=ChannelFinder-4.0.0.jar
+CF_JAR_FILENAME:=ChannelFinder-$(CF_SRC_VERSION).jar
 
+CF_PROPERTIES:=application.properties
 
+SYSTEMD_PATH:=/etc/systemd/system
 ### 
 ### These two parameters are used to generate application.properties from application.properties.in
 ###
@@ -25,7 +29,18 @@ CF_JAVA_OPTS:=-Xms512m -Xmx512m
 
 CF_MVN_OPTS:=
 
-SYSTEMD_PATH:=/etc/systemd/system
+
+CF_SITE_TEMPLATE_PATH=$(TOP)/site-template
+
+# SYSTEDM Required and After Service List
+# This is After and Required services for the systemd archiver appliance systemd service.
+# mariadb.service was defined in there, but sometimes, we need to check our directories where
+# our data will be saved.
+# one can check the mounting service name through  `systemctl list-units --type=mount`
+# Here is the example for the ALS environment
+# CONFIG_SITE.local can be used to hold this information locally
+# Each service need one space between them, and backslash must be double backslash
+CF_SYSTEMD_SERVICES:=
 
 # These allow developers to override the CONFIG_SITE variable
 # settings without having to modify the configure/CONFIG_SITE

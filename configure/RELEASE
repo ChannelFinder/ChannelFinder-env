@@ -6,10 +6,10 @@ CF_SRC_NAME:=ChannelFinderService
 
 
 ##- Which the source tag / branch / hash id would like to use
-CF_SRC_TAG:=ef86257
+CF_SRC_TAG:=ChannelFinder-4.7.0
 
 ##- Placeholder for the site-specific version control
-CF_SRC_VERSION:=4.0.1
+CF_SRC_VERSION:=4.7.0
 
 
 -include $(TOP)/../RELEASE.local

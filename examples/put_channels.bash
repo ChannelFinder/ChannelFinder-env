@@ -7,7 +7,7 @@ SC_SCRIPT="$(realpath "$0")";
 SC_TOP="${SC_SCRIPT%/*}"
 
 
-# shellcheck disable=SC1090
+# shellcheck disable=SC1090,SC1091
 . "${SC_TOP}"/configuration.bash
 
 list=$(get_list_from_a_file "${SC_TOP}"/CHANNELS)

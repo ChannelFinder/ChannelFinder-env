@@ -1,0 +1,32 @@
+
+
+properties_RULES_NAMES:=properties
+conf_properties_RULES:=$(addprefix conf., $(properties_RULES_NAMES))
+show_properties_RULES:=$(addsuffix .show, $(conf_properties_RULES))
+
+RULES_VARS+=conf.cfproperties conf.cfproperties.show
+
+conf.cfproperties: $(conf_properties_RULES)
+
+conf.cfproperties.show: $(show_properties_RULES)
+
+conf.properties: $(CF_PROPERTIES).in
+	$(QUIET)echo ">>> Generate $(basename $<) from $<"
+	$(QUIET)sed -e "s|@SSHKEY@|$(CF_SSHKEY)|g" \
+		        -e "s|@SSHKEYALIAS@|$(CF_SSHKEYALIAS)|g" \
+		        -e "s|@CFLDIF@|$(CF_LDIF)|g" \
+		        -e "s|@CF_PORT@|$(CF_PORT)|g" \
+		        -e "s|@ES_HOST@|$(ES_HOST)|g" \
+		        -e "s|@ES_PORT@|$(ES_PORT)|g" \
+		        -e "s|@CF_QUERY_SIZE@|$(CF_QUERY_SIZE)|g" \
+		        < $< > $(basename $<)
+	rm -f $(CF_SITE_SPECIFIC_FILES_PATH)/$(notdir $(basename $<))
+	$(QUIET)echo ">>> Copy $(basename $<) to $(CF_SITE_SPECIFIC_FILES_PATH)"
+	$(QUIET)$(INSTALL_DATA) $(basename $<) $(CF_SITE_SPECIFIC_FILES_PATH)/
+#	$(QUIET)cp $(CF_SITE_TEMPLATE_PATH)/$(CF_LDIF)     $(CF_SITE_SPECIFIC_FILES_PATH)/
+#	$(QUIET)cp $(CF_SITE_TEMPLATE_PATH)/$(CF_SSHKEY)   $(CF_SITE_SPECIFIC_FILES_PATH)/keystore/
+#	$(QUIET)cp $(CF_SITE_TEMPLATE_PATH)/application.properties $(CF_SITE_SPECIFIC_FILES_PATH)/
+
+conf.properties.show: $(CF_PROPERTIES).in
+	$(QUIET)cat -b $(basename $<)
+

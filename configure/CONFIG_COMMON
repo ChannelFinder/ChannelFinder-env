@@ -1,6 +1,11 @@
 
+# Debian
+JAVA_HOME:=/usr/lib/jvm/default-java
+MAVEN_HOME:=/usr/share/maven
+TOMCAT_HOME:=/usr/share/tomcat9
 
-JAVA_PATH=/usr/bin
+JAVA_PATH:=$(JAVA_HOME)/bin
+MAVEN_PATH:=$(MAVEN_HOME)/bin
 
 ## Elasticsearch Server
 ES_HOST:=localhost

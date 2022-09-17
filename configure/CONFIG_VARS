@@ -10,3 +10,10 @@ CF_SRC_GITURL:=$(CF_SRC_URL)/$(CF_SRC_NAME)
 ### CF_SRC_PATH used for a local directory which is a clone git repository
 CF_SRC_PATH:=$(CF_SRC_NAME)-src
 
+
+#DOCURL:=https://docs.payara.fish/community/docs/$(SRC_VERSION)/README.html
+DOCURL:=$(CF_SRC_GITURL)
+
+# These allow developers to override the variable
+-include $(TOP)/../CONFIG_VARS.local
+-include $(TOP)/configure/CONFIG_VARS.local

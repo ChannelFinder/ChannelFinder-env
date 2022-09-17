@@ -1,26 +1,27 @@
+RULES_VARS+=$(foreach v, $(filter %_RULES,$(.VARIABLES)), $(v))
+RULES_VARS+=$(foreach v, $(filter %_RULES_NAMES,$(.VARIABLES)), $(v))
+
 VARS_EXCLUDES+=.SHELLSTATUS
 VARS_EXCLUDES+=INIT_SRC
-VARS_EXCLUDES+=SITE_SPECIFIC_FILES_PATH
-VARS_EXCLUDES+=RS_%
-VARS_EXCLUDES+=AS_%
-VARS_EXCLUDES+=OG_%
-VARS_EXCLUDES+=PS_%
-VARS_EXCLUDES+=KAFKA_%
-VARS_EXCLUDES+=ALARM_%
-VARS_EXCLUDES+=AL_%
-VARS_EXCLUDES+=AA_%
+VARS_EXCLUDES+=FILTER
+VARS_EXCLUDES+=LEVEL
+VARS_EXCLUDES+=$(filter JAR_%, $(.VARIABLES))
+VARS_EXCLUDES+=$(RULES_VARS)
+VARS_EXCLUDES+=%_RULES_VARS
+VARS_EXCLUDES+=a_service_BUIDER buildrules_BUILDER
+
+.PHONY: $(RULES_VARS)
 
 LEVEL?=1
-
 FILTER?=1
+LSOPTS?="-lta"
+
 
 ifeq "$(FILTER)" "1"
 SRC_VARIABLES:=$(sort $(filter-out $(VARS_EXCLUDES) VARS_EXCLUDES,$(.VARIABLES)))
 else
 SRC_VARIABLES:=$(filter $(FILTER)%, $(sort $(filter-out $(VARS_EXCLUDES) VARS_EXCLUDES,$(.VARIABLES))))
 endif
-
-
 
 .PHONY : env vars header
 
@@ -45,15 +46,28 @@ print-%:
 	$(QUIET)echo $* = $($*)
 	$(QUIET)echo $*\'s origin is $(origin $*)
 
+ls.%:
+	$(QUIET) ls $(LSOPTS) $($*)
+
+tree.%:
+	$(QUIET) tree -aL $(LEVEL) $($*)
+
+cat.%:
+	$(QUIET) cat -b $($*)
+
+FORCE:
+
 .PHONY : exist
 
 exist:
-	$(if $(wildcard $(CF_INSTALL_LOCATION)), tree -aL $(LEVEL) $(CF_INSTALL_LOCATION), $(QUIET)echo "No $(CF_INSTALL_LOCATION)")
+ifeq (, $(shell which tree))
+	$(if $(wildcard $(CF_INSTALL_LOCATION)), @ ls -d $(CF_INSTALL_LOCATION) && find $(CF_INSTALL_LOCATION)/ -maxdepth $(LEVEL) | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/:---\1/")
+else
+	$(if $(wildcard $(CF_INSTALL_LOCATION)), tree -pugaL $(LEVEL) $(CF_INSTALL_LOCATION), $(QUIET)echo "No $(CF_INSTALL_LOCATION)")
+endif
 
 
 .DELETE_ON_ERROR:
 
 .NOTPARALLEL:
 
-
-VARS_EXCLUDES+=FILTER

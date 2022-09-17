@@ -1,9 +1,13 @@
 
+vpath %.in $(CF_SITE_TEMPLATE_PATH)
+vpath %.properties $(CF_SITE_TEMPLATE_PATH)
+#
 
 include $(TOP)/configure/RULES_FUNC
 include $(TOP)/configure/RULES_REQ
 include $(TOP)/configure/RULES_SRC
 include $(TOP)/configure/RULES_INSTALL
+include $(TOP)/configure/RULES_PROPERTIES
 include $(TOP)/configure/RULES_DOCKER
 include $(TOP)/configure/RULES_VARS
 

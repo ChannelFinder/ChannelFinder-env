@@ -11,7 +11,7 @@ Requires=elasticsearch.service
 ExecStart=_JAVAPATH_/java _JAVAOPTS_ -jar _CFPATH_/_CHANNELFINDER_JAR_NAME_
 SuccessExitStatus=143 
 
-ExecReload=kill -SIGINT $MAINPID
+ExecReload=/usr/bin/kill -SIGINT $MAINPID
 KillMode=process
 
 Restart=on-failure

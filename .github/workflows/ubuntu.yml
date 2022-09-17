@@ -25,6 +25,8 @@ jobs:
     - run: |
         java -version
         mvn --version
+        echo $JAVA_HOME
+        echo $MVN_HOME
     - run: sudo apt-get install make tree git 
     - run: |
         make init

@@ -54,5 +54,5 @@ jobs:
           file: ${{ github.workspace }}/${{ env.DOCKER_FILE }}
           push: ${{ github.event_name != 'pull_request' }}
           tags:
-            ${{env.DOCKER_ACCOUNT}}/${{env.DOCKER_REPO}}:${{env.DOCKER_TAG}
+            ${{env.DOCKER_ACCOUNT}}/${{env.DOCKER_REPO}}:${{env.DOCKER_TAG}}
           labels: ${{ steps.meta.outputs.labels }}

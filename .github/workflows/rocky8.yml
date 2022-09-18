@@ -27,7 +27,9 @@ jobs:
         distribution: 'zulu'
         java-version: '18.0.2'
     - name: Install required packages
-      run: dnf install -y git make sudo which
+      run: |
+        dnf update -y
+        dnf install -y git make sudo which maven
     - name: Check JAVA configuration
       run: |
         which java

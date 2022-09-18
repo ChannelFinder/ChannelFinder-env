@@ -28,7 +28,9 @@ jobs:
         distribution: 'zulu'
         java-version: '18.0.2'
     - name: Install required packages
-      run: apt install -y git make sudo tree  
+      run: |
+        apt update -y
+        apt install -y git make sudo tree maven
     - name: Check JAVA configuration
       run: |
         which java

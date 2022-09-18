@@ -13,17 +13,32 @@ Configuration Environment for ChannelFinderService at <https://github.com/Channe
 git make sudo tree maven
 ```
 
-## Debian 11 (EOL: 2024-06-01/2026-08-15)
+## JAVA
 
+The following four variables must be defined. Please setup them according to one's systems configuration.
 
-## Rocky8 (EOL: 2029-05-31)
+```bash
+        echo "JAVA_HOME:=/usr/"      > ./configure/CONFIG_COMMON.local
+        echo "JAVA_PATH:=/usr/bin"  >> ./configure/CONFIG_COMMON.local
+        echo "MAVEN_HOME:=/usr/"    >> ./configure/CONFIG_COMMON.local
+        echo "MAVEN_PATH:=/usr/bin" >> ./configure/CONFIG_COMMON.local
+```
 
-See [docs/README.rocky8.md](docs/README.rocky8.md).
+## Support OS [Debian 11 (EOL: 2024-06-01/2026-08-15), Rocky8 (EOL: 2029-05-31)]
+
+It will works with other systems. Please check github action workflows.
+
+```bash
+make init
+make conf
+make build
+make install
+make sd_start
+make sd_status
+```
 
 ## Docker Image
 
-See [docs/Docker.md](docs/Docker.md) :whale:
+The Docker image is hosted at https://hub.docker.com/orgs/alscontrols
+And for further information, please see [docs/Docker.md](docs/Docker.md) :whale:
 
-## Reference
-
-[1] <https://epics-controls.org/>

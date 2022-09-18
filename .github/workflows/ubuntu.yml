@@ -21,16 +21,15 @@ jobs:
     - uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
-        java-version: '18'
-    - run: |
-        java -version
-        mvn --version
-        echo $JAVA_HOME
-        echo $MVN_HOME
+        java-version: '18.0.2'
     - run: sudo apt-get install make tree git 
+    - run: |
+        which java
+        which mvn
     - run: |
         make init
         make vars
+        make github.conf
         make conf
     - run: |
         make build

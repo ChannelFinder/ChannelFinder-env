@@ -7,8 +7,8 @@ github.conf:
 	$(QUIET)-rm -f $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)echo "JAVA_HOME:=${JAVA_HOME}"  > $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)echo "JAVA_PATH:=${JAVA_HOME}/bin" >> $(TOP)/configure/CONFIG_COMMON.local
-	$(QUIET)echo "MAVEN_HOME:=/usr/share/apache-maven-3.8.6"     >> $(TOP)/configure/CONFIG_COMMON.local
-	$(QUIET)echo "MAVEN_PATH:=/usr/share/apache-maven-3.8.6/bin" >> $(TOP)/configure/CONFIG_COMMON.local
+	$(QUIET)echo "MAVEN_HOME:=/usr/"     >> $(TOP)/configure/CONFIG_COMMON.local
+	$(QUIET)echo "MAVEN_PATH:=/usr/bin" >> $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)cat -b $(TOP)/configure/CONFIG_COMMON.local
 
 rocky8.conf:

@@ -47,7 +47,7 @@ jobs:
     - name: Build 
       run: |
         make build
-        make install
+        make cf_install
     - name: Environment Check
       run: make exist
      

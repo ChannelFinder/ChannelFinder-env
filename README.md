@@ -1,7 +1,8 @@
 # ChannelFinder-env
-
-![ChannelFinder-env Build Test](https://github.com/ChannelFinder/ChannelFinder-env/workflows/ChannelFinder-env%20Build%20Test/badge.svg)
-![Docker Image CI](https://github.com/ChannelFinder/ChannelFinder-env/workflows/Docker%20Image%20CI/badge.svg)
+[![Debian 11](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/debian11.yml/badge.svg)](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/debian11.yml)
+[![Rocky8](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/rocky8.yml/badge.svg)](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/rocky8.yml)
+[![Ubuntu Latest](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/ubuntu.yml)
+[![ChannelFinderService](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/docker.yml/badge.svg)](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/docker.yml)
 ![Linter Run](https://github.com/ChannelFinder/ChannelFinder-env/workflows/Linter%20Run/badge.svg)
 
 Configuration Environment for ChannelFinderService at <https://github.com/ChannelFinder/ChannelFinderService>

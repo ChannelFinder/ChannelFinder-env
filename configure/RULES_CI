@@ -7,7 +7,6 @@ rocky8.conf:
 	$(QUIET)-rm -f $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)echo "JAVA_HOME:=/usr/lib/jvm/jre-11-openjdk"  > $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)echo "JAVA_PATH:=/usr/lib/jvm/jre-11-openjdk/bin" >> $(TOP)/configure/CONFIG_COMMON.local
-	$(QUIET)echo "TOMCAT_HOME:=/opt/tomcat9"              >> $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)cat -b $(TOP)/configure/CONFIG_COMMON.local
 
 macos.conf:
@@ -17,13 +16,11 @@ macos.conf:
 	$(QUIET)echo "JAVA_PATH:=/Library/Java/JavaVirtualMachines/openjdk17-zulu/Contents/Home/bin" >> $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)echo "ANT_HOME:=/opt/local/share/java/apache-ant"                                    >> $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)echo "ANT_PATH:=/opt/local/share/java/apache-ant/bin"                                >> $(TOP)/configure/CONFIG_COMMON.local
-	$(QUIET)echo "TOMCAT_HOME:=/opt/tomcat9"                                                     >> $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)cat -b $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)echo ">>> Generating $(TOP)/configure/CONFIG_SITE.local"
 	$(QUIET)-rm -f $(TOP)/configure/CONFIG_SITE.local
 	$(QUIET)echo "USERID:=${USER}"                     > $(TOP)/configure/CONFIG_SITE.local
 	$(QUIET)echo "GROUPID:=20"                        >> $(TOP)/configure/CONFIG_SITE.local
-	$(QUIET)echo "ARCHAPPL_LONG_TERM_FOLDER=$(ARCHAPPL_STORAGE_TOP)/lts/ArchiverStore" >> $(TOP)/configure/CONFIG_SITE.local
 	$(QUIET)cat -b $(TOP)/configure/CONFIG_SITE.local
 
 

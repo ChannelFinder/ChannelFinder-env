@@ -28,8 +28,11 @@ jobs:
         which mvn
     - run: |
         make init
+        echo "JAVA_HOME:=${JAVA_HOME}"      > ./configure/CONFIG_COMMON.local
+        echo "JAVA_PATH:=${JAVA_HOME}/bin" >> ./configure/CONFIG_COMMON.local
+        echo "MAVEN_HOME:=/usr/"           >> ./configure/CONFIG_COMMON.local
+        echo "MAVEN_PATH:=/usr/bin"        >> ./configure/CONFIG_COMMON.local
         make vars
-        make github.conf
         make conf
     - run: |
         make build

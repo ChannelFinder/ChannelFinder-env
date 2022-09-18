@@ -1,5 +1,5 @@
 ---
-name: Ubuntu Latest
+name: Rocky8
 
 on:
   push:
@@ -8,16 +8,17 @@ on:
       - '*.md'
       - 'examples/*.bash'
       - 'docker/**'
-      - '.github/workflows/rocky8.yml'
-      - '.github/workflows/docker.yml'
+      - '.github/workflows/ubuntu.yml'
+      - '.github/workflows/dockyer.yml'
 
   pull_request:
     branches: [ master ]
 
 jobs:
-  Ubuntu:
+  Rocky8:
 
     runs-on: ubuntu-latest
+    container: rockylinux/rockylinux:8
 
     steps:
     - uses: actions/checkout@v3
@@ -26,7 +27,7 @@ jobs:
         distribution: 'zulu'
         java-version: '18.0.2'
     - name: Install required packages
-      run: sudo apt install -y make tree git 
+      run: dnf install -y git make sudo which
     - name: Check JAVA configuration
       run: |
         which java

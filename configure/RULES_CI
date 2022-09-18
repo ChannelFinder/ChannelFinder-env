@@ -2,15 +2,6 @@
 
 centos7.conf: rocky8.conf
 
-github.conf:
-	$(QUIET)echo ">>> Generating $(TOP)/configure/CONFIG_COMMON.local"
-	$(QUIET)-rm -f $(TOP)/configure/CONFIG_COMMON.local
-	$(QUIET)echo "JAVA_HOME:=${JAVA_HOME}"  > $(TOP)/configure/CONFIG_COMMON.local
-	$(QUIET)echo "JAVA_PATH:=${JAVA_HOME}/bin" >> $(TOP)/configure/CONFIG_COMMON.local
-	$(QUIET)echo "MAVEN_HOME:=/usr/"     >> $(TOP)/configure/CONFIG_COMMON.local
-	$(QUIET)echo "MAVEN_PATH:=/usr/bin" >> $(TOP)/configure/CONFIG_COMMON.local
-	$(QUIET)cat -b $(TOP)/configure/CONFIG_COMMON.local
-
 rocky8.conf:
 	$(QUIET)echo ">>> Generating $(TOP)/configure/CONFIG_COMMON.local"
 	$(QUIET)-rm -f $(TOP)/configure/CONFIG_COMMON.local

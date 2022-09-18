@@ -1,5 +1,5 @@
 ---
-name: Ubuntu Latest
+name: Debian 11
 
 on:
   push:
@@ -8,16 +8,18 @@ on:
       - '*.md'
       - 'examples/*.bash'
       - 'docker/**'
-      - '.github/workflows/rocky8.yml'
       - '.github/workflows/docker.yml'
+      - '.github/workflows/ubuntu.yml'
+      - '.github/workflows/rocky8.yml'
 
   pull_request:
     branches: [ master ]
 
 jobs:
-  Ubuntu:
+  Debian11:
 
     runs-on: ubuntu-latest
+    container: debian:bullseye
 
     steps:
     - uses: actions/checkout@v3
@@ -26,7 +28,7 @@ jobs:
         distribution: 'zulu'
         java-version: '18.0.2'
     - name: Install required packages
-      run: sudo apt install -y make tree git 
+      run: apt install -y git make sudo tree  
     - name: Check JAVA configuration
       run: |
         which java

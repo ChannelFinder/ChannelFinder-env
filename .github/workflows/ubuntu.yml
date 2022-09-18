@@ -8,7 +8,9 @@ on:
       - '*.md'
       - 'examples/*.bash'
       - 'docker/**'
+      - '.github/workflows/docker.yml'
       - '.github/workflows/rocky8.yml'
+      - '.github/workflows/linter.yml'
       - '.github/workflows/docker.yml'
 
   pull_request:

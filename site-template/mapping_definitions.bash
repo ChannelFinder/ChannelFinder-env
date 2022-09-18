@@ -19,18 +19,20 @@
 #   date    : Thursday, February 20 14:39:35 PST 2020
 #   version : 0.0.1
 
-declare -gr SC_SCRIPT="$(realpath "$0")"
-declare -gr SC_SCRIPTNAME=${0##*/}
-declare -gr SC_TOP="${SC_SCRIPT%/*}"
+declare -g SC_SCRIPT;
+declare -g SC_TOP;
 
+SC_SCRIPT="$(realpath "$0")";
+SC_TOP="${SC_SCRIPT%/*}"
 
-. ${SC_TOP}/es_host.cfg
+# shellcheck disable=SC1090,SC1091
+. "${SC_TOP}"/es_host.cfg
 
 
 #Create the Index
 print_help "index/mapping" "cf_tags"
-
-curl -H 'Content-Type: application/json' -XPUT http://${es_host}:${es_port}/cf_tags -d'
+# shellcheck disable=SC2153,SC2154
+curl -H 'Content-Type: application/json' -XPUT http://"${es_host}":"${es_port}"/cf_tags -d'
 {
 "mappings":{
   "cf_tag" : {
@@ -47,7 +49,8 @@ curl -H 'Content-Type: application/json' -XPUT http://${es_host}:${es_port}/cf_t
 }'
 
 print_help "index/mapping" "cf_properties"
-curl -H 'Content-Type: application/json' -XPUT http://${es_host}:${es_port}/cf_properties -d'
+# shellcheck disable=SC2153,SC2154
+curl -H 'Content-Type: application/json' -XPUT http://"${es_host}":"${es_port}"/cf_properties -d'
 {
 "mappings":{
   "cf_property" : {
@@ -64,7 +67,8 @@ curl -H 'Content-Type: application/json' -XPUT http://${es_host}:${es_port}/cf_p
 }'
 
 print_help "index/mapping" "channelfinder"
-curl -H 'Content-Type: application/json' -XPUT http://${es_host}:${es_port}/channelfinder -d'
+# shellcheck disable=SC2153,SC2154
+curl -H 'Content-Type: application/json' -XPUT http://"${es_host}":"${es_port}"/channelfinder -d'
 {
 "mappings":{
   "cf_channel" : {

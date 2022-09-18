@@ -19,24 +19,29 @@
 #   date    : Wednesday, April 22 23:00:18 PDT 2020
 #   version : 0.0.2
 
-declare -gr SC_SCRIPT="$(realpath "$0")"
-declare -gr SC_SCRIPTNAME=${0##*/}
-declare -gr SC_TOP="${SC_SCRIPT%/*}"
+declare -g SC_SCRIPT;
+declare -g SC_TOP;
+
+SC_SCRIPT="$(realpath "$0")";
+SC_TOP="${SC_SCRIPT%/*}"
+
+# shellcheck disable=SC1090,SC1091
+. "${SC_TOP}/es_host.cfg"
 
 
-. ${SC_TOP}/es_host.cfg
-
+# shellcheck disable=SC2153,SC2154
+ES_URL="http://${es_host}:${es_port}"
 
 #Create the Index : three
 print_help "index" "cf_tags"
-curl -XPUT http://${es_host}:${es_port}/cf_tags
+curl -XPUT "$ES_URL"/cf_tags
 print_help "index" "cf_properties"
-curl -XPUT http://${es_host}:${es_port}/cf_properties
+curl -XPUT "$ES_URL"/cf_properties
 print_help "index" "channelfinder"
-curl -XPUT http://${es_host}:${es_port}/channelfinder
+curl -XPUT "$ES_URL"/channelfinder
 
 print_help "mapping" "cf_tags"
-curl -H 'Content-Type: application/json' -XPUT http://${es_host}:${es_port}/cf_tags/_mapping/cf_tag?include_type_name=true -d'
+curl -H 'Content-Type: application/json' -XPUT "${ES_URL}"/cf_tags/_mapping/cf_tag?include_type_name=true -d'
 {
   "cf_tag" : {
     "properties" : {
@@ -47,7 +52,8 @@ curl -H 'Content-Type: application/json' -XPUT http://${es_host}:${es_port}/cf_t
 }'
 
 print_help "mapping" "cf_properties"
-curl -H 'Content-Type: application/json' -XPUT http://${es_host}:${es_port}/cf_properties/_mapping/cf_property?include_type_name=true -d'
+
+curl -H 'Content-Type: application/json' -XPUT "${ES_URL}"/cf_properties/_mapping/cf_property?include_type_name=true -d'
 {
   "cf_property" : {
     "properties" : {
@@ -58,7 +64,7 @@ curl -H 'Content-Type: application/json' -XPUT http://${es_host}:${es_port}/cf_p
 }'
 
 print_help "mapping" "channelfinder"
-curl -H 'Content-Type: application/json' -XPUT http://${es_host}:${es_port}/channelfinder/_mapping/cf_channel?include_type_name=true -d'
+curl -H 'Content-Type: application/json' -XPUT "${ES_URL}"/channelfinder/_mapping/cf_channel?include_type_name=true -d'
 {
   "cf_channel" : {
     "properties" : {

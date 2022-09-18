@@ -11,6 +11,7 @@ on:
       - '.github/workflows/docker.yml'
       - '.github/workflows/ubuntu.yml'
       - '.github/workflows/rocky8.yml'
+      - '.github/workflows/linter.yml'
 
   pull_request:
     branches: [ master ]

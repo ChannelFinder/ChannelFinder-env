@@ -9,7 +9,9 @@ on:
       - 'examples/*.bash'
       - 'docker/**'
       - '.github/workflows/ubuntu.yml'
-      - '.github/workflows/dockyer.yml'
+      - '.github/workflows/docker.yml'
+      - '.github/workflows/ubuntu.yml'
+      - '.github/workflows/linter.yml'
 
   pull_request:
     branches: [ master ]

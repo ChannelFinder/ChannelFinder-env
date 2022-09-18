@@ -4,6 +4,7 @@
 [![Ubuntu Latest](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/ubuntu.yml)
 [![ChannelFinderService](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/docker.yml/badge.svg)](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/docker.yml)
 [![Linter Run](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/linter.yml/badge.svg)](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/linter.yml)
+[![Docker](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/docker.yml/badge.svg)](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/docker.yml)
 
 Configuration Environment for ChannelFinderService at <https://github.com/ChannelFinder/ChannelFinderService>
 

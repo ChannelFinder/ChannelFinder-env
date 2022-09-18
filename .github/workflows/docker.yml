@@ -12,7 +12,7 @@ on:
 #    
 jobs:
 # change job name
-  debian10:
+  Docker:
     runs-on: ubuntu-latest
     env:
         # change the following 4 variables

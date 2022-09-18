@@ -7,7 +7,7 @@
 #
 
 ## BuildEnv docker image size : 672MB
-FROM alpine:3.12 AS builder
+FROM alpine:3.16 AS builder
 ENV WorkPath /home/ChannelFinder-env
 ARG RS_SERVER_PORT=5075
 ARG RS_PORT_BROADCAST=5076
@@ -16,12 +16,17 @@ ARG CF_PORT_HTTPS=8443
 ARG CF_INSTALL_LOCATION=/opt/channelfinder
 
 ENV JAVA_HOME="/usr/lib/jvm/default-jvm/"
-RUN apk update && apk add openjdk11 maven git make
+RUN apk update && apk add openjdk17 maven git make
 
 WORKDIR $WorkPath
 COPY . .
-RUN echo "CF_PORT:=${CF_PORT_HTTP}" > configure/CONFIG_COMMON.local
+RUN echo "CF_PORT:=${CF_PORT_HTTP}" > configure/CONFIG_COMMON.local 
 RUN echo "CF_INSTALL_LOCATION:=${CF_INSTALL_LOCATION}" > configure/CONFIG_SITE.local
+RUN echo "JAVA_HOME:=/usr/lib/jvm/default-jvm/"    >> configure/CONFIG_COMMON.local
+RUN echo "JAVA_PATH:=/usr/lib/jvm/default-jvm/bin" >> configure/CONFIG_COMMON.local
+RUN echo "MAVEN_HOME:=/usr/"     >> configure/CONFIG_COMMON.local
+RUN echo "MAVEN_PATH:=/usr//bin" >> configure/CONFIG_COMMON.local
+
 RUN make distclean && \
     make init && \
     make conf && \
@@ -74,7 +79,7 @@ ENV CF_INSTALL_LOCATION ${CF_INSTALL_LOCATION}
 ENV TZ ${TZ}
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ### Install minimal packages for ChannelFinder
-RUN apk add --no-cache bash openjdk11-jre tomcat-native tzdata 
+RUN apk add --no-cache bash openjdk17-jre tomcat-native tzdata chrony
 
 WORKDIR ${CF_INSTALL_LOCATION}
 COPY --from=builder ${CF_INSTALL_LOCATION} .

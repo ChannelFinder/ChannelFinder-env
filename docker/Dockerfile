@@ -1,8 +1,8 @@
 #
 #  author  : Jeong Han Lee
 #  email   : jeonghan.lee@gmail.com
-#  date    : Wednesday, July  1 14:32:24 PDT 2020
-#  version : 0.0.2
+#  date    : Sat Sep 17 21:29:34 PDT 2022
+#  version : 0.0.3
 #
 #
 
@@ -16,6 +16,7 @@ ARG CF_PORT_HTTPS=8443
 ARG CF_INSTALL_LOCATION=/opt/channelfinder
 
 ENV JAVA_HOME="/usr/lib/jvm/default-jvm/"
+# We can check the package availbilities through docker run -t -i --entrypoint /bin/sh alpine:3.16
 RUN apk update && apk add openjdk17 maven git make
 
 WORKDIR $WorkPath

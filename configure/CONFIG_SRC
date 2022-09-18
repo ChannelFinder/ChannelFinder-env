@@ -15,8 +15,8 @@ endif
 
 PATH:=$(MAVEN_PATH):$(JAVA_PATH):${PATH}
 
-MAVEN_CMD:=$(MAVE_PATH)/mvn
-JAVA_CMD:=$(JAVA_PATH)/java 
+MAVEN_CMD=$(MAVEN_PATH)/mvn
+JAVA_CMD=$(JAVA_PATH)/java 
 
 
 CF_SITE_SPECIFIC_FILES_PATH:=$(CF_SRC_PATH)/src/main/resources

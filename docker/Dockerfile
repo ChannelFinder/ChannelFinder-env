@@ -37,7 +37,7 @@ RUN make distclean && \
 
 ## Multi-Stages build
 ## Running docker image size : 240MB
-FROM alpine:3.12
+FROM alpine:3.16
 LABEL maintainer="Jeong Han Lee <jeonghan.lee@gmail.com>"
 
 ARG BUILD_DATE
@@ -79,7 +79,7 @@ ENV CF_INSTALL_LOCATION ${CF_INSTALL_LOCATION}
 ENV TZ ${TZ}
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ### Install minimal packages for ChannelFinder
-RUN apk add --no-cache bash openjdk17-jre tomcat-native tzdata chrony
+RUN apk add --no-cache bash openjdk17-jre tomcat-native tzdata
 
 WORKDIR ${CF_INSTALL_LOCATION}
 COPY --from=builder ${CF_INSTALL_LOCATION} .

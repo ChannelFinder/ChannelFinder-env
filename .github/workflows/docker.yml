@@ -1,5 +1,5 @@
 # 0. change name
-name: ChannelFinderService
+name: Docker
 # change path name
 on:
   push:

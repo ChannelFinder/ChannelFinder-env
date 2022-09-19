@@ -1,0 +1,22 @@
+[Unit]
+Description=ChannelFinder Service
+Documentation=@DOCURL@
+After=syslog.target network.target @SYSTEMD_SERVICES@
+Requires=@SYSTEMD_SERVICES@
+
+[Service]
+# User=elasticsearch
+# Group=elasticsearch
+
+ExecStart=@CF_JAVA_PATH@/java @CF_JAVA_OPTS@ -jar @CF_INSTALL_LOCATION@/@CF_JAR_NAME@
+SuccessExitStatus=143 
+
+ExecReload=@CF_KILL_PATH@/kill -SIGINT $MAINPID
+KillMode=process
+
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+Alias=cf.service

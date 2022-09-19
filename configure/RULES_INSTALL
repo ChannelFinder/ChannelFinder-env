@@ -1,37 +1,4 @@
 
-.PHONY: sd_config sd_install sd_status sd_stop sd_clean sd_enable  sd_disable
-
-sd_config:
-	$(QUIET)sed -e "s:_JAVAPATH_:$(CF_JAVA_PATH):g" -e "s:_JAVAOPTS_:$(CF_JAVA_OPTS):g" -e "s:_CFPATH_:$(CF_INSTALL_LOCATION):g" -e "s:_CHANNELFINDER_JAR_NAME_:$(CF_JAR_FILENAME):g" < $(CF_SITE_TEMPLATE_PATH)/cf.service.in > $(CF_SITE_TEMPLATE_PATH)/channelfinder.service
-
-	
-sd_install: sd_config
-	$(QUIET)$(SUDO) install -b -m 644 $(CF_SITE_TEMPLATE_PATH)/channelfinder.service $(SYSTEMD_PATH)/
-	$(QUIET)$(SUDO) systemctl daemon-reload
-	
-sd_status:
-	$(QUIET) systemctl status -l channelfinder.service | cat -b
-
-sd_start:
-	$(QUIET)$(SUDO) systemctl start channelfinder.service
-
-sd_stop:
-	$(QUIET)$(SUDO) systemctl stop channelfinder.service
-
-sd_restart:
-	$(QUIET)$(SUDO) systemctl restart channelfinder.service
-
-
-sd_clean:
-	$(QUIET)$(SUDO) systemctl disable channelfinder.service
-	$(QUIET)$(SUDO) rm -f $(SYSTEMD_PATH)/channelfinder.service
-
-sd_enable:
-	$(if $(wildcard $(SYSTEMD_PATH)/channelfinder.service), $(SUDO) systemctl enable channelfinder.service )
-
-sd_disable:
-	$(if $(wildcard $(SYSTEMD_PATH)/channelfinder.service), $(SUDO) systemctl disable channelfinder.service )
-
 .PHONY: cf_status cf_start cf_stop cf_restart cf_install install uninstall
 
 cf_status: sd_status

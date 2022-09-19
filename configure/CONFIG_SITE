@@ -13,7 +13,6 @@ CF_JAR_FILENAME:=ChannelFinder-$(CF_SRC_VERSION).jar
 
 CF_PROPERTIES:=application.properties
 
-SYSTEMD_PATH:=/etc/systemd/system
 ### 
 ### These two parameters are used to generate application.properties from application.properties.in
 ###
@@ -40,8 +39,8 @@ CF_SITE_TEMPLATE_PATH=$(TOP)/site-template
 # Here is the example for the ALS environment
 # CONFIG_SITE.local can be used to hold this information locally
 # Each service need one space between them, and backslash must be double backslash
-CF_SYSTEMD_SERVICES:=
-
+CF_SYSTEMD_SERVICES:=elasticsearch.service
+CF_KILL_PATH:=/usr/bin
 # These allow developers to override the CONFIG_SITE variable
 # settings without having to modify the configure/CONFIG_SITE
 # file itself.

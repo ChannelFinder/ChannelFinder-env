@@ -42,3 +42,4 @@ site-template/application.properties
 .*.swp
 *.swp
 *.swo
+channelfinder.service

@@ -1,29 +1,59 @@
 
-.PHONY: es_install es_start es_status es_mapping es_mapping_clean es_all
 
-## Build Source for Debian 10
-es_install:
-	$(QUIET) wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.deb
-	$(QUIET)$(SUDO) dpkg -i elasticsearch-6.3.1.deb
-	$(QUIET)$(SUDO) systemctl enable elasticsearch
+es_RULES_NAMES:=esdeb esrpm 
+install_es_RULES:=$(addprefix install., $(es_RULES_NAMES))
+setup_es_RULES:=$(addprefix setup., $(es_RULES_NAMES))
 
-es_start:
-	$(QUIET)$(SUDO) systemctl start elasticsearch
+.PHONY: start.es status.es mapping.es clean.mapping.es all.es stop.es disable.es
 
-es_status:	
+#https://www.elastic.co/guide/en/elasticsearch/reference/current/release-notes-8.2.3.html
+ES_NAME:=elasticsearch
+ES_VER:=8.2.0
+ES_DEB:=$(ES_NAME)-$(ES_VER)-amd64.deb
+ES_RPM:=$(ES_NAME)-$(ES_VER)-x86_64.rpm
+
+# Debian 11
+
+setup.esdeb: install.esdeb enable.es
+
+setup.esrpm: install.esrpm enable.es
+
+install.esdeb:
+	$(QUIET) wget -c https://artifacts.elastic.co/downloads/elasticsearch/$(ES_DEB)
+	$(QUIET)$(SUDO) dpkg -i ./$(ES_DEB)
+
+# Rocky 8
+install.esrpm:
+	$(QUIET) wget -c https://artifacts.elastic.co/downloads/elasticsearch/$(ES_RPM)
+	$(QUIET)$(SUDO) dnf localinstall $(ES_DEB)
+
+enable.es:
+	$(QUIET)$(SUDO) systemctl daemon-reload
+	$(QUIET)$(SUDO) systemctl enable elasticsearch.service
+
+start.es:
+	$(QUIET)$(SUDO) systemctl start elasticsearch.service
+
+status.es:	
 	$(QUIET)systemctl status -l elasticsearch | cat
 
+stop.es:	
+	$(QUIET)systemctl stop elasticsearch
+
+disable.es:	
+	$(QUIET)systemctl disable elasticsearch
+
 ## Create the ES indexes and set up their mapping
-es_mapping:
+mapping.es:
 	$(QUIET)bash $(CF_SITE_TEMPLATE_PATH)/mapping_definitions.bash
 	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/channelfinder/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
 	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/cf_properties/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
 	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/cf_tags/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
 
 ## Clean all ES indexes and their mapping
-es_mapping_clean:
+clean.mapping.es:
 	$(QUIET)bash $(CF_SITE_TEMPLATE_PATH)/clean_mapping_definitions.bash
 
 
-es_all: es_install es_start es_start es_mapping
+all.es: install.esdeb start.es status.es mapping.es
 	

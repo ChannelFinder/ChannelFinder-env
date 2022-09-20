@@ -13,6 +13,14 @@ Configuration Environment for ChannelFinderService at <https://github.com/Channe
 git make sudo tree maven
 ```
 
+## Elasticsearch
+
+```
+make install.esdeb or install.esrpm
+make start.es
+make status.es
+```
+
 ## JAVA
 
 The following four variables must be defined. Please setup them according to one's systems configuration.

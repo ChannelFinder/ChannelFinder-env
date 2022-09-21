@@ -1,22 +1,26 @@
 
 
-es_RULES_NAMES:=esdeb esrpm 
+es_RULES_NAMES:=esdeb esrpm esmac 
 install_es_RULES:=$(addprefix install., $(es_RULES_NAMES))
 setup_es_RULES:=$(addprefix setup., $(es_RULES_NAMES))
 
-.PHONY: start.es status.es mapping.es clean.mapping.es all.es stop.es disable.es
+.PHONY: start.es status.es all.es stop.es disable.es mapping mapping.clean mapping.settings
 
-#https://www.elastic.co/guide/en/elasticsearch/reference/current/release-notes-8.2.3.html
+#https://www.elastic.co/guide/en/elasticsearch/reference/current/release-notes-8.2.0.html
 ES_NAME:=elasticsearch
 ES_VER:=8.2.0
-ES_DEB:=$(ES_NAME)-$(ES_VER)-amd64.deb
-ES_RPM:=$(ES_NAME)-$(ES_VER)-x86_64.rpm
+ES_FILE:=$(ES_NAME)-$(ES_VER)
+ES_DEB:=$(ES_FILE)-amd64.deb
+ES_RPM:=$(ES_FILE)-x86_64.rpm
+ES_MAC:=$(ES_FILE)-darwin-aarch64.tar.gz
+
 
 # Debian 11
-
 setup.esdeb: install.esdeb enable.es
 
 setup.esrpm: install.esrpm enable.es
+
+setup.esmac: install.esmac
 
 install.esdeb:
 	$(QUIET) wget -c https://artifacts.elastic.co/downloads/elasticsearch/$(ES_DEB)
@@ -26,6 +30,13 @@ install.esdeb:
 install.esrpm:
 	$(QUIET) wget -c https://artifacts.elastic.co/downloads/elasticsearch/$(ES_RPM)
 	$(QUIET)$(SUDO) dnf localinstall $(ES_DEB)
+
+
+# macOS aarch64
+install.esmac:
+	$(QUIET) curl -O https://artifacts.elastic.co/downloads/elasticsearch/$(ES_MAC)
+	$(QUIET) curl https://artifacts.elastic.co/downloads/elasticsearch/$(ES_MAC).sha512 | shasum -a 512 -c -
+	$(QUIET) tar -xzf $(ES_MAC)
 
 enable.es:
 	$(QUIET)$(SUDO) systemctl daemon-reload
@@ -44,16 +55,17 @@ disable.es:
 	$(QUIET)systemctl disable elasticsearch
 
 ## Create the ES indexes and set up their mapping
-mapping.es:
-	$(QUIET)bash $(CF_SITE_TEMPLATE_PATH)/mapping_definitions.bash
-	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/channelfinder/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
+mapping:
+	$(QUIET)bash $(CF_SITE_TEMPLATE_PATH)/create_indexes.bash
+
+## Clean all ES indexes and their mapping
+mapping.clean:
+	$(QUIET)bash $(CF_SITE_TEMPLATE_PATH)/delete_indexes.bash
+
+mapping.settings:
+	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/channelfinder/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/jsoin"
 	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/cf_properties/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
 	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/cf_tags/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
 
-## Clean all ES indexes and their mapping
-clean.mapping.es:
-	$(QUIET)bash $(CF_SITE_TEMPLATE_PATH)/clean_mapping_definitions.bash
-
-
-all.es: install.esdeb start.es status.es mapping.es
+all.es: install.esdeb start.es status.es mapping
 	

@@ -28,8 +28,11 @@ CF_JAVA_OPTS:=-Xms512m -Xmx512m
 
 CF_MVN_OPTS:=
 
-
+CF_LOG_PATH:=$(CF_INSTALL_LOCATION)
+CF_LOG_FILE:=channelfinder.log
+CF_LOG_LEVEL:=WARN
 CF_SITE_TEMPLATE_PATH=$(TOP)/site-template
+CF_CREATE_INDEX:=false
 
 # SYSTEDM Required and After Service List
 # This is After and Required services for the systemd archiver appliance systemd service.

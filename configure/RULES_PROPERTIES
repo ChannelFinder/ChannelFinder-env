@@ -19,6 +19,11 @@ conf.properties: $(CF_PROPERTIES).in
 		        -e "s|@ES_HOST@|$(ES_HOST)|g" \
 		        -e "s|@ES_PORT@|$(ES_PORT)|g" \
 		        -e "s|@CF_QUERY_SIZE@|$(CF_QUERY_SIZE)|g" \
+		        -e "s|@CF_LOG_PATH@|$(CF_LOG_PATH)|g" \
+		        -e "s|@CF_LOG_FILE@|$(CF_LOG_FILE)|g" \
+		        -e "s|@CF_LOG_LEVEL@|$(CF_LOG_LEVEL)|g" \
+		        -e "s|@CF_CREATE_INDEX@|$(CF_CREATE_INDEX)|g" \
+		        -e "s|@CF_VERSION@|$(CF_SRC_VERSION)|g" \
 		        < $< > $(basename $<)
 	rm -f $(CF_SITE_SPECIFIC_FILES_PATH)/$(notdir $(basename $<))
 	$(QUIET)echo ">>> Copy $(basename $<) to $(CF_SITE_SPECIFIC_FILES_PATH)"

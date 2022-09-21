@@ -13,12 +13,13 @@ server.ssl.key-alias=@SSHKEYALIAS@
 
 security.require-ssl=true
 
-logging.level.org.springframework.web=DEBUG
+logging.level.org.springframework.web=@CF_LOG_LEVEL@
 
-logging.file=/var/log/ChannelFinder.log
+spring.http.log-request-details=true
+
+logging.file=@CF_LOG_PATH@/@CF_LOG_FILE@
 # Default
 # logging.file.max-size=10MB
-spring.http.log-request-details=true
 
 ############## LDAP - External ##############
 ldap.enabled = false
@@ -44,6 +45,11 @@ spring.ldap.embedded.validation.enabled=false
 
 ############## Demo Auth ##############
 demo_auth.enabled = false
+demo_auth.delimiter.roles = :
+demo_auth.users = admin,user
+demo_auth.pwds = adminPass,userPass
+demo_auth.roles = ADMIN,USER
+
 
 ############## Role --> group Mapping ##############
 # Customize group names here
@@ -55,21 +61,23 @@ tag-groups=cf-tags,USER
 ############################## Elastic Network And HTTP ###############################
 
 # Elasticsearch host
-elasticsearch.network.host: @ES_HOST@
+#elasticsearch.network.host: @ES_HOST@
 # Set a custom port for the node to node communication (9300 by default):
-elasticsearch.transport.tcp.port: 9300
+# elasticsearch.transport.tcp.port: 9300
 # Set a custom port to listen for HTTP traffic:
 elasticsearch.http.port: @ES_PORT@
 
 # Elasticsearch index names and types used by channelfinder, ensure that any changes here should be replicated in the mapping_definitions.sh
 elasticsearch.tag.index = cf_tags
-elasticsearch.tag.type = cf_tag
-
 elasticsearch.property.index = cf_properties
-elasticsearch.property.type = cf_property
-
 elasticsearch.channel.index = channelfinder
-elasticsearch.channel.type = cf_channel
 
 # maximum query result size
-elasticsearch.query.size = @CF_QUERY_SIZE@ 
+elasticsearch.query.size = @CF_QUERY_SIZE@
+
+# Create the Channel Finder indices if they do not exist
+elasticsearch.create.indices: @CF_CREATE_INDEX@
+
+############################## Service Info ###############################
+channelfinder.version = @CF_VERSION@
+

@@ -43,6 +43,8 @@ make build
 make install
 make sd_start
 make sd_status
+make mapping
+make mapping.clean
 ```
 
 ## Docker Image

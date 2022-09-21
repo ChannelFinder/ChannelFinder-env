@@ -1,5 +1,5 @@
 
-.PHONY: cf_status cf_start cf_stop cf_restart cf_install install uninstall
+.PHONY: cf_status cf_start cf_stop cf_restart cf_install src_install install uninstall
 
 cf_status: sd_status
 
@@ -9,14 +9,15 @@ cf_stop: sd_stop
 
 cf_restart: sd_restart
 
-
 cf_install: 
 	$(QUIET)$(SUDO) install -d $(CF_INSTALL_LOCATION)
 	$(QUIET)$(SUDO) install -m 744 $(CF_SRC_PATH)/target/$(CF_JAR_FILENAME)  $(CF_INSTALL_LOCATION)/
 
 
+src_install: cf_install
+
 ## Install Service related files 
-install: cf_install sd_install sd_enable
+install: src_install sd_install sd_enable
 	$(QUIET)echo "----- Note that one should start it and check its status via "
 	$(QUIET)echo "----- systemctl start  channelfinder"
 	$(QUIET)echo "----- systemctl status channelfinder"
@@ -31,3 +32,6 @@ uninstall: sd_stop sd_disable sd_clean
 reinstall: conf build install
 
 restart: uninstall reinstall cf_start cf_status
+
+start.local: 
+	$(QUIET)mvn -f $(CF_SRC_PATH) spring-boot:run

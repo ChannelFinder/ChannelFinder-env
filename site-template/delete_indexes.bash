@@ -20,10 +20,12 @@ function curl_delete
     local index="$1"; shift;
    
     printf "Deleting %s \n" "$index";
-    if [ -x "`which jq`" ]; then 
-        curl -s -XDELETE http://${es_host}:${es_port}/${index} | jq
+    if [ -x "$(which jq)" ]; then 
+    # shellcheck disable=SC2154
+        curl -s -XDELETE http://"${es_host}:${es_port}/${index}" | jq
     else 
-        curl -s -XDELETE http://${es_host}:${es_port}/${index} 
+    # shellcheck disable=SC2154
+        curl -s -XDELETE http://"${es_host}:${es_port}/${index}" 
     fi;
 }
 

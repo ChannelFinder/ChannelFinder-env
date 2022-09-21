@@ -2,7 +2,7 @@
 
 ## Create Indexes and add mapping information
 
-We have three indexes such as
+We have three index(s), which I don't use `indices`, because it is a slightly different definition in ES, such as
 
 ```bash
 channelfinder
@@ -10,7 +10,34 @@ cf_tags
 cf_properties
 ```
 
-This can be created via `make mapping` or set `elasticsearch.create.indices: true` in `applicaton.properties`
+This can be created via `make mapping`, which is our preference, or set `elasticsearch.create.indices: true` in `applicaton.properties`
+
+
+### `make mapping`
+
+This is the Makefile rule, to call `cf_es_configuration.bash` in `site-template` path. It uses the same json files to create three index(s) with `CF_QUERY_SIZE` configuration. We have the following Makefile rules:
+
+```
+make mapping
+make mapping.clean
+make mapping.verify
+```
+
+And the script will allow us to explore them in detail.
+
+```
+Usage    : site-template/cf_es_configuration.bash  args
+
+              possbile args
+
+              mapping            : CF index mapping
+              mappingClean       : Delete all CF index
+              mappingVerify      : Verify the existing mappings
+              metaField 'search' : mapping, search, ....
+              h                  : this screen
+```
+
+### `application.properties`
 
 * Before `make build`
 
@@ -31,17 +58,3 @@ And please execute the following rule also
 
 ```bash
 make mapping.settings
-```
-
-
-* After `make build` [Default]
-
-```bash
-make mapping
-```
-
-Please check `create_indexes.bash` file in `site-template` for further information.
-
-* Index will be deleted via `make mapping.clean`
-
-

@@ -10,6 +10,9 @@ declare -g SC_SCRIPT;
 declare -g SC_TOP;
 declare -g ENV_TOP;
 
+declare -g es_host;
+declare -g es_port;
+
 SC_SCRIPT="$(realpath "$0")";
 SC_TOP="${SC_SCRIPT%/*}"
 ENV_TOP="${SC_TOP}/.."
@@ -18,8 +21,9 @@ CF_JSON_PATH="${ENV_TOP}/$(make -C "${ENV_TOP}" -s print-CF_SRC_PATH)"
 CF_JSON_PATH+="/src/main/resources"
 CF_QUERY_SIZE=$(make -C "${ENV_TOP}" -s print-CF_QUERY_SIZE)
 
-# shellcheck disable=SC1090,SC1091
-. "${SC_TOP}"/es_host.cfg
+
+es_host=$(make -C "${ENV_TOP}" -s print-ES_HOST)
+es_port=$(make -C "${ENV_TOP}" -s print-ES_PORT)
 
 function curl_put
 {
@@ -97,6 +101,13 @@ function IndexMapping
 
 function MetaSearching
 {
+    local index="$1"; shift;
+    local meta="$1"; shift;
+    curl_get "$index" "$meta";
+}
+
+function MetaAllSearching
+{
     local meta="$1"; shift;
     curl_get "cf_tags" "$meta"
     curl_get "cf_properties" "$meta"
@@ -143,7 +154,10 @@ case "$1" in
         curl_get "channelfinder" "mapping"
         ;;
     metaField)
-        MetaSearching "$2"
+        MetaAllSearching "$2"
+        ;;
+    search)
+        MetaSearching "$2" "$3"
         ;;
     h);;
     help)

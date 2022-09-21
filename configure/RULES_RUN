@@ -1,0 +1,9 @@
+
+run: 
+	$(QUIET)mvn -f $(CF_SRC_PATH) spring-boot:run
+
+demo: 
+	$(QUIET)mvn -f $(CF_SRC_PATH) spring-boot:run -Dspring-boot.run.arguments="--demo-data=1"
+
+demo.clean: 
+	$(QUIET)mvn -f $(CF_SRC_PATH) spring-boot:run -Dspring-boot.run.arguments="--cleanup=1"

@@ -10,7 +10,7 @@ Configuration Environment for ChannelFinderService at <https://github.com/Channe
 ## Pre-requirement packages
 
 ```
-git make sudo tree maven
+git make sudo tree maven jq
 ```
 
 ## Elasticsearch
@@ -32,7 +32,9 @@ The following four variables must be defined. Please setup them according to one
         echo "MAVEN_PATH:=/usr/bin" >> ./configure/CONFIG_COMMON.local
 ```
 
-## Support OS [Debian 11 (EOL: 2024-06-01/2026-08-15), Rocky8 (EOL: 2029-05-31)]
+## Support OS 
+
+### Debian 11 (EOL: 2024-06-01/2026-08-15), Rocky8 (EOL: 2029-05-31)
 
 It will works with other systems. Please check github action workflows.
 
@@ -45,6 +47,29 @@ make sd_start
 make sd_status
 make mapping
 make mapping.clean
+```
+
+## macOS (tested with aarch64 with brew)
+
+```bash
+make init
+make conf.macos
+make conf
+make build
+make run
+make mapping
+make mapping.clean
+```
+
+## Run Demo
+
+Please see [docs/ChannelFinderDemo.md](docs/ChannelFinderDemo.md).
+
+
+```
+make run
+make demo
+make demo.clean
 ```
 
 ## Docker Image

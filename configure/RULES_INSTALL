@@ -33,5 +33,3 @@ reinstall: conf build install
 
 restart: uninstall reinstall cf_start cf_status
 
-start.local: 
-	$(QUIET)mvn -f $(CF_SRC_PATH) spring-boot:run

@@ -56,14 +56,14 @@ disable.es:
 
 ## Create the ES indexes and set up their mapping
 mapping:
-	$(QUIET)bash $(CF_SITE_TEMPLATE_PATH)/cf_es_configuration.bash mapping
+	$(QUIET)bash $(TOP)/scripts/cf_es_configuration.bash mapping
 
 ## Clean all ES indexes and their mapping
 mapping.clean:
-	$(QUIET)bash $(CF_SITE_TEMPLATE_PATH)/cf_es_configuration.bash mappingClean
+	$(QUIET)bash $(TOP)/scripts/cf_es_configuration.bash mappingClean
 
 mapping.verify:
-	$(QUIET)bash $(CF_SITE_TEMPLATE_PATH)/cf_es_configuration.bash mappingVerify
+	$(QUIET)bash $(TOP)/scripts/cf_es_configuration.bash mappingVerify
 
 mapping.settings:
 	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/channelfinder/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/jsoin"

@@ -44,12 +44,12 @@ install.esdeb:
 	$(QUIET)$(SUDO) dpkg -i ./$(ES_DEB)
 
 remove.esdeb:
-	$(QUIET)$(SUDO) apt purge elasticsearch
+	$(QUIET)$(SUDO) apt purge -y elasticsearch
 
 # Rocky 8
 install.esrpm:
 	$(QUIET) wget -c https://artifacts.elastic.co/downloads/elasticsearch/$(ES_RPM)
-	$(QUIET)$(SUDO) dnf localinstall $(ES_RPM)
+	$(QUIET)$(SUDO) dnf localinstall -y $(ES_RPM)
 
 remove.esrpm:
 	$(QUIET)$(SUDO) dnf remove elasticsearch

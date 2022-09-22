@@ -35,7 +35,6 @@ RUN make distclean && \
     make install.docker
     #   make build MVN_OPTS=dependency:go-offline
 
-
 ## Multi-Stages build
 ## Running docker image size : 240MB
 FROM alpine:3.16

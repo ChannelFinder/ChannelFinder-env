@@ -23,6 +23,8 @@ Three configurations are changed for the elasticsearch.
 
 These options can be changed through the variables `CF_ES_JAVA_OPTS`, `CF_ES_CONF_PATH`, and `CF_ES_XPACK_SECURITY` in `configure/CONFIG_SITE`.
 
+### Debian 11 / Rocky 8
+
 ```
 make install.esdeb or install.esrpm
 make conf.es
@@ -34,6 +36,19 @@ make status.es
 Note that `conf.es` will use the `pack.security.enabled: false` in `elasticsearch.yml`, where is in `/etc/elasticsearch`.
 The log file `elasticsearch.log` is located in `/etc/elasticsearch`.
 
+### macOS (M1)
+
+
+```bash
+make install.esmac
+make conf.macos
+make conf.esmac
+make conf.es.show
+make start.esmac
+make stop.esmac
+```
+
+The log file `elasticsearch.log` is located in the installation location log folder of the elastisserch.
 
 
 ## JAVA

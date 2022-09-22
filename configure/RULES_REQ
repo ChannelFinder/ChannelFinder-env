@@ -5,7 +5,8 @@ install_es_RULES:=$(addprefix install., $(es_RULES_NAMES))
 setup_es_RULES:=$(addprefix setup., $(es_RULES_NAMES))
 remove_es_RULES:=$(addprefix remove., $(es_RULES_NAMES))
 
-.PHONY: clean.conf.es conf.es start.es status.es restart.es  stop.es disable.es mapping mapping.clean mapping.settings conf.es.show
+.PHONY: clean.conf.es conf.es start.es status.es restart.es stop.es disable.es mapping mapping.clean mapping.settings conf.es.show
+.PHONE: start.esmac stop.esmac
 
 #https://www.elastic.co/guide/en/elasticsearch/reference/current/release-notes-8.2.0.html
 ES_NAME:=elasticsearch
@@ -14,6 +15,8 @@ ES_FILE:=$(ES_NAME)-$(ES_VER)
 ES_DEB:=$(ES_FILE)-amd64.deb
 ES_RPM:=$(ES_FILE)-x86_64.rpm
 ES_MAC:=$(ES_FILE)-darwin-aarch64.tar.gz
+ES_HOME_MAC:=$(ES_FILE)
+ES_PID_MAC:=$(TOP)/$(ES_HOME_MAC)/es_mac_pid
 
 
 # Debian 11
@@ -34,6 +37,10 @@ $(CF_ES_JAVA_OPTS): clean.conf.es
 conf.es: $(CF_ES_JAVA_OPTS)
 	$(QUIET)$(SUDO) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/01.CF_ES_JVMS.options $(CF_ES_CONF_PATH)/jvm.options.d/
 	$(QUIET)$(SUDO) sed -i~ 's/^xpack.security.enabled:.*/xpack.security.enabled: $(CF_ES_XPACK_SECURITY)/g' $(CF_ES_CONF_PATH)/elasticsearch.yml 
+
+conf.esmac: $(CF_ES_JAVA_OPTS)
+	$(QUIET) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/01.CF_ES_JVMS.options $(CF_ES_CONF_PATH)/jvm.options.d/
+	$(QUIET) echo "xpack.security.enabled: $(CF_ES_XPACK_SECURITY)" >> $(CF_ES_CONF_PATH)/elasticsearch.yml
 
 conf.es.show: 
 	$(SUDO) cat -b $(CF_ES_CONF_PATH)/jvm.options.d/01.CF_ES_JVMS.options
@@ -70,11 +77,17 @@ enable.es:
 start.es:
 	$(QUIET)$(SUDO) systemctl start elasticsearch.service
 
+start.esmac:
+	$(QUIET) $(TOP)/$(ES_HOME_MAC)/bin/elasticsearch -d -p $(ES_PID_MAC)
+
 status.es:	
 	$(QUIET)systemctl status -l elasticsearch.service | cat -b
 
 stop.es:	
 	$(QUIET)systemctl stop elasticsearch.service
+
+stop.esmac:
+	$(QUIET)pkill -F $(ES_PID_MAC)
 
 disable.es:	
 	$(QUIET)systemctl disable elasticsearch.service

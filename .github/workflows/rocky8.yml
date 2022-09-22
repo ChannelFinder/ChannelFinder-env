@@ -31,7 +31,7 @@ jobs:
     - name: Install required packages
       run: |
         dnf update -y
-        dnf install -y git make sudo which maven
+        dnf install -y git make sudo which maven wget tree
     - name: Check JAVA configuration
       run: |
         which java

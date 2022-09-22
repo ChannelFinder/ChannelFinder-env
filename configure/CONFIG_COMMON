@@ -10,6 +10,8 @@ MAVEN_PATH:=$(MAVEN_HOME)/bin
 ES_HOST:=localhost
 ES_PORT:=9200
 
+ES_USERID:=elasticsearch
+ES_GROUPID:=elasticsearch
 
 CF_PRTO:=http
 CF_HOST:=localhost

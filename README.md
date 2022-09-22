@@ -15,11 +15,26 @@ git make sudo tree maven jq
 
 ## Elasticsearch
 
+Three configurations are changed for the elasticsearch. 
+
+* Elasticsearch JVM options : [default] `-Xms1g -Xmx1g`
+* Elasticsearch `pack.security.enabled` option : [default] false
+* Elasticsearch configuration location : [default] `/etc/elasticsearch`
+
+These options can be changed through the variables `CF_ES_JAVA_OPTS`, `CF_ES_CONF_PATH`, and `CF_ES_XPACK_SECURITY` in `configure/CONFIG_SITE`.
+
 ```
 make install.esdeb or install.esrpm
+make conf.es
+make conf.es.show
 make start.es
 make status.es
 ```
+
+Note that `conf.es` will use the `pack.security.enabled: false` in `elasticsearch.yml`, where is in `/etc/elasticsearch`.
+The log file `elasticsearch.log` is located in `/etc/elasticsearch`.
+
+
 
 ## JAVA
 
@@ -40,14 +55,18 @@ It will works with other systems. Please check github action workflows.
 
 ```bash
 make init
-make conf
 make build
 make install
 make sd_start
 make sd_status
 make mapping
-make mapping.clean
 ```
+
+ChannelFinder log is shown in `/var/log/syslog`.
+
+```bash
+tail -f /var/log/syslog
+``` 
 
 ## macOS (tested with aarch64 with brew)
 
@@ -60,6 +79,10 @@ make run
 make mapping
 make mapping.clean
 ```
+
+## ChannelFinder Configuration
+
+Please see [docs/ChannelFinderConf.md](docs/ChannelFinderConf.md).
 
 ## Run Demo
 

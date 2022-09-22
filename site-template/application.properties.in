@@ -11,13 +11,12 @@ server.ssl.key-store=classpath:keystore/@SSHKEY@
 server.ssl.key-store-password=password
 server.ssl.key-alias=@SSHKEYALIAS@
 
-security.require-ssl=true
+security.require-ssl=@CF_SSL_REQUIRED@
 
 logging.level.org.springframework.web=@CF_LOG_LEVEL@
-
 spring.http.log-request-details=true
 
-logging.file=@CF_LOG_PATH@/@CF_LOG_FILE@
+#logging.file=@CF_LOG_PATH@/@CF_LOG_FILE@
 # Default
 # logging.file.max-size=10MB
 
@@ -31,7 +30,7 @@ ldap.groups.search.base = ou=Group
 ldap.groups.search.pattern = (memberUid= {1})
 
 ############## LDAP - Embedded ##############
-embedded_ldap.enabled = true
+embedded_ldap.enabled = false
 embedded_ldap.urls = ldap://localhost:8389/dc=cf,dc=local
 embedded_ldap.base.dn = dc=cf,dc=local
 embedded_ldap.user.dn.pattern = uid={0},ou=People
@@ -44,7 +43,14 @@ spring.ldap.embedded.validation.enabled=false
 
 
 ############## Demo Auth ##############
-demo_auth.enabled = false
+# users, pwds, roles - lists of comma-separated values (same length)
+# roles may contain multiple roles for user separated by delimiter
+# e.g.
+#     demo_auth.users = user1,user2
+#     demo_auth.pwds = pwd1,pwd2
+#     demo_auth.roles = role1,role2
+#     demo_auth.roles = role1,role21:role22
+demo_auth.enabled = true
 demo_auth.delimiter.roles = :
 demo_auth.users = admin,user
 demo_auth.pwds = adminPass,userPass

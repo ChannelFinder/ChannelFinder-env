@@ -4,14 +4,17 @@ CF_INSTALL_PATH=/opt
 CF_INSTALL_LOCATION=${CF_INSTALL_PATH}/channelfinder
 
 
+### Elasticsearch specific configuration
+CF_ES_JAVA_OPTS:=-Xms1g -Xmx1g
+CF_ES_CONF_PATH:=/etc/elasticsearch
+CF_ES_XPACK_SECURITY:=false
 
 ### Placeholder
 ### This variable will be replaced by reading a pom.xml file. The version in pom.xml will define
 ### the exact version of the jar file. It is difficult to track that version to implement into here.
 ### It may be linked with SRC_VERSION in RELEASE file
 ### 
-### So, we use * to cover all version information with the jar file
-CF_JAR_FILENAME:=ChannelFinder-*.jar
+CF_JAR_FILENAME:=ChannelFinder-4.7.1-SNAPSHOT.jar
 
 CF_PROPERTIES:=application.properties
 
@@ -20,7 +23,8 @@ CF_PROPERTIES:=application.properties
 ###
 CF_LDIF:=cf4als.ldif
 CF_SSHKEYALIAS:=cf
-CF_SSHKEY:=$(CF_SSHKEYALIAS).p12
+CF_SSHKEY:=new$(CF_SSHKEYALIAS).p12
+CF_SSL_REQUIRED:=true
 
 CF_JAVA_PATH:=$(JAVA_PATH)
 CF_JAVA_OPTS:=-Xms512m -Xmx512m
@@ -30,8 +34,13 @@ CF_JAVA_OPTS:=-Xms512m -Xmx512m
 
 CF_MVN_OPTS:=
 
+# it will be good to have its own, reserve them for the future expansion
+# currnetly, channelfinder log is in the /var/log/syslog
+#
 CF_LOG_PATH:=$(CF_INSTALL_LOCATION)
 CF_LOG_FILE:=channelfinder.log
+
+#
 CF_LOG_LEVEL:=WARN
 CF_SITE_TEMPLATE_PATH=$(TOP)/site-template
 CF_CREATE_INDEX:=false

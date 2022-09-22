@@ -44,3 +44,4 @@ site-template/application.properties
 *.swo
 channelfinder.service
 elasticsearch-8.2.0
+*.options

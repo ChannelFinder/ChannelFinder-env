@@ -3,8 +3,9 @@
 es_RULES_NAMES:=esdeb esrpm esmac 
 install_es_RULES:=$(addprefix install., $(es_RULES_NAMES))
 setup_es_RULES:=$(addprefix setup., $(es_RULES_NAMES))
+remove_es_RULES:=$(addprefix remove., $(es_RULES_NAMES))
 
-.PHONY: start.es status.es all.es stop.es disable.es mapping mapping.clean mapping.settings
+.PHONY: clean.conf.es conf.es start.es status.es restart.es  stop.es disable.es mapping mapping.clean mapping.settings conf.es.show
 
 #https://www.elastic.co/guide/en/elasticsearch/reference/current/release-notes-8.2.0.html
 ES_NAME:=elasticsearch
@@ -22,21 +23,45 @@ setup.esrpm: install.esrpm enable.es
 
 setup.esmac: install.esmac
 
+
+clean.conf.es:
+	$(QUIET) rm -f $(CF_SITE_TEMPLATE_PATH)/01.CF_ES_JVMS.options
+
+$(CF_ES_JAVA_OPTS): clean.conf.es
+	$(QUIET)echo "$@" >> $(CF_SITE_TEMPLATE_PATH)/01.CF_ES_JVMS.options 
+
+## Is this only way? 
+conf.es: $(CF_ES_JAVA_OPTS)
+	$(QUIET)$(SUDO) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/01.CF_ES_JVMS.options $(CF_ES_CONF_PATH)/jvm.options.d/
+	$(QUIET)$(SUDO) sed -i~ 's/^xpack.security.enabled:.*/xpack.security.enabled: $(CF_ES_XPACK_SECURITY)/g' $(CF_ES_CONF_PATH)/elasticsearch.yml 
+
+conf.es.show: 
+	$(SUDO) cat -b $(CF_ES_CONF_PATH)/jvm.options.d/01.CF_ES_JVMS.options
+	$(SUDO) cat -b $(CF_ES_CONF_PATH)/elasticsearch.yml 
+
 install.esdeb:
 	$(QUIET) wget -c https://artifacts.elastic.co/downloads/elasticsearch/$(ES_DEB)
 	$(QUIET)$(SUDO) dpkg -i ./$(ES_DEB)
+
+remove.esdeb:
+	$(QUIET)$(SUDO) apt purge elasticsearch
 
 # Rocky 8
 install.esrpm:
 	$(QUIET) wget -c https://artifacts.elastic.co/downloads/elasticsearch/$(ES_RPM)
 	$(QUIET)$(SUDO) dnf localinstall $(ES_DEB)
 
+remove.esrpm:
+	$(QUIET)$(SUDO) dnf remove elasticsearch
 
 # macOS aarch64
 install.esmac:
 	$(QUIET) curl -O https://artifacts.elastic.co/downloads/elasticsearch/$(ES_MAC)
 	$(QUIET) curl https://artifacts.elastic.co/downloads/elasticsearch/$(ES_MAC).sha512 | shasum -a 512 -c -
 	$(QUIET) tar -xzf $(ES_MAC)
+
+remove.esmac:
+	$(QUIET) rm -rf $(ES_FILE)*
 
 enable.es:
 	$(QUIET)$(SUDO) systemctl daemon-reload
@@ -46,13 +71,16 @@ start.es:
 	$(QUIET)$(SUDO) systemctl start elasticsearch.service
 
 status.es:	
-	$(QUIET)systemctl status -l elasticsearch | cat
+	$(QUIET)systemctl status -l elasticsearch.service | cat -b
 
 stop.es:	
-	$(QUIET)systemctl stop elasticsearch
+	$(QUIET)systemctl stop elasticsearch.service
 
 disable.es:	
-	$(QUIET)systemctl disable elasticsearch
+	$(QUIET)systemctl disable elasticsearch.service
+
+restart.es:
+	$(QUIET)$(SUDO) systemctl restart elasticsearch.service
 
 ## Create the ES indexes and set up their mapping
 mapping:
@@ -70,5 +98,3 @@ mapping.settings:
 	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/cf_properties/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
 	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/cf_tags/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
 
-all.es: install.esdeb start.es status.es mapping
-	

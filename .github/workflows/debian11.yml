@@ -31,7 +31,7 @@ jobs:
     - name: Install required packages
       run: |
         apt update -y
-        apt install -y git make sudo tree maven
+        apt install -y git make sudo tree maven wget
     - name: Check JAVA configuration
       run: |
         which java

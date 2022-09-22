@@ -28,7 +28,7 @@ jobs:
         distribution: 'zulu'
         java-version: '18.0.2'
     - name: Install required packages
-      run: sudo apt install -y make tree git 
+      run: sudo apt install -y make tree git wget 
     - name: Check JAVA configuration
       run: |
         which java

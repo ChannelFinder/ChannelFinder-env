@@ -1,5 +1,15 @@
 # ChannelFinder Configuration
 
+## Tomcat generic service
+
+It is always better to check the Tomcat service first, because the current configuration uses `8080` as the channelfinder port. 
+
+```bash
+systemctl status tomcat{9}
+systemctl stop tomcat{9}
+systemctl disable tomcat{9}
+```
+
 ## Create Indexes and add mapping information
 
 We have three index(s), which I don't use `indices`, because it is a slightly different definition in ES, such as

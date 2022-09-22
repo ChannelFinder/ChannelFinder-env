@@ -27,7 +27,7 @@ function cf_put
     local arg2="$1"; shift;
     local arg3="$1"; shift;
     
-    printf ">>> Putting ...%s... ...%s...\n" "$index" "$json";
+    printf ">>> Putting ...%s... ...%s...\n" "$arg1" "$arg2";
     if [ -x "$(which jq)" ]; then
         curl -s -H 'Content-Type: application/json' -u "${ADMIN}" --request PUT "${CF_URL}/${arg1}/${arg2}" -d "@${arg3}" | jq
     else 

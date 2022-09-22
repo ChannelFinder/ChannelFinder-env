@@ -28,11 +28,16 @@ jobs:
         distribution: 'zulu'
         java-version: '18.0.2'
     - name: Install required packages
-      run: sudo apt install -y make tree git 
+      run: sudo apt install -y make tree git elasticsearch 
     - name: Check JAVA configuration
       run: |
         which java
         which mvn
+    - name: Elasticsearch
+      run: |
+        make install.esdeb
+        make conf.es
+        make conf.es.show
     - name: Configuration
       run: |
         make init

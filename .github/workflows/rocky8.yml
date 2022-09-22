@@ -36,6 +36,11 @@ jobs:
       run: |
         which java
         which mvn
+    - name: Elasticsearch
+      run: |
+        make install.esrpm
+        make conf.es
+        make conf.es.show
     - name: Configuration
       run: |
         make init

@@ -30,7 +30,7 @@ ldap.groups.search.base = ou=Group
 ldap.groups.search.pattern = (memberUid= {1})
 
 ############## LDAP - Embedded ##############
-embedded_ldap.enabled = false
+embedded_ldap.enabled = true
 embedded_ldap.urls = ldap://localhost:8389/dc=cf,dc=local
 embedded_ldap.base.dn = dc=cf,dc=local
 embedded_ldap.user.dn.pattern = uid={0},ou=People

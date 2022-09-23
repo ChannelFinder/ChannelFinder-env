@@ -6,6 +6,12 @@ show_properties_RULES:=$(addsuffix .show, $(conf_properties_RULES))
 
 RULES_VARS+=conf.cfproperties conf.cfproperties.show
 
+.PHONY: conf conf.show
+
+conf: conf.cfproperties
+
+conf.show: conf.cfproperties.show
+
 conf.cfproperties: $(conf_properties_RULES)
 
 conf.cfproperties.show: $(show_properties_RULES)
@@ -30,9 +36,9 @@ conf.properties: $(CF_PROPERTIES).in
 	$(QUIET)echo ">>> Copy $(basename $<) to $(CF_SITE_SPECIFIC_FILES_PATH)"
 	$(INSTALL_DATA) $(basename $<) $(CF_SITE_SPECIFIC_FILES_PATH)/
 #	rm -rf $(CF_SITE_SPECIFIC_FILES_PATH)/$(CF_LDIF)
-#	$(INSTALL_DATA) $(CF_SITE_TEMPLATE_PATH)/$(CF_LDIF) $(CF_SITE_SPECIFIC_FILES_PATH)/
+	$(INSTALL_DATA) $(CF_SITE_TEMPLATE_PATH)/$(CF_LDIF) $(CF_SITE_SPECIFIC_FILES_PATH)/
 #	rm -rf $(CF_SITE_SPECIFIC_FILES_PATH)/keystore/$(CF_SSHKEY)
-#	$(INSTALL_DATA) $(CF_SITE_TEMPLATE_PATH)/$(CF_SSHKEY) $(CF_SITE_SPECIFIC_FILES_PATH)/keystore/
+	$(INSTALL_DATA) $(CF_SITE_TEMPLATE_PATH)/$(CF_SSHKEY) $(CF_SITE_SPECIFIC_FILES_PATH)/keystore/
 
 conf.properties.show: $(CF_PROPERTIES).in
 	$(QUIET)cat -b $(basename $<)

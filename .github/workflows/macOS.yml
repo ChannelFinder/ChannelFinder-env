@@ -1,0 +1,40 @@
+---
+name: macOS build
+
+on:
+  push:
+    branches: [master]
+    paths-ignores:
+      - '**.md'
+      - '.github/workflows/build.yml'
+
+  pull_request:
+    branches: [master]
+
+jobs:
+  macOS11:
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install required packages
+        run: |
+          brew install tree wget curl bashi jq
+      - name: ES Configuration
+        run: |
+          make install.esmac
+          make conf.macos
+          make conf.esmac
+          make start.esmac
+      - name: CF Configuration and build
+        run: |
+          make confi
+          make mapping
+          make mapping.verify
+          make build
+      - name: Environment Check
+        run: |
+          make demo
+          bash scripts/cf_queries.bash get tags foo
+          bash scripts/cf_queries.bash put tags foo scripts/tag_foo.json
+          bash scripts/cf_queries.bash get tags foo
+

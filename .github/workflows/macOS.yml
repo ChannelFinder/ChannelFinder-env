@@ -27,7 +27,7 @@ jobs:
           make start.esmac
       - name: CF Configuration and build
         run: |
-          make confi
+          make conf
           make mapping
           make mapping.verify
           make build

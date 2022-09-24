@@ -39,6 +39,10 @@ The log file `elasticsearch.log` is located in `/etc/elasticsearch`.
 ### macOS (M1)
 
 
+```
+brew install openjdk@18
+```
+
 ```bash
 make install.esmac
 make conf.macos

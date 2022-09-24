@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install required packages
         run: |
-          brew install tree wget curl bash jq
+          brew install tree wget curl bash jq coreutils
       - name: ES Configuration
         run: |
           make init

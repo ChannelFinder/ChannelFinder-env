@@ -8,7 +8,7 @@ conf.macbrew:
 	$(QUIET)echo "JAVA_HOME:=/usr/"              > $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)echo "JAVA_PATH:=/usr/bin"          >> $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)echo "MAVEN_HOME:=/usr/local"       >> $(TOP)/configure/CONFIG_COMMON.local
-	$(QUIET)echo "MAVEN_PATH:=/user/local/bin"  >> $(TOP)/configure/CONFIG_COMMON.local
+	$(QUIET)echo "MAVEN_PATH:=/usr/local/bin"  >> $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)cat -b $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)echo ">>> Generating $(TOP)/configure/CONFIG_SITE.local"
 	$(QUIET)echo "USERID:=${USER}"                             > $(TOP)/configure/CONFIG_SITE.local

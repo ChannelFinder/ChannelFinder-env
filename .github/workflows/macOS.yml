@@ -21,6 +21,7 @@ jobs:
           brew install tree wget curl bash jq
       - name: ES Configuration
         run: |
+          make init
           make install.esmac
           make conf.macos
           make conf.esmac

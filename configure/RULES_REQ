@@ -14,7 +14,11 @@ ES_VER:=8.2.0
 ES_FILE:=$(ES_NAME)-$(ES_VER)
 ES_DEB:=$(ES_FILE)-amd64.deb
 ES_RPM:=$(ES_FILE)-x86_64.rpm
+ifeq ($(UNAME_M), arm64)
 ES_MAC:=$(ES_FILE)-darwin-aarch64.tar.gz
+else
+ES_MAC:=$(ES_FILE)-darwin-x86_64.tar.gz
+endif
 ES_HOME_MAC:=$(ES_FILE)
 ES_PID_MAC:=$(TOP)/$(ES_HOME_MAC)/es_mac_pid
 

@@ -12,7 +12,7 @@ on:
     branches: [master]
 
 jobs:
-  macOS11:
+  macOS12:
     runs-on: macos-12
     steps:
       - uses: actions/checkout@v3

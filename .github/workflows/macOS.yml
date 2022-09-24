@@ -31,18 +31,19 @@ jobs:
           make install.esmac
           make conf.macos
           make conf.esmac
-          make start.esmac
-          make status.esmac
       - name: CF Configuration and build
         run: |
           make conf
-          make status.esmac
-          make mapping
-          make mapping.verify
           make build
       - name: Environment Check
         run: |
+          make start.esmac
+          sleep 10 
+          make status.esmac
+          make mapping
+          make mapping.verify
           make demo
+          sleep 10
           bash scripts/cf_queries.bash get tags foo
           bash scripts/cf_queries.bash put tags foo scripts/tag_foo.json
           bash scripts/cf_queries.bash get tags foo

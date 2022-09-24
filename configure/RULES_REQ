@@ -88,7 +88,7 @@ status.es:
 	$(QUIET)systemctl status -l elasticsearch.service | cat -b
 
 status.esmac:	
-	$(QUIET) cat -b $(TOP)/$(ES_HOME_MAC)/elasticsearch.log
+	$(QUIET) cat -b $(TOP)/$(ES_HOME_MAC)/logs/elasticsearch.log
 
 stop.es:	
 	$(QUIET)systemctl stop elasticsearch.service

@@ -18,17 +18,25 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install required packages
         run: |
-          brew install tree wget curl bash jq coreutils openjdk@18 maven
-      - name: ES Configuration
+          brew install tree wget curl bash jq coreutils
+      - name : Check JAVA Environment
         run: |
+          which java
+          which mvn
+          tree -L 2 /usr/local/opt/
+          tree -L 2 /usr/local/Cellar/
+      - name: ES Configuration
+        run: |i
           make init
           make install.esmac
           make conf.macos
           make conf.esmac
           make start.esmac
+          make status.esmac
       - name: CF Configuration and build
         run: |
           make conf
+          make status.esmac
           make mapping
           make mapping.verify
           make build

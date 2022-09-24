@@ -26,7 +26,7 @@ jobs:
           tree -L 2 /usr/local/opt/
           tree -L 2 /usr/local/Cellar/
       - name: ES Configuration
-        run: |i
+        run: |
           make init
           make install.esmac
           make conf.macos

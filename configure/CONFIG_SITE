@@ -6,8 +6,21 @@ CF_INSTALL_LOCATION=${CF_INSTALL_PATH}/channelfinder
 
 ### Elasticsearch specific configuration
 CF_ES_JAVA_OPTS:=-Xms1g -Xmx1g
-CF_ES_CONF_PATH:=/etc/elasticsearch
-CF_ES_XPACK_SECURITY:=false
+CF_ES_PATH:=/etc/elasticsearch
+CF_ES_CONF_NAME:=elasticsearch.yml
+
+CF_ES_CLUSTER_NAME:=ALSCluster1
+CF_ES_NODE_NAME:=ALS ES Node
+CF_ES_CONF_PATH=$(CF_ES_PATH)/config
+CF_ES_PATH_DATA=$(CF_ES_PATH)/data
+CF_ES_PATH_LOGS=$(CF_ES_PATH)/logs
+CF_ES_DISCOVERY_TYPE:="single-node"
+CF_ES_XPACK_SECURITY_ENABLED:=false
+CF_ES_XPACK_SECURITY_ENROLL_ENABLED:=true
+CF_ES_XPACK_SECURITY_HTTP_SSL:=false
+CF_ES_XPACK_SECURITY_TRANSPORT_SSL:=false
+CF_ES_XPACK_SECURITY_ENABLED:=false
+CF_ES_HTTP_HOST:=0.0.0.0
 
 ### Placeholder
 ### This variable will be replaced by reading a pom.xml file. The version in pom.xml will define

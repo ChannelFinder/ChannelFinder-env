@@ -47,7 +47,7 @@ brew install openjdk@18
 make install.esmac
 make conf.macos
 make conf.esmac
-make conf.es.show
+make conf.esmac.show
 make start.esmac
 make stop.esmac
 ```

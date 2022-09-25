@@ -1,11 +1,11 @@
 
 
-es_RULES_NAMES:=esdeb esrpm esmac 
+es_RULES_NAMES:=esdeb esrpm esmac esyml
 install_es_RULES:=$(addprefix install., $(es_RULES_NAMES))
 setup_es_RULES:=$(addprefix setup., $(es_RULES_NAMES))
 remove_es_RULES:=$(addprefix remove., $(es_RULES_NAMES))
 
-.PHONY: clean.conf.es conf.es start.es status.es restart.es stop.es disable.es mapping mapping.clean mapping.settings conf.es.show
+.PHONY: clean.conf.es conf.es start.es status.es restart.es stop.es disable.es mapping mapping.clean mapping.settings conf.es.show conf.esmac.show
 .PHONE: start.esmac stop.esmac
 
 #https://www.elastic.co/guide/en/elasticsearch/reference/current/release-notes-8.2.0.html
@@ -37,14 +37,35 @@ clean.conf.es:
 $(CF_ES_JAVA_OPTS): clean.conf.es
 	$(QUIET)echo "$@" >> $(CF_SITE_TEMPLATE_PATH)/01.CF_ES_JVMS.options 
 
-## Is this only way? 
 conf.es: $(CF_ES_JAVA_OPTS)
 	$(QUIET)$(SUDO) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/01.CF_ES_JVMS.options $(CF_ES_CONF_PATH)/jvm.options.d/
-	$(QUIET)$(SUDO) sed -i~ 's/^xpack.security.enabled:.*/xpack.security.enabled: $(CF_ES_XPACK_SECURITY)/g' $(CF_ES_CONF_PATH)/elasticsearch.yml 
+	$(QUIET)$(SUDO) $(INSTALL) -p -m 640 $(CF_SITE_TEMPLATE_PATH)/$(CF_ES_CONF_NAME)    $(CF_ES_CONF_PATH)/
 
-conf.esmac: $(CF_ES_JAVA_OPTS)
+conf.esmac: $(CF_ES_JAVA_OPTS) conf.esyml
+	$(QUIET) echo ">>> Installing 01.CF_ES_JVM.options and $(CF_ES_CONF_NAME) to $(CF_ES_CONF_PATH)"
 	$(QUIET) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/01.CF_ES_JVMS.options $(CF_ES_CONF_PATH)/jvm.options.d/
-	$(QUIET) echo "xpack.security.enabled: $(CF_ES_XPACK_SECURITY)" >> $(CF_ES_CONF_PATH)/elasticsearch.yml
+	$(QUIET) $(INSTALL) -p -m 640 $(CF_SITE_TEMPLATE_PATH)/$(CF_ES_CONF_NAME)    $(CF_ES_CONF_PATH)/
+
+conf.esyml: $(CF_ES_CONF_NAME).in
+	$(QUIET)echo ">>> Generate $(basename $<) from $<"
+	$(QUIET)sed -e "s|@CF_ES_CLUSTER_NAME@|$(CF_ES_CLUSTER_NAME)|g" \
+		        -e "s|@CF_ES_NODE_NAME@|$(CF_ES_NODE_NAME)|g" \
+		        -e "s|@CF_ES_PATH_DATA@|$(CF_ES_PATH_DATA)|g" \
+		        -e "s|@CF_ES_PATH_LOGS@|$(CF_ES_PATH_LOGS)|g" \
+		        -e "s|@CF_ES_DISCOVERY_TYPE@|$(CF_ES_DISCOVERY_TYPE)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_ENABLED@|$(CF_ES_XPACK_SECURITY_ENABLED)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_ENROLL_ENABLED@|$(CF_ES_XPACK_SECURITY_ENROLL_ENABLED)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_HTTP_SSL@|$(CF_ES_XPACK_SECURITY_HTTP_SSL)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_TRANSPORT_SSL@|$(CF_ES_XPACK_SECURITY_TRANSPORT_SSL)|g" \
+		        -e "s|@CF_ES_HTTP_HOST@|$(CF_ES_HTTP_HOST)|g" \
+		        < $< > $(basename $<)
+
+conf.esyml.show: $(CF_ES_CONF_NAME).in
+	$(QUIET)cat -b $(basename $<)
+
+conf.esmac.show:
+	cat -b $(CF_ES_CONF_PATH)/jvm.options.d/01.CF_ES_JVMS.options
+	cat -b $(CF_ES_CONF_PATH)/elasticsearch.yml 
 
 conf.es.show: 
 	$(SUDO) cat -b $(CF_ES_CONF_PATH)/jvm.options.d/01.CF_ES_JVMS.options
@@ -83,6 +104,9 @@ start.es:
 
 start.esmac:
 	$(QUIET) $(TOP)/$(ES_HOME_MAC)/bin/elasticsearch -d -p $(ES_PID_MAC)
+
+start.esmac.console:
+	$(QUIET) $(TOP)/$(ES_HOME_MAC)/bin/elasticsearch -p $(ES_PID_MAC)
 
 status.es:	
 	$(QUIET)systemctl status -l elasticsearch.service | cat -b

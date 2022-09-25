@@ -45,3 +45,4 @@ site-template/application.properties
 channelfinder.service
 elasticsearch-8.2.0
 *.options
+*.yml

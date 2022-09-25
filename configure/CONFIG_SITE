@@ -6,7 +6,7 @@ CF_INSTALL_LOCATION=${CF_INSTALL_PATH}/channelfinder
 
 ### Elasticsearch specific configuration
 CF_ES_JAVA_OPTS:=-Xms1g -Xmx1g
-CF_ES_PATH:=/etc/elasticsearch
+CF_ES_PATH:=/usr/share/elasticsearch
 CF_ES_CONF_NAME:=elasticsearch.yml
 
 CF_ES_CLUSTER_NAME:=ALSCluster1

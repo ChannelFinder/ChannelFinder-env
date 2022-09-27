@@ -21,7 +21,7 @@ ES_MAC:=$(ES_FILE)-darwin-x86_64.tar.gz
 endif
 ES_HOME_MAC:=$(ES_FILE)
 ES_PID_MAC:=$(TOP)/$(ES_HOME_MAC)/es_mac_pid
-
+ES_JAVA_OPTS_FILE:=cf_es_jvm.options
 
 # Debian 11
 setup.esdeb: install.esdeb enable.es
@@ -32,31 +32,41 @@ setup.esmac: install.esmac
 
 
 clean.conf.es:
-	$(QUIET) rm -f $(CF_SITE_TEMPLATE_PATH)/01.CF_ES_JVMS.options
+	$(QUIET) rm -f $(CF_SITE_TEMPLATE_PATH)/$(ES_JAVA_OPTS_FILE)
 
 $(CF_ES_JAVA_OPTS): clean.conf.es
-	$(QUIET)echo "$@" >> $(CF_SITE_TEMPLATE_PATH)/01.CF_ES_JVMS.options 
+	$(QUIET)echo "$@" >> $(CF_SITE_TEMPLATE_PATH)/$(ES_JAVA_OPTS_FILE) 
 
-conf.es: $(CF_ES_JAVA_OPTS)
-	$(QUIET)$(SUDO) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/01.CF_ES_JVMS.options $(CF_ES_CONF_PATH)/jvm.options.d/
-	$(QUIET)$(SUDO) sed -i~ 's/^xpack.security.enabled:.*/xpack.security.enabled: $(CF_ES_XPACK_SECURITY_ENABLED)/g' $(CF_ES_CONF_PATH)/$(CF_ES_CONF_NAME)
+#conf.es: $(CF_ES_JAVA_OPTS)
+#	$(QUIET)$(SUDO) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/$(ES_JAVA_OPTS_FILE) $(CF_ES_CONF_PATH)/jvm.options.d/
+#	$(QUIET)$(SUDO) sed -i~ 's/^xpack.security.enabled:.*/xpack.security.enabled: $(CF_ES_XPACK_SECURITY_ENABLED)/g' $(CF_ES_CONF_PATH)/$(CF_ES_CONF_NAME)
+
+conf.es: $(CF_ES_JAVA_OPTS) conf.esyml
+	$(QUIET)$(SUDO) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/$(ES_JAVA_OPTS_FILE) $(CF_ES_CONF_PATH)/jvm.options.d/
+	$(QUIET)$(SUDO) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/$(CF_ES_CONF_NAME) $(CF_ES_CONF_PATH)/
 
 conf.esmac: $(CF_ES_JAVA_OPTS) conf.esyml
 	$(QUIET) echo ">>> Installing 01.CF_ES_JVM.options and $(CF_ES_CONF_NAME) to $(CF_ES_CONF_PATH)"
-	$(QUIET) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/01.CF_ES_JVMS.options $(CF_ES_CONF_PATH)/jvm.options.d/
-	$(QUIET) $(INSTALL) -p -m 640 $(CF_SITE_TEMPLATE_PATH)/$(CF_ES_CONF_NAME)    $(CF_ES_CONF_PATH)/
+	$(QUIET) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/$(ES_JAVA_OPTS_FILE) $(CF_ES_CONF_PATH)/jvm.options.d/
+	$(QUIET) $(INSTALL) -p -m 640 $(CF_SITE_TEMPLATE_PATH)/$(CF_ES_CONF_NAME) $(CF_ES_CONF_PATH)/
 
 conf.esyml: $(CF_ES_CONF_NAME).in
 	$(QUIET)echo ">>> Generate $(basename $<) from $<"
-	$(QUIET)sed -e "s|@CF_ES_CLUSTER_NAME@|$(CF_ES_CLUSTER_NAME)|g" \
+	$(QUIET)sed -e "s|@CF_ES_NETWORK_HOST@|$(CF_ES_NETWORK_HOST)|g" \
+		        -e "s|@CF_ES_HTTP_HOST@|$(CF_ES_HTTP_HOST)|g" \
+		        -e "s|@CF_ES_CLUSTER_NAME@|$(CF_ES_CLUSTER_NAME)|g" \
 		        -e "s|@CF_ES_NODE_NAME@|$(CF_ES_NODE_NAME)|g" \
-		        -e "s|@CF_ES_PATH_DATA@|$(CF_ES_PATH_DATA)|g" \
-		        -e "s|@CF_ES_PATH_LOGS@|$(CF_ES_PATH_LOGS)|g" \
+		        -e "s|@CF_ES_DATA_PATH@|$(CF_ES_DATA_PATH)|g" \
+		        -e "s|@CF_ES_LOGS_PATH@|$(CF_ES_LOGS_PATH)|g" \
 		        -e "s|@CF_ES_DISCOVERY_TYPE@|$(CF_ES_DISCOVERY_TYPE)|g" \
 		        -e "s|@CF_ES_XPACK_SECURITY_ENABLED@|$(CF_ES_XPACK_SECURITY_ENABLED)|g" \
 		        -e "s|@CF_ES_XPACK_SECURITY_ENROLL_ENABLED@|$(CF_ES_XPACK_SECURITY_ENROLL_ENABLED)|g" \
 		        -e "s|@CF_ES_XPACK_SECURITY_HTTP_SSL@|$(CF_ES_XPACK_SECURITY_HTTP_SSL)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_HTTP_SSL_KEYSTORE_PATH@|$(CF_ES_XPACK_SECURITY_HTTP_SSL_KEYSTORE_PATH)|g" \
 		        -e "s|@CF_ES_XPACK_SECURITY_TRANSPORT_SSL@|$(CF_ES_XPACK_SECURITY_TRANSPORT_SSL)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_TRANSPORT_SSL_VERIFICATION@|$(CF_ES_XPACK_SECURITY_TRANSPORT_SSL_VERIFICATION)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_TRANSPORT_SSL_KEYSTORE_PATH@|$(CF_ES_XPACK_SECURITY_TRANSPORT_SSL_KEYSTORE_PATH)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_TRANSPORT_SSL_TRUSTSTORE_PATH@|$(CF_ES_XPACK_SECURITY_TRANSPORT_SSL_TRUSTSTORE_PATH)|g" \
 		        -e "s|@CF_ES_HTTP_HOST@|$(CF_ES_HTTP_HOST)|g" \
 		        < $< > $(basename $<)
 
@@ -64,16 +74,16 @@ conf.esyml.show: $(CF_ES_CONF_NAME).in
 	$(QUIET)cat -b $(basename $<)
 
 conf.esmac.show:
-	cat -b $(CF_ES_CONF_PATH)/jvm.options.d/01.CF_ES_JVMS.options
-	cat -b $(CF_ES_CONF_PATH)/elasticsearch.yml 
+	cat -b $(CF_ES_CONF_PATH)/jvm.options.d/$(ES_JAVA_OPTS_FILE)
+	cat -b $(CF_ES_CONF_PATH)/$(CF_ES_CONF_NAME)
 
 conf.es.show: 
-	$(SUDO) cat -b $(CF_ES_CONF_PATH)/jvm.options.d/01.CF_ES_JVMS.options
-	$(SUDO) cat -b $(CF_ES_CONF_PATH)/elasticsearch.yml 
+	$(SUDO) cat -b $(CF_ES_CONF_PATH)/jvm.options.d/$(ES_JAVA_OPTS_FILE)
+	$(SUDO) cat -b $(CF_ES_CONF_PATH)/$(CF_ES_CONF_NAME)
 
 install.esdeb:
 	$(QUIET) wget -c https://artifacts.elastic.co/downloads/elasticsearch/$(ES_DEB)
-	$(QUIET)$(SUDO) dpkg -i ./$(ES_DEB)
+	$(SUDO) dpkg -i ./$(ES_DEB)
 
 remove.esdeb:
 	$(QUIET)$(SUDO) apt purge -y elasticsearch
@@ -81,7 +91,7 @@ remove.esdeb:
 # Rocky 8
 install.esrpm:
 	$(QUIET) wget -c https://artifacts.elastic.co/downloads/elasticsearch/$(ES_RPM)
-	$(QUIET)$(SUDO) dnf localinstall -y $(ES_RPM)
+	$(SUDO) dnf localinstall -y $(ES_RPM)
 
 remove.esrpm:
 	$(QUIET)$(SUDO) dnf remove elasticsearch
@@ -90,7 +100,7 @@ remove.esrpm:
 install.esmac:
 	$(QUIET) curl -O https://artifacts.elastic.co/downloads/elasticsearch/$(ES_MAC)
 	$(QUIET) curl https://artifacts.elastic.co/downloads/elasticsearch/$(ES_MAC).sha512 | shasum -a 512 -c -
-	$(QUIET) tar -xzf $(ES_MAC)
+	tar -xzf $(ES_MAC)
 
 remove.esmac:
 	$(QUIET) rm -rf $(ES_FILE)*

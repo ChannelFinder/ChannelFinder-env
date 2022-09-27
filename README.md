@@ -110,6 +110,8 @@ Please see [docs/ChannelFinderDemo.md](docs/ChannelFinderDemo.md).
 
 ```
 make run
+make run.status
+make run.kill
 make demo
 make demo.clean
 ```

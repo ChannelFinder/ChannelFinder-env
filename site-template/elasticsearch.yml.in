@@ -21,17 +21,16 @@ cluster.name: @CF_ES_CLUSTER_NAME@
 # Use a descriptive name for the node:
 #
 node.name: "@CF_ES_NODE_NAME@"
-#node.roles: [ master ]
 #
 # ----------------------------------- Paths ------------------------------------
 #
 # Path to directory where to store the data (separate multiple locations by comma):
 #
-path.data: @CF_ES_PATH_DATA@
+path.data: @CF_ES_DATA_PATH@
 #
 # Path to log files:
 #
-path.logs: @CF_ES_PATH_LOGS@
+path.logs: @CF_ES_LOGS_PATH@
 #
 # ----------------------------------- Memory -----------------------------------
 #
@@ -50,7 +49,7 @@ path.logs: @CF_ES_PATH_LOGS@
 # By default Elasticsearch is only accessible on localhost. Set a different
 # address here to expose this node on the network:
 #
-#network.host: 192.168.0.1
+network.host: @CF_ES_NETWORK_HOST@
 #
 # By default Elasticsearch listens for HTTP traffic on the first free port it
 # finds starting at 9200. Set a specific HTTP port here:
@@ -64,7 +63,6 @@ path.logs: @CF_ES_PATH_LOGS@
 # Pass an initial list of hosts to perform discovery when this node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-#discovery.seed_hosts: ["host1", "host2"]
 discovery.type: "@CF_ES_DISCOVERY_TYPE@"
 #
 # Bootstrap the cluster using an initial set of master-eligible nodes:
@@ -95,17 +93,15 @@ discovery.type: "@CF_ES_DISCOVERY_TYPE@"
 # Enable security features
 xpack.security.enabled: @CF_ES_XPACK_SECURITY_ENABLED@
 xpack.security.enrollment.enabled: @CF_ES_XPACK_SECURITY_ENROLL_ENABLED@
-
-# Enable encryption for HTTP API client connections, such as Kibana, Logstash, and Agents
 xpack.security.http.ssl.enabled: @CF_ES_XPACK_SECURITY_HTTP_SSL@
-# config/certs
-#xpack.security.http.ssl.keystore.path: certs/http.p12
+xpack.security.http.ssl.keystore.path: @CF_ES_XPACK_SECURITY_HTTP_SSL_KEYSTORE_PATH@
 
 # Enable encryption and mutual authentication between cluster nodes
 xpack.security.transport.ssl.enabled: @CF_ES_XPACK_SECURITY_TRANSPORT_SSL@
-#xpack.security.transport.ssl.verification_mode: certificate
-#xpack.security.transport.ssl.keystore.path: certs/transport.p12
-#xpack.security.transport.ssl.truststore.path: certs/transport.p12
+xpack.security.transport.ssl.verification_mode: @CF_ES_XPACK_SECURITY_TRANSPORT_SSL_VERIFICATION@
+xpack.security.transport.ssl.keystore.path: @CF_ES_XPACK_SECURITY_TRANSPORT_SSL_KEYSTORE_PATH@
+xpack.security.transport.ssl.truststore.path: @CF_ES_XPACK_SECURITY_TRANSPORT_SSL_TRUSTSTORE_PATH@
+
 # Create a new cluster with the current node only
 # Additional nodes can still join the cluster later
 #cluster.initial_master_nodes: ["fedora"]

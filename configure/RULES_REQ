@@ -46,7 +46,7 @@ conf.es: $(CF_ES_JAVA_OPTS) conf.esyml
 	$(QUIET)$(SUDO) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/$(CF_ES_CONF_NAME) $(CF_ES_CONF_PATH)/
 
 conf.esmac: $(CF_ES_JAVA_OPTS) conf.esyml
-	$(QUIET) echo ">>> Installing 01.CF_ES_JVM.options and $(CF_ES_CONF_NAME) to $(CF_ES_CONF_PATH)"
+	$(QUIET) echo ">>> Installing $(ES_JAVA_OPTS_FILE) and $(CF_ES_CONF_NAME) to $(CF_ES_CONF_PATH)"
 	$(QUIET) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/$(ES_JAVA_OPTS_FILE) $(CF_ES_CONF_PATH)/jvm.options.d/
 	$(QUIET) $(INSTALL) -p -m 640 $(CF_SITE_TEMPLATE_PATH)/$(CF_ES_CONF_NAME) $(CF_ES_CONF_PATH)/
 

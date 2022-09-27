@@ -5,7 +5,7 @@ CF_INSTALL_LOCATION=${CF_INSTALL_PATH}/channelfinder
 
 
 ### Elasticsearch specific configuration
-CF_ES_PATH:=/etc/elasticsearch
+CF_ES_PATH=/etc/elasticsearch
 CF_ES_CONF_NAME:=elasticsearch.yml
 
 # Debian 
@@ -49,6 +49,7 @@ CF_PROPERTIES:=application.properties
 ### 
 ### These two parameters are used to generate application.properties from application.properties.in
 ###
+CF_HTTP_ENABLE:=true
 CF_LDIF:=cf4als.ldif
 CF_SSHKEYALIAS:=cf
 CF_SSHKEY:=new$(CF_SSHKEYALIAS).p12

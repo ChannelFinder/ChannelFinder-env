@@ -17,7 +17,7 @@ jobs:
       DOCKER_FILE: docker/Dockerfile
       DOCKER_ACCOUNT: alscontrols
       DOCKER_REPO: channelfinder
-      DOCKER_TAG: latest
+      DOCKER_TAG: v2.0.0
     steps:
       - name: checkout
         uses: actions/checkout@v3

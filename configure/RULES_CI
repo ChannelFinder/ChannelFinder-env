@@ -11,8 +11,9 @@ conf.macbrew:
 	$(QUIET)echo "MAVEN_PATH:=/usr/local/bin"  >> $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)cat -b $(TOP)/configure/CONFIG_COMMON.local
 	$(QUIET)echo ">>> Generating $(TOP)/configure/CONFIG_SITE.local"
-	$(QUIET)echo "USERID:=${USER}"                             > $(TOP)/configure/CONFIG_SITE.local
-	$(QUIET)echo "GROUPID:=admin"                             >> $(TOP)/configure/CONFIG_SITE.local
-	$(QUIET)echo "CF_ES_PATH:=$(TOP)/$(ES_HOME_MAC)"          >> $(TOP)/configure/CONFIG_SITE.local
-	$(QUIET)cat -b $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)echo "USERID:=${USER}"                                  > $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)echo "GROUPID:=admin"                                  >> $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)echo "CF_ES_PATH:=$(TOP)/$(ES_HOME_MAC)"               >> $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)echo "CF_ES_CONFIG_PATH:=$(TOP)/$(ES_HOME_MAC)/config" >> $(TOP)/configure/CONFIG_SITE.local
+$(QUIET)cat -b $(TOP)/configure/CONFIG_SITE.local
 

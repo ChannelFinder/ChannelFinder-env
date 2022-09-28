@@ -91,7 +91,7 @@ tail -f /var/log/syslog
 
 ```bash
 make init
-make conf.macos
+make conf.macbrew
 make conf
 make build
 make run

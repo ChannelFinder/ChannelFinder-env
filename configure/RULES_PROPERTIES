@@ -21,7 +21,9 @@ conf.properties: $(CF_PROPERTIES).in
 	$(QUIET)sed -e "s|@SSHKEY@|$(CF_SSHKEY)|g" \
 		        -e "s|@SSHKEYALIAS@|$(CF_SSHKEYALIAS)|g" \
 		        -e "s|@CFLDIF@|$(CF_LDIF)|g" \
-		        -e "s|@CF_PORT@|$(CF_PORT)|g" \
+		        -e "s|@CF_HTTP_PORT@|$(CF_HTTP_PORT)|g" \
+		        -e "s|@CF_HTTPS_PORT@|$(CF_HTTPS_PORT)|g" \
+		        -e "s|@CF_HTTP_ENABLE@|$(CF_HTTP_ENABLE)|g" \
 		        -e "s|@ES_HOST@|$(ES_HOST)|g" \
 		        -e "s|@ES_PORT@|$(ES_PORT)|g" \
 		        -e "s|@CF_QUERY_SIZE@|$(CF_QUERY_SIZE)|g" \

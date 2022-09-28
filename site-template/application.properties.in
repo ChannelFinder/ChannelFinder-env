@@ -1,10 +1,10 @@
 ################## ChannelFinder Server ####################
 # ChannelFinder https port 
-server.port=8443
+server.port=@CF_HTTPS_PORT@
 
 # Options support for unsecure http
-server.http.enable=true
-server.http.port=@CF_PORT@
+server.http.enable=@CF_HTTP_ENABLE@
+server.http.port=@CF_HTTP_PORT@
 
 server.ssl.key-store-type=PKCS12
 server.ssl.key-store=classpath:keystore/@SSHKEY@
@@ -59,10 +59,10 @@ demo_auth.roles = ADMIN,USER
 
 ############## Role --> group Mapping ##############
 # Customize group names here
-admin-groups=cf-admins,sys-admins,ADMIN
-channel-groups=cf-channels,USER
-property-groups=cf-properties,USER
-tag-groups=cf-tags,USER
+admin-groups=cf-admins
+channel-groups=cf-channels
+property-groups=cf-properties
+tag-groups=cf-tags
 
 ############################## Elastic Network And HTTP ###############################
 

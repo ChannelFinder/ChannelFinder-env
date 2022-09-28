@@ -10,6 +10,24 @@ systemctl stop tomcat{9}
 systemctl disable tomcat{9}
 ```
 
+## Check other services hold 8080
+
+```bash
+lsof -i:8080
+```
+
+```
+kill -i pid_number
+```
+### a few rules
+
+The local run rule has the more options to check the process status, and kill the process which holds the port 8080.
+
+```
+make run.check
+make run.kill
+```
+
 ## Create Indexes and add mapping information
 
 We have three index(s), which I don't use `indices`, because it is a slightly different definition in ES, such as

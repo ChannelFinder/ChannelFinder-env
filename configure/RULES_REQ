@@ -96,6 +96,14 @@ install.esrpm:
 remove.esrpm:
 	$(QUIET)$(SUDO) dnf remove elasticsearch
 
+# Centos 7
+install.esrpm-yum:
+	$(QUIET) wget -c https://artifacts.elastic.co/downloads/elasticsearch/$(ES_RPM)
+	$(SUDO) yum localinstall -y $(ES_RPM)
+
+remove.esrpm-yum:
+	$(QUIET)$(SUDO) yum remove elasticsearch
+
 # macOS aarch64
 install.esmac:
 	$(QUIET) curl -O https://artifacts.elastic.co/downloads/elasticsearch/$(ES_MAC)

@@ -6,8 +6,8 @@ CF_SRC_NAME:=ChannelFinderService
 
 
 ##- Which the source tag / branch / hash id would like to use
-# 2022-09-21
-CF_SRC_TAG:=fc9d536
+# 2022-10-03
+CF_SRC_TAG:=4a17eea
 
 ##- Placeholder for the site-specific version control
 ##- This information is used for application.properties

@@ -76,15 +76,17 @@ It will works with other systems. Please check github action workflows.
 make init
 make build
 make install
+make mapping
 make sd_start
 make sd_status
-make mapping
 ```
 
 ChannelFinder log is shown in `/var/log/syslog`.
 
 ```bash
-tail -f /var/log/syslog
+tail -f /var/log/syslog |grep java
+
+make cflog.show
 ``` 
 
 ## macOS (tested with aarch64 with brew)

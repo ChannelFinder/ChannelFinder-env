@@ -12,7 +12,7 @@ cf_restart: sd_restart
 cf_install: 
 	$(QUIET)$(SUDO) install -d $(CF_INSTALL_LOCATION)
 	$(QUIET)$(SUDO) install -m 744 $(CF_SRC_PATH)/target/$(CF_JAR_FILENAME)  $(CF_INSTALL_LOCATION)/
-	$(QUIET)$(SUDO) chown -R $(ES_USERID):$(ES_GROUPID) $(CF_INSTALL_LOCATION)/
+	$(QUIET)$(SUDO) chown -R $(CF_USERID):$(CF_GROUPID) $(CF_INSTALL_LOCATION)/
 
 
 src_install: cf_install

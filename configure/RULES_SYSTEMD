@@ -28,8 +28,8 @@ conf.systemd0: $(CF_SYSTEMD_FILENAME).in
 	$(QUIET)echo ">>> Required Services : $(CF_SYSTEMD_SERVICES)"
 	$(QUIET)sed -e "s|@DOCURL@|$(DOCURL)|g" \
 				-e 's|@SYSTEMD_SERVICES@|$(CF_SYSTEMD_SERVICES)|g' \
-				-e "s|@ES_USERID@|$(ES_USERID)|g" \
-				-e "s|@ES_GROUPID@|$(ES_GROUPID)|g" \
+				-e "s|@CF_USERID@|$(CF_USERID)|g" \
+				-e "s|@CF_GROUPID@|$(CF_GROUPID)|g" \
 				-e "s|@CF_JAVA_PATH@|$(CF_JAVA_PATH)|g" \
 				-e "s|@CF_JAVA_OPTS@|$(CF_JAVA_OPTS)|g" \
 				-e "s|@CF_INSTALL_LOCATION@|$(CF_INSTALL_LOCATION)|g" \

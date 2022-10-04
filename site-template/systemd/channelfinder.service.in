@@ -5,8 +5,8 @@ After=syslog.target network.target @SYSTEMD_SERVICES@
 Requires=@SYSTEMD_SERVICES@
 
 [Service]
-User=@ES_USERID@
-Group=@ES_GROUPID@
+User=@CF_USERID@
+Group=@CF_GROUPID@
 
 ExecStart=@CF_JAVA_PATH@/java @CF_JAVA_OPTS@ -jar @CF_INSTALL_LOCATION@/@CF_JAR_NAME@
 SuccessExitStatus=143 

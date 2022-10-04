@@ -50,6 +50,6 @@ endif
 
 ## Build Source
 build: conf 
-	$(QUIET) JAVA_HOME=$(JAVA_HOME) $(MAVEN_CMD) $(CF_MVN_OPTS) -f $(CF_SRC_PATH)/pom.xml clean install -Dmaven.test.skip=true
+	$(QUIET) JAVA_HOME=$(CF_JAVA_HOME) $(MAVEN_CMD) $(CF_MVN_OPTS) -f $(CF_SRC_PATH)/pom.xml clean install -Dmaven.test.skip=true
 
 

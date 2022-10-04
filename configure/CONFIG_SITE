@@ -56,6 +56,7 @@ CF_SSHKEY:=new$(CF_SSHKEYALIAS).p12
 CF_SSL_REQUIRED:=true
 
 CF_JAVA_PATH:=$(JAVA_PATH)
+CF_JAVA_HOME:=$(JAVA_HOME)
 CF_JAVA_OPTS:=-Xms512m -Xmx512m
 
 # Two more potential interesting options are

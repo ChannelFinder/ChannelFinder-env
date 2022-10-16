@@ -89,6 +89,17 @@ tail -f /var/log/syslog |grep java
 make cflog.show
 ``` 
 
+Please check Tomcat generic service, if CF doesn't start.
+
+```
+lsof -i:8080
+systemctl status tomcat{9}
+systemctl stop tomcat{9}
+systemctl disable tomcat{9}
+```
+
+
+
 ## macOS (tested with aarch64 with brew)
 
 ```bash

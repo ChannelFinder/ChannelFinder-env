@@ -1,0 +1,59 @@
+---
+name: Debian 11
+
+on:
+  push:
+    branches: [ master ]
+    paths-ignores:
+      - '*.md'
+      - 'examples/*.bash'
+      - 'docker/**'
+      - '.github/workflows/docker.yml'
+      - '.github/workflows/ubuntu.yml'
+      - '.github/workflows/rocky8.yml'
+      - '.github/workflows/linter.yml'
+
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  Debian11:
+
+    runs-on: ubuntu-latest
+    container: debian:bullseye
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '18.0.2'
+    - name: Install required packages
+      run: |
+        apt update -y
+        apt install -y git make sudo tree maven wget
+    - name: Check JAVA configuration
+      run: |
+        which java
+        which mvn
+    - name: Elasticsearch
+      run: |
+        make install.esdeb
+        make conf.es
+        make conf.es.show
+    - name: Configuration
+      run: |
+        make init
+        echo "JAVA_HOME:=${JAVA_HOME}"      > ./configure/CONFIG_COMMON.local
+        echo "JAVA_PATH:=${JAVA_HOME}/bin" >> ./configure/CONFIG_COMMON.local
+        echo "MAVEN_HOME:=/usr/"           >> ./configure/CONFIG_COMMON.local
+        echo "MAVEN_PATH:=/usr/bin"        >> ./configure/CONFIG_COMMON.local
+        make vars
+        make conf
+    - name: Build 
+      run: |
+        make build
+        make cf_install
+    - name: Environment Check
+      run: make exist
+     

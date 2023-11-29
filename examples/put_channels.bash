@@ -1,14 +1,19 @@
 #!/usr/bin/env bash
 
-declare -gr SC_SCRIPT="$(realpath "$0")"
-declare -gr SC_SCRIPTNAME=${0##*/}
-declare -gr SC_TOP="${SC_SCRIPT%/*}"
+declare -g SC_SCRIPT;
+declare -g SC_TOP;
 
-. ${SC_TOP}/configuration.bash
+SC_SCRIPT="$(realpath "$0")";
+SC_TOP="${SC_SCRIPT%/*}"
 
-list="$(get_list_from_a_file ${SC_TOP}/CHANNELS)"
 
-URL=${cf_url}/channels
+# shellcheck disable=SC1090,SC1091
+. "${SC_TOP}"/configuration.bash
+
+list=$(get_list_from_a_file "${SC_TOP}"/CHANNELS)
+
+# shellcheck disable=SC2154
+URL="${cf_url}"/channels
 
 
 # admin, cfuser, channel
@@ -18,7 +23,7 @@ cf_userid=channel
 cf_passwd=1234
 cf_user=${cf_userid}:${cf_passwd}
 
-for a_chan in  ${list[@]}; do
+for a_chan in  "${list[@]}"; do
     print_help "PUT" "$a_chan"
     temp_json=$(mktemp)
     echo "
@@ -28,7 +33,7 @@ for a_chan in  ${list[@]}; do
 		\"owner\": \"cf-channels\"
 	    }
 	]
-    " > ${temp_json}
+    " > "${temp_json}"
     #echo "
     # 	[
     # 	    {
@@ -54,12 +59,12 @@ for a_chan in  ${list[@]}; do
     #    "   > ${temp_json}
     
 
-    curl -u $cf_user -H 'Content-Type: application/json' -X PUT ${URL} -d @$temp_json
-    rm -f $temp_json
+    curl -u $cf_user -H 'Content-Type: application/json' -X PUT "${URL}" -d @"$temp_json"
+    rm -f "$temp_json"
     printf "\n"
 done
 
 print_help "GET" "CHANNELS"
-curl -X GET ${URL}
+curl -X GET "${URL}"
 printf "\n";
 

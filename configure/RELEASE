@@ -1,15 +1,18 @@
-
-## Where the Source repository SRC_URL/SRC_NAME
-##
+:
+##- Where the Source repository SRC_URL/SRC_NAME
+##-
 CF_SRC_URL:=https://github.com/ChannelFinder
-CF_SRC_NAME:=ChannelFinder-SpringBoot
+CF_SRC_NAME:=ChannelFinderService
 
 
-## Which the source tag / branch / hash id would like to use
-CF_SRC_TAG:=537bf2c
+##- Which the source tag / branch / hash id would like to use
+# 2022-10-03
+CF_SRC_TAG:=4a17eea
 
-## Placeholder for the site-specific version control 
-CF_SRC_VERSION:=4.0.0
+##- Placeholder for the site-specific version control
+##- This information is used for application.properties
+##-
+CF_SRC_VERSION:=4.7.0-$(CF_SRC_TAG)
 
 
 -include $(TOP)/../RELEASE.local

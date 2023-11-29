@@ -1,0 +1,18 @@
+
+run: 
+	$(QUIET)mvn -f $(CF_SRC_PATH) spring-boot:run -Dspring.pid.file=$(TOP)/channelfinder.pid
+
+run.check:
+	$(QUIET)lsof -i:8080 | xargs -I {} echo {}
+
+run.kill:
+	$(QUIET)lsof -i:8080 -t | xargs -I {} kill -9 {}
+
+demo: 
+	$(QUIET)mvn -f $(CF_SRC_PATH) spring-boot:run -Dspring-boot.run.arguments="--demo-data=1"
+
+demo.clean: 
+	$(QUIET)mvn -f $(CF_SRC_PATH) spring-boot:run -Dspring-boot.run.arguments="--cleanup=1"
+
+cflog.show:
+	$(SUDO) tail -f /var/log/syslog |grep java

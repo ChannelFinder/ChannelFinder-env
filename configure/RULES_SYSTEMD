@@ -1,0 +1,77 @@
+#
+#
+.PHONY: sd_install sd_status sd_start sd_stop sd_restart sd_clean sd_enable sd_disable
+#
+#
+
+systemd_RULES_NAMES:=systemd0
+conf_systemd_RULES:=$(addprefix conf., $(systemd_RULES_NAMES))
+show_systemd_RULES:=$(addsuffix .show, $(conf_systemd_RULES))
+install_systemd_RULES:=$(addprefix install., $(systemd_RULES_NAMES))
+show_install_systemd_RULES:=$(addsuffix .show, $(install_systemd_RULES))
+
+sd_install: conf.systemd install.systemd
+	$(QUIET)$(SUDO) systemctl daemon-reload
+
+.PHONY: conf.systemd conf.systemd.show
+
+conf.systemd: $(conf_systemd_RULES)
+
+conf.systemd.show: $(show_systemd_RULES)
+
+install.systemd: $(install_systemd_RULES)
+
+install.systemd.show: $(show_install_systemd_RULES)
+
+conf.systemd0: $(CF_SYSTEMD_FILENAME).in
+	$(QUIET)echo ">>> Generate $(basename $<) from $<"
+	$(QUIET)echo ">>> Required Services : $(CF_SYSTEMD_SERVICES)"
+	$(QUIET)sed -e "s|@DOCURL@|$(DOCURL)|g" \
+				-e 's|@SYSTEMD_SERVICES@|$(CF_SYSTEMD_SERVICES)|g' \
+				-e "s|@CF_USERID@|$(CF_USERID)|g" \
+				-e "s|@CF_GROUPID@|$(CF_GROUPID)|g" \
+				-e "s|@CF_JAVA_PATH@|$(CF_JAVA_PATH)|g" \
+				-e "s|@CF_JAVA_OPTS@|$(CF_JAVA_OPTS)|g" \
+				-e "s|@CF_INSTALL_LOCATION@|$(CF_INSTALL_LOCATION)|g" \
+				-e "s|@CF_KILL_PATH@|$(CF_KILL_PATH)|g" \
+				-e "s|@CF_JAR_NAME@|$(CF_JAR_FILENAME)|g" \
+                < $< > $(basename $<)
+
+conf.systemd0.show: $(CF_SYSTEMD_FILENAME).in
+	@cat -b $(basename $<)
+
+install.systemd0: $(CF_SYSTEMD_FILENAME).in
+	$(QUIET)$(SUDO) $(INSTALL_DATA) -b $(basename $<) $(SYSTEMD_PATH)/
+
+install.systemd0.show:
+	$(QUIET)cat -b $(SYSTEMD_PATH)/$(CF_SYSTEMD_FILENAME)
+#
+#	
+sd_status:
+	$(QUIET) systemctl status -l $(CF_SYSTEMD_FILENAME) | cat -b
+
+#
+sd_start:
+	$(QUIET)$(SUDO) systemctl start $(CF_SYSTEMD_FILENAME)
+#
+# We ignore its error
+sd_stop:
+	-$(QUIET)$(SUDO) systemctl stop $(CF_SYSTEMD_FILENAME)
+#
+#
+sd_restart:
+	$(QUIET)$(SUDO) systemctl restart $(CF_SYSTEMD_FILENAME)
+#
+# We ignore its error
+sd_clean:
+	$(if $(wildcard $(SYSTEMD_PATH)/$(CF_SYSTEMD_FILENAME)), $(QUIET)$(SUDO) rm -f $(SYSTEMD_PATH)/$(CF_SYSTEMD_FILENAME))
+#
+#
+sd_enable:
+	$(if $(wildcard $(SYSTEMD_PATH)/$(CF_SYSTEMD_FILENAME)), $(SUDO) systemctl enable $(CF_SYSTEMD_FILENAME))
+#
+#
+sd_disable:
+	$(if $(wildcard $(SYSTEMD_PATH)/$(CF_SYSTEMD_FILENAME)), $(SUDO) systemctl disable $(CF_SYSTEMD_FILENAME))
+#
+#

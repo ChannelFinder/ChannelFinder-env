@@ -1,0 +1,3 @@
+SYSTEMD_PATH:=/etc/systemd/system
+CF_SYSTEMD_FILENAME:=channelfinder.service
+

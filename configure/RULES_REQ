@@ -1,29 +1,162 @@
 
-.PHONY: es_install es_start es_status es_mapping es_mapping_clean es_all
 
-## Build Source for Debian 10
-es_install:
-	$(QUIET) wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.deb
-	$(QUIET)$(SUDO) dpkg -i elasticsearch-6.3.1.deb
-	$(QUIET)$(SUDO) systemctl enable elasticsearch
+es_RULES_NAMES:=esdeb esrpm esmac esyml
+install_es_RULES:=$(addprefix install., $(es_RULES_NAMES))
+setup_es_RULES:=$(addprefix setup., $(es_RULES_NAMES))
+remove_es_RULES:=$(addprefix remove., $(es_RULES_NAMES))
 
-es_start:
-	$(QUIET)$(SUDO) systemctl start elasticsearch
+.PHONY: clean.conf.es conf.es start.es status.es restart.es stop.es disable.es mapping mapping.clean mapping.settings conf.es.show conf.esmac.show
+.PHONE: start.esmac stop.esmac
 
-es_status:	
-	$(QUIET)systemctl status -l elasticsearch | cat
+#https://www.elastic.co/guide/en/elasticsearch/reference/current/release-notes-8.2.0.html
+ES_NAME:=elasticsearch
+ES_VER:=8.2.0
+ES_FILE:=$(ES_NAME)-$(ES_VER)
+ES_DEB:=$(ES_FILE)-amd64.deb
+ES_RPM:=$(ES_FILE)-x86_64.rpm
+ifeq ($(UNAME_M), arm64)
+ES_MAC:=$(ES_FILE)-darwin-aarch64.tar.gz
+else
+ES_MAC:=$(ES_FILE)-darwin-x86_64.tar.gz
+endif
+ES_HOME_MAC:=$(ES_FILE)
+ES_PID_MAC:=$(TOP)/$(ES_HOME_MAC)/es_mac_pid
+ES_JAVA_OPTS_FILE:=cf_es_jvm.options
+
+# Debian 11
+setup.esdeb: install.esdeb enable.es
+
+setup.esrpm: install.esrpm enable.es
+
+setup.esmac: install.esmac
+
+
+clean.conf.es:
+	$(QUIET) rm -f $(CF_SITE_TEMPLATE_PATH)/$(ES_JAVA_OPTS_FILE)
+
+$(CF_ES_JAVA_OPTS): clean.conf.es
+	$(QUIET)echo "$@" >> $(CF_SITE_TEMPLATE_PATH)/$(ES_JAVA_OPTS_FILE) 
+
+#conf.es: $(CF_ES_JAVA_OPTS)
+#	$(QUIET)$(SUDO) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/$(ES_JAVA_OPTS_FILE) $(CF_ES_CONF_PATH)/jvm.options.d/
+#	$(QUIET)$(SUDO) sed -i~ 's/^xpack.security.enabled:.*/xpack.security.enabled: $(CF_ES_XPACK_SECURITY_ENABLED)/g' $(CF_ES_CONF_PATH)/$(CF_ES_CONF_NAME)
+
+conf.es: $(CF_ES_JAVA_OPTS) conf.esyml
+	$(QUIET)$(SUDO) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/$(ES_JAVA_OPTS_FILE) $(CF_ES_CONF_PATH)/jvm.options.d/
+	$(QUIET)$(SUDO) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/$(CF_ES_CONF_NAME) $(CF_ES_CONF_PATH)/
+
+conf.esmac: $(CF_ES_JAVA_OPTS) conf.esyml
+	$(QUIET) echo ">>> Installing $(ES_JAVA_OPTS_FILE) and $(CF_ES_CONF_NAME) to $(CF_ES_CONF_PATH)"
+	$(QUIET) $(INSTALL) -p -m 660 $(CF_SITE_TEMPLATE_PATH)/$(ES_JAVA_OPTS_FILE) $(CF_ES_CONF_PATH)/jvm.options.d/
+	$(QUIET) $(INSTALL) -p -m 640 $(CF_SITE_TEMPLATE_PATH)/$(CF_ES_CONF_NAME) $(CF_ES_CONF_PATH)/
+
+conf.esyml: $(CF_ES_CONF_NAME).in
+	$(QUIET)echo ">>> Generate $(basename $<) from $<"
+	$(QUIET)sed -e "s|@CF_ES_NETWORK_HOST@|$(CF_ES_NETWORK_HOST)|g" \
+		        -e "s|@CF_ES_HTTP_HOST@|$(CF_ES_HTTP_HOST)|g" \
+		        -e "s|@CF_ES_CLUSTER_NAME@|$(CF_ES_CLUSTER_NAME)|g" \
+		        -e "s|@CF_ES_NODE_NAME@|$(CF_ES_NODE_NAME)|g" \
+		        -e "s|@CF_ES_DATA_PATH@|$(CF_ES_DATA_PATH)|g" \
+		        -e "s|@CF_ES_LOGS_PATH@|$(CF_ES_LOGS_PATH)|g" \
+		        -e "s|@CF_ES_DISCOVERY_TYPE@|$(CF_ES_DISCOVERY_TYPE)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_ENABLED@|$(CF_ES_XPACK_SECURITY_ENABLED)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_ENROLL_ENABLED@|$(CF_ES_XPACK_SECURITY_ENROLL_ENABLED)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_HTTP_SSL@|$(CF_ES_XPACK_SECURITY_HTTP_SSL)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_HTTP_SSL_KEYSTORE_PATH@|$(CF_ES_XPACK_SECURITY_HTTP_SSL_KEYSTORE_PATH)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_TRANSPORT_SSL@|$(CF_ES_XPACK_SECURITY_TRANSPORT_SSL)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_TRANSPORT_SSL_VERIFICATION@|$(CF_ES_XPACK_SECURITY_TRANSPORT_SSL_VERIFICATION)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_TRANSPORT_SSL_KEYSTORE_PATH@|$(CF_ES_XPACK_SECURITY_TRANSPORT_SSL_KEYSTORE_PATH)|g" \
+		        -e "s|@CF_ES_XPACK_SECURITY_TRANSPORT_SSL_TRUSTSTORE_PATH@|$(CF_ES_XPACK_SECURITY_TRANSPORT_SSL_TRUSTSTORE_PATH)|g" \
+		        -e "s|@CF_ES_HTTP_HOST@|$(CF_ES_HTTP_HOST)|g" \
+		        < $< > $(basename $<)
+
+conf.esyml.show: $(CF_ES_CONF_NAME).in
+	$(QUIET)cat -b $(basename $<)
+
+conf.esmac.show:
+	cat -b $(CF_ES_CONF_PATH)/jvm.options.d/$(ES_JAVA_OPTS_FILE)
+	cat -b $(CF_ES_CONF_PATH)/$(CF_ES_CONF_NAME)
+
+conf.es.show: 
+	$(SUDO) cat -b $(CF_ES_CONF_PATH)/jvm.options.d/$(ES_JAVA_OPTS_FILE)
+	$(SUDO) cat -b $(CF_ES_CONF_PATH)/$(CF_ES_CONF_NAME)
+
+install.esdeb:
+	$(QUIET) wget -c https://artifacts.elastic.co/downloads/elasticsearch/$(ES_DEB)
+	$(SUDO) dpkg -i ./$(ES_DEB)
+
+remove.esdeb:
+	$(QUIET)$(SUDO) apt purge -y elasticsearch
+
+# Rocky 8
+install.esrpm:
+	$(QUIET) wget -c https://artifacts.elastic.co/downloads/elasticsearch/$(ES_RPM)
+	$(SUDO) dnf localinstall -y $(ES_RPM)
+
+remove.esrpm:
+	$(QUIET)$(SUDO) dnf remove elasticsearch
+
+# Centos 7
+install.esrpm-yum:
+	$(QUIET) wget -c https://artifacts.elastic.co/downloads/elasticsearch/$(ES_RPM)
+	$(SUDO) yum localinstall -y $(ES_RPM)
+
+remove.esrpm-yum:
+	$(QUIET)$(SUDO) yum remove elasticsearch
+
+# macOS aarch64
+install.esmac:
+	$(QUIET) curl -O https://artifacts.elastic.co/downloads/elasticsearch/$(ES_MAC)
+	$(QUIET) curl https://artifacts.elastic.co/downloads/elasticsearch/$(ES_MAC).sha512 | shasum -a 512 -c -
+	tar -xzf $(ES_MAC)
+
+remove.esmac:
+	$(QUIET) rm -rf $(ES_FILE)*
+
+enable.es:
+	$(QUIET)$(SUDO) systemctl daemon-reload
+	$(QUIET)$(SUDO) systemctl enable elasticsearch.service
+
+start.es:
+	$(QUIET)$(SUDO) systemctl start elasticsearch.service
+
+start.esmac:
+	$(QUIET) $(TOP)/$(ES_HOME_MAC)/bin/elasticsearch -d -p $(ES_PID_MAC)
+
+start.esmac.console:
+	$(QUIET) $(TOP)/$(ES_HOME_MAC)/bin/elasticsearch -p $(ES_PID_MAC)
+
+status.es:	
+	$(QUIET)systemctl status -l elasticsearch.service | cat -b
+
+status.esmac:	
+	$(QUIET) cat -b $(TOP)/$(ES_HOME_MAC)/logs/elasticsearch.log
+
+stop.es:	
+	$(QUIET)systemctl stop elasticsearch.service
+
+stop.esmac:
+	$(QUIET)pkill -F $(ES_PID_MAC)
+
+disable.es:	
+	$(QUIET)systemctl disable elasticsearch.service
+
+restart.es:
+	$(QUIET)$(SUDO) systemctl restart elasticsearch.service
 
 ## Create the ES indexes and set up their mapping
-es_mapping:
-	$(QUIET)bash $(CF_SITE_TEMPLATE_PATH)/mapping_definitions.bash
-	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/channelfinder/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
+mapping:
+	$(QUIET)bash $(TOP)/scripts/cf_es_configuration.bash mapping
+
+## Clean all ES indexes and their mapping
+mapping.clean:
+	$(QUIET)bash $(TOP)/scripts/cf_es_configuration.bash mappingClean
+
+mapping.verify:
+	$(QUIET)bash $(TOP)/scripts/cf_es_configuration.bash mappingVerify
+
+mapping.settings:
+	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/channelfinder/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/jsoin"
 	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/cf_properties/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
 	$(QUIET)curl -XPUT "http://$(ES_HOST):$(ES_PORT)/cf_tags/_settings" -d '{ "index" : { "max_result_window" : $(CF_QUERY_SIZE) } }' -H "Content-Type: application/json"
 
-## Clean all ES indexes and their mapping
-es_mapping_clean:
-	$(QUIET)bash $(CF_SITE_TEMPLATE_PATH)/clean_mapping_definitions.bash
-
-
-es_all: es_install es_start es_start es_mapping
-	

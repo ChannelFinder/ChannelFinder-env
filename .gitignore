@@ -39,3 +39,10 @@ site-template/application.properties
 
 
 
+.*.swp
+*.swp
+*.swo
+channelfinder.service
+elasticsearch-8.2.0
+*.options
+*.yml

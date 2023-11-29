@@ -1,15 +1,27 @@
 
+# Debian
 
-JAVA_PATH=/usr/bin
+# /usr/lib/jvm/java-17-openjdk-amd64/
+# Sometime, debian default-java symlink doesn't update even if 
+# update-alternative --config java or update-java-alternative 
+# one should change it manually. 
+JAVA_HOME:=/usr
+MAVEN_HOME:=/usr/share/maven
+
+JAVA_PATH:=$(JAVA_HOME)/bin
+MAVEN_PATH:=$(MAVEN_HOME)/bin
 
 ## Elasticsearch Server
 ES_HOST:=localhost
 ES_PORT:=9200
 
+CF_USERID:=elasticsearch
+CF_GROUPID:=elasticsearch
 
 CF_PRTO:=http
 CF_HOST:=localhost
-CF_PORT:=8080
+CF_HTTP_PORT:=8080
+CF_HTTPS_PORT:=8443
 
 CF_QUERY_SIZE:=10000
 

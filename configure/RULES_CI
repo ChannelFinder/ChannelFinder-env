@@ -1,0 +1,36 @@
+.PHONY: conf.macos conf.macbrew
+
+
+conf.macos:
+	$(QUIET)echo ">>> Generating $(TOP)/configure/CONFIG_COMMON.local"
+	$(QUIET)echo "JAVA_HOME:=/usr/"              > $(TOP)/configure/CONFIG_COMMON.local
+	$(QUIET)echo "JAVA_PATH:=/usr/bin"          >> $(TOP)/configure/CONFIG_COMMON.local
+	$(QUIET)echo "MAVEN_HOME:=/usr/local"       >> $(TOP)/configure/CONFIG_COMMON.local
+	$(QUIET)echo "MAVEN_PATH:=/usr/local/bin"  >> $(TOP)/configure/CONFIG_COMMON.local
+	$(QUIET)cat -b $(TOP)/configure/CONFIG_COMMON.local
+	$(QUIET)echo ">>> Generating $(TOP)/configure/CONFIG_SITE.local"
+	$(QUIET)echo "USERID:=${USER}"                                  > $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)echo "GROUPID:=admin"                                  >> $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)echo "CF_ES_PATH:=$(TOP)/$(ES_HOME_MAC)"               >> $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)echo "CF_ES_CONF_PATH:=$(TOP)/$(ES_HOME_MAC)/config" >> $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)echo "CF_ES_DATA_PATH:=$(TOP)/$(ES_HOME_MAC)"          >> $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)echo "CF_ES_LOGS_PATH:=$(TOP)/$(ES_HOME_MAC)/logs"     >> $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)cat -b $(TOP)/configure/CONFIG_SITE.local
+
+
+conf.macbrew:
+	$(QUIET)echo ">>> Generating $(TOP)/configure/CONFIG_COMMON.local"
+	$(QUIET)echo "JAVA_HOME:=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"       > $(TOP)/configure/CONFIG_COMMON.local
+	$(QUIET)echo "JAVA_PATH:=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home/bin"  >> $(TOP)/configure/CONFIG_COMMON.local
+	$(QUIET)echo "MAVEN_HOME:=/opt/homebrew"                                                      >> $(TOP)/configure/CONFIG_COMMON.local
+	$(QUIET)echo "MAVEN_PATH:=/opt/homebrew/bin"                                                  >> $(TOP)/configure/CONFIG_COMMON.local
+	$(QUIET)cat -b $(TOP)/configure/CONFIG_COMMON.local
+	$(QUIET)echo ">>> Generating $(TOP)/configure/CONFIG_SITE.local"
+	$(QUIET)echo "USERID:=${USER}"                                  > $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)echo "GROUPID:=admin"                                  >> $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)echo "CF_ES_PATH:=$(TOP)/$(ES_HOME_MAC)"               >> $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)echo "CF_ES_CONF_PATH:=$(TOP)/$(ES_HOME_MAC)/config"   >> $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)echo "CF_ES_DATA_PATH:=$(TOP)/$(ES_HOME_MAC)"          >> $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)echo "CF_ES_LOGS_PATH:=$(TOP)/$(ES_HOME_MAC)/logs"     >> $(TOP)/configure/CONFIG_SITE.local
+	$(QUIET)cat -b $(TOP)/configure/CONFIG_SITE.local
+

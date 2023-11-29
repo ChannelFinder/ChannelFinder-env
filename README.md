@@ -1,183 +1,136 @@
 # ChannelFinder-env
+[![Debian 11](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/debian11.yml/badge.svg)](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/debian11.yml)
+[![Rocky8](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/rocky8.yml/badge.svg)](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/rocky8.yml)
+[![Ubuntu Latest](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/ubuntu.yml)
+[![ChannelFinderService](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/docker.yml/badge.svg)](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/docker.yml)
+[![Linter Run](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/linter.yml/badge.svg)](https://github.com/jeonghanlee/ChannelFinder-env/actions/workflows/linter.yml)
 
-![ChannelFinder-env Build Test](https://github.com/ChannelFinder/ChannelFinder-env/workflows/ChannelFinder-env%20Build%20Test/badge.svg)
-![Docker Image CI](https://github.com/ChannelFinder/ChannelFinder-env/workflows/Docker%20Image%20CI/badge.svg)
-![Linter Run](https://github.com/ChannelFinder/ChannelFinder-env/workflows/Linter%20Run/badge.svg)
+Configuration Environment for ChannelFinderService at <https://github.com/ChannelFinder/ChannelFinderService>
 
-Configuration Environment for ChannelFinder-SpringBoot at <https://github.com/ChannelFinder/ChannelFinder-SpringBoot>
+## Pre-requirement packages
 
-## Role
-
-In order to download, install, setup all relevant components, one should do many steps manually. This repository was designed for the easy-to-reproducible environment for ChannelFinder-SprintBoot.
-
-## Requirements
-
-**Note that** this implementation is valid only for `ChannelFinder-SpringBoot`
-
-### Apache Tomcat Native Library and Maven
-
-* Debian 10
-
-```bash
-apt install maven libtcnative-1
+```
+git make sudo tree maven jq
 ```
 
-* CentOS 7
+## Elasticsearch
 
-```bash
-yum install maven tomcat-native
+Three configurations are changed for the elasticsearch. 
+
+* Elasticsearch JVM options : [default] `-Xms1g -Xmx1g`
+* Elasticsearch `pack.security.enabled` option : [default] false
+* Elasticsearch configuration location : [default] `/etc/elasticsearch`
+
+These options can be changed through the variables `CF_ES_JAVA_OPTS`, `CF_ES_CONF_PATH`, and `CF_ES_XPACK_SECURITY` in `configure/CONFIG_SITE`.
+
+### Debian 11 / Rocky 8
+
+```
+make install.esdeb or install.esrpm
+make conf.es
+make conf.es.show
+make start.es
+make status.es
 ```
 
-* CentOS 8 \& Fedora 31
+Note that `conf.es` will use the `pack.security.enabled: false` in `elasticsearch.yml`, where is in `/etc/elasticsearch`.
+The log file `elasticsearch.log` is located in `/etc/elasticsearch`.
 
-One can use `yum` instead of `dnf` for CentOS 8. However, `epel-release` is needed.
+### macOS (M1)
 
-```bash
-dnf install maven tomcat-native
+
+```
+brew install openjdk@18
 ```
 
-### JDK 8 or newer
-
-* Debian 10
-
 ```bash
-openjdk version "11.0.6" 2020-01-14
-OpenJDK Runtime Environment (build 11.0.6+10-post-Debian-1deb10u1)
-OpenJDK 64-Bit Server VM (build 11.0.6+10-post-Debian-1deb10u1, mixed mode, sharing)
+make install.esmac
+make conf.macos
+make conf.esmac
+make conf.esmac.show
+make start.esmac
+make stop.esmac
 ```
 
-* Fedora 32
+The log file `elasticsearch.log` is located in the installation location log folder of the elastisserch.
+
+
+## JAVA
+
+The following four variables must be defined. Please setup them according to one's systems configuration.
 
 ```bash
-$ update-alternatives --config java
-There is 1 program that provides 'java'.
-
-  Selection    Command
------------------------------------------------
-*+ 1           java-1.8.0-openjdk.x86_64 (/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.242.b08-1.fc32.x86_64/jre/bin/java)
-
-$ java -version
-
-openjdk version "1.8.0_242"
-OpenJDK Runtime Environment (build 1.8.0_242-b08)
-OpenJDK 64-Bit Server VM (build 25.242-b08, mixed mode)
+        echo "JAVA_HOME:=/usr/"      > ./configure/CONFIG_COMMON.local
+        echo "JAVA_PATH:=/usr/bin"  >> ./configure/CONFIG_COMMON.local
+        echo "MAVEN_HOME:=/usr/"    >> ./configure/CONFIG_COMMON.local
+        echo "MAVEN_PATH:=/usr/bin" >> ./configure/CONFIG_COMMON.local
 ```
 
-### ElasticSearch 6.3.1
+## Support OS 
 
-Please use the exact version of Elasticsearch **6.3.1**.
+### Debian 11 (EOL: 2024-06-01/2026-08-15), Rocky8 (EOL: 2029-05-31)
 
-* Debian 10
-
-```bash
-wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.deb
-sudo apt install ./elasticsearch-6.3.1.deb
-```
-
-* CentOS 7
-
-```bash
-wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.rpm
-sudo yum install ./elasticsearch-6.3.1.rpm
-```
-
-* CentOS 8 & Fedora 32
-
-```bash
-wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.rpm
-sudo dnf install ./elasticsearch-6.3.1.rpm
-```
-
-* ES Systemd service
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl enable elasticsearch
-sudo systemctl start elasticsearch
-```
-
-Please make sure the service is running via `systemctl status elasticsearch`. One can do the same things with embedded make rules such as
-
-### LDAP
-
-* Configuration is needed if an external one.
-* Embedded LDAP configuration [Local LDIF configuration](site-template/LDIF_CONFIG.md)
-
-## Few Makefile Rules
-
-### `make init`
-
-* Download the ChannelFinder-SpringBoot
-* Switch to a specific version defined in `$(SRC_TAG)` in `configure/RELEASE`
-
-### `make es_mapping`
-
-* Do maping CF index into ElasticSearch
-* For CentOS7, one should disable SELINUX before doing this. Please check `/etc/selinux/config`.
-
-### `make es_mapping_clean`
-
-* Remove all existent CF related mapping from ElasticSearch
-
-### `make conf`
-
-* Apply several site-specific files into the downloaded sources. Please see `site-template`
-
-### `make build`
-
-* Build `ChannelFinder-*.jar` as a Spring Boot jar file, located in `target` path.
-
-### `make install`
-
-* `sudo` permission is required.
-* Install `ChannelFinder-*.jar` in `target` path into `INSTALL_LOCATION` defined in `configure/CONFIG_SITE`
-* Install `cf.conf` into `INSTALL_LOCATION`. This file contains java options, defined in `site-template/cf.conf`
-* Install `channelfinder.service` into a default systemd path `/etc/systemd/system`. Note that `channelfinder.service` is generated from `site-template/cf.service.in` file with `INSTAL_LOCATION`, `JAVA_PATH`, and `CF_JAR_NAME` which are defined in `configure/CONFIG_SITE`.
-* Run `systemctl daemon-reload` for the updated `channelfinder.serive` systemd file.
-* Enable the channelfinder systemd service.
-
-### `make distclean`
-
-* Remove the downloaded ChannelFinder-SprintBoot source file
-
-### `make vars`
-
-* Print out interesting variables
-* One can use `make PRINT.VARIABLE_NAME` to print out them. For example,  `make PRINT.INSTALL_LOCATION`.
-
-## A typical example to configure the ChannelFinder service
-
-Note that this example has the assumption which ES service is running.
+It will works with other systems. Please check github action workflows.
 
 ```bash
 make init
-make es_mapping
-make conf
 make build
 make install
-sudo systemctl start channelfinder
+make mapping
+make sd_start
+make sd_status
 ```
 
-Note that we create the alias name of the `channelfinder.service` as cf.servie. So one can start it `sudo systemctl start cf` also. Sometimes with CentOS8, the service doesn't start properly. In this case, please try with `SELINUX=disabled` in `/etc/selinux/config`.
-
-For Fedora 32, one should disable `SELINUX` before `make es_mapping`.
-
-## While evaluating its configuration
-
-Modify `application.properties` or `ldif` file, and then run the following command:
+ChannelFinder log is shown in `/var/log/syslog`.
 
 ```bash
-make restart
+tail -f /var/log/syslog |grep java
+
+make cflog.show
+``` 
+
+Please check Tomcat generic service, if CF doesn't start.
+
+```
+lsof -i:8080
+systemctl status tomcat{9}
+systemctl stop tomcat{9}
+systemctl disable tomcat{9}
 ```
 
-## Customize site-specific configuration
 
-Please consult two files in `configure` path, such as `RELEASE` and `CONFIG_SITE`. There are few comments on there. If you are familiar with the standard EPICS building system [1], it should be easy to understand them, because we mimic that concept into this repository.
+
+## macOS (tested with aarch64 with brew)
+
+```bash
+make init
+make conf.macbrew
+make conf
+make build
+make run
+make mapping
+make mapping.clean
+```
+
+## ChannelFinder Configuration
+
+Please see [docs/ChannelFinderConf.md](docs/ChannelFinderConf.md).
+
+## Run Demo
+
+Please see [docs/ChannelFinderDemo.md](docs/ChannelFinderDemo.md).
+
+
+```
+make run
+make run.status
+make run.kill
+make demo
+make demo.clean
+```
 
 ## Docker Image
 
-See [docs/Docker.md](docs/Docker.md) :whale:
+The Docker image is hosted at https://hub.docker.com/orgs/alscontrols
+And for further information, please see [docs/Docker.md](docs/Docker.md) :whale:
 
-## Reference
-
-[1] <https://epics-controls.org/>

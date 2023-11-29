@@ -1,0 +1,56 @@
+---
+name: Ubuntu Latest
+
+on:
+  push:
+    branches: [ master ]
+    paths-ignores:
+      - '*.md'
+      - 'examples/*.bash'
+      - 'docker/**'
+      - '.github/workflows/docker.yml'
+      - '.github/workflows/rocky8.yml'
+      - '.github/workflows/linter.yml'
+      - '.github/workflows/docker.yml'
+
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  Ubuntu:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '18.0.2'
+    - name: Install required packages
+      run: sudo apt install -y make tree git wget 
+    - name: Check JAVA configuration
+      run: |
+        which java
+        which mvn
+    - name: Elasticsearch
+      run: |
+        make install.esdeb
+        make conf.es
+        make conf.es.show
+    - name: Configuration
+      run: |
+        make init
+        echo "JAVA_HOME:=${JAVA_HOME}"      > ./configure/CONFIG_COMMON.local
+        echo "JAVA_PATH:=${JAVA_HOME}/bin" >> ./configure/CONFIG_COMMON.local
+        echo "MAVEN_HOME:=/usr/"           >> ./configure/CONFIG_COMMON.local
+        echo "MAVEN_PATH:=/usr/bin"        >> ./configure/CONFIG_COMMON.local
+        make vars
+        make conf
+    - name: Build 
+      run: |
+        make build
+        make install
+    - name: Environment Check
+      run: make exist
+     
